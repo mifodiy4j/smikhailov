@@ -11,6 +11,10 @@ public class Triangle {
     this.c = c;
   }
 
+  double ab = a.distanceTo(b);
+  double ac = a.distanceTo(c);
+  double bc = b.distanceTo(c);
+
   public double area() {
 
     if ((c.getX() - b.getX()) * (b.getX() - a.getX()) == (c.getY() - b.getY()) * (b.getY() - a.getY())) {

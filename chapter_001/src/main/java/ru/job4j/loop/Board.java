@@ -26,6 +26,7 @@ public class Board {
 					sb.append(" ");
 				}
 			}
+			if (i != (height - 1)) sb.append("\n");
 		}
 		String cs = sb.toString();
 		return cs;

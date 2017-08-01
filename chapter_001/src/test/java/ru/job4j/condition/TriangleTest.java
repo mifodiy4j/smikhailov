@@ -29,6 +29,9 @@ public class TriangleTest {
 	    double result = triangle.area();
 	    // Задаем ожидаемый результат.
 	    double expected = 2D;
+	    double ab = a.distanceTo(b);
+  double ac = a.distanceTo(c);
+  double bc = b.distanceTo(c);
 	    //Проверяем результат и ожидаемое значение.
 	    assertThat(result, closeTo(expected, 0.1));
  	}

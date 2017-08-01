@@ -20,4 +20,8 @@ public class Point {
   public boolean is(int a, int b) {
     return (y == a * x + b) ? true : false;
   }
+
+  public double distanceTo(Point p) {
+    return Math.sqrt( Math.pow((this.getX() - p.getX()), 2) + Math.pow((this.getY() - p.getY()), 2));
+  }
 }

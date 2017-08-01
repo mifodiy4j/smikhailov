@@ -10,7 +10,7 @@ public class Triangle {
     this.b = b;
     this.c = c;
   }
- 
+
   public double area() {
 
     if ((c.getX() - b.getX()) * (b.getX() - a.getX()) == (c.getY() - b.getY()) * (b.getY() - a.getY())) {

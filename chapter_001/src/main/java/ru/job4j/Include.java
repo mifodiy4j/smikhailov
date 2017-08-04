@@ -34,8 +34,7 @@ public class Include {
     			}
     		}
     	}
-    	if (tmp == subArray.length) return true;
-    	else return false;
+    	return tmp == subArray.length;
     }
 
 	/**

@@ -11,14 +11,12 @@ import java.util.*;
 public class Doctor extends Profession {
 
 	public Doctor(String name, int age) {
-		this.name = name;
-		this .age = age;
+		super(name, age);
 	}
 
 	/**
-	 * Heal.
 	 * @param pacient
-	 * @return String
+	 * @return
 	 */
 	public String heal(Profession pacient) {
 		return "Доктор " + this.getName() + " лечит " + pacient.getName();

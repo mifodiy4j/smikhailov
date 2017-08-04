@@ -1,6 +1,5 @@
 package ru.job4j;
 
-import java.util.*;
 /**
  * Engineer.
  *
@@ -10,13 +9,16 @@ import java.util.*;
  */
 public class Engineer extends Profession {
 
-    /**
-     * @param name
-     * @param age
-     */
     public Engineer(String name, int age) {
-        this.name = name;
-        this .age = age;
+        super(name, age);
     }
 
+    /**
+     * Heal.
+     * @param
+     * @return String
+     */
+    public String develops(String device) {
+        return "Инженер " + this.getName() + " разрабатывает " + device;
+    }
 }

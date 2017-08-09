@@ -47,7 +47,9 @@ public class Tracker {
 	public void update(Item item) {
         for (Item it : items) {
             if (it != null && it.getId().equals(item.getId())) {
-                it = item;
+                it.name = item.name;
+                it.description = item.description;
+                it.create = item.create;
                 break;
             }
         }
@@ -73,8 +75,17 @@ public class Tracker {
      * @return Item[]
      */
     public Item[] findAll() {
-        Item[] result = new Item[this.position];
         int i = 0;
+        int sizeWithoutNull = 0;
+
+        for (Item item : items) {
+            if (item != null) {
+                sizeWithoutNull++;
+            }
+        }
+
+        Item[] result = new Item[sizeWithoutNull];
+
         for (Item item : items) {
             if (item != null) {
                 result[i++] = item;

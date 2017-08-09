@@ -61,12 +61,14 @@ public class Tracker {
      * @return void
      */
     public void delete(Item item) {
+        int shift = 0;
     	for (Item it : items) {
             if (it != null && it.getId().equals(item.getId())) {
-                it = null;
                 break;
             }
+            shift++;
         }
+        System.arraycopy(items, shift + 1, items, shift, items.length - shift - 1);
     }
 
     /**
@@ -100,8 +102,17 @@ public class Tracker {
      * @return Item[]
      */
     public Item[] findByName(String key) {
-        Item[] result = new Item[this.position];
         int i = 0;
+        int sizeWithSameName = 0;
+
+        for (Item item : items) {
+            if (item != null && item.getName().equals(key)) {
+                sizeWithSameName++;
+            }
+        }
+
+        Item[] result = new Item[sizeWithSameName];
+
         for (Item item : items) {
             if (item != null && item.getName().equals(key)) {
                 result[i++] = item;

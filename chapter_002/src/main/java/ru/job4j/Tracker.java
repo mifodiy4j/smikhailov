@@ -47,9 +47,9 @@ public class Tracker {
 	public void update(Item item) {
         for (Item it : items) {
             if (it != null && it.getId().equals(item.getId())) {
-                it.name = item.name;
-                it.description = item.description;
-                it.create = item.create;
+                it.setName(item.name);
+                it.setDescription(item.description);
+                it.setCreate(item.create);
                 break;
             }
         }
@@ -93,6 +93,7 @@ public class Tracker {
                 result[i++] = item;
             }
         }
+
         return result;
     }
 

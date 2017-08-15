@@ -35,9 +35,9 @@ public class StartUI {
 		if (ADD.equals(answer)) {
 			this.createItem(tracker);
 		} else if (SHOWALL.equals(answer)) {
-			this.getAll(tracker);
+			this.showAll(tracker);
 		} else if (EDIT.equals(answer)) {
-			this.update(tracker);
+			this.edit(tracker);
 		} else if (DEL.equals(answer)) {
 			this.delete(tracker);
 		} else if (FINDID.equals(answer)) {
@@ -53,15 +53,30 @@ public class StartUI {
 	}
 
 	public void createItem(Tracker tracker) {
-		tracker.add(new Item("first task", "first desc", 123L));
+		
+		String name = input.ask("Enter name: ");
+		String description = input.ask("Enter description: ");
+
+		tracker.add(new Item(name, description));
 	}
 
-	public void getAll(Tracker tracker) {
-		tracker.getAll();
+	public void showAll(Tracker tracker) {
+		Item[] result = new Item[100];
+		result = tracker.getAll();
+		//System.out.println("222");
+		for (Item item : result) {
+			//System.out.println("333");
+			System.out.println(item.getName());
+			//System.out.println("444");
+		}
 	}
 
-	public void update(Tracker tracker) {
-		tracker.update(new Item("first task", "second desc", 123L));
+	public void edit(Tracker tracker) {
+		String nameOld = input.ask("Enter name: ");
+		String descriptionOld = input.ask("Enter description: ");
+
+
+		tracker.update(new Item(nameOld, descriptionOld));
 	}
 
 	public void delete(Tracker tracker) {

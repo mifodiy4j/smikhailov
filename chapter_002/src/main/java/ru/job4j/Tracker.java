@@ -64,6 +64,7 @@ public class Tracker {
         int shift = 0;
     	for (Item it : items) {
             if (it != null && it.getId().equals(item.getId())) {
+                position--;
                 break;
             }
             shift++;

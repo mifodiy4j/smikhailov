@@ -56,10 +56,10 @@ public class TrackerTest {
 	 Item item3 = new Item("test3","testDescription3",321L);
 	 tracker.add(item3);
 	 tracker.delete(item2);
-	 Item[] result = new Item[3];
+	 Item[] result = new Item[2];
 	 result[0] = item1;
 	 result[1] = item3;
-	 result[2] = null;
+	 //result[2] = null;
 	 assertThat(tracker.getAll(), is(result));
 	}
 

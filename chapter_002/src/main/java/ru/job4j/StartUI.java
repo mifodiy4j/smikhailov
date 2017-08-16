@@ -19,7 +19,12 @@ public class StartUI {
 		this.input = input;
 	}
 
+	Tracker tracker = new Tracker();
+
 	public void init() {
+
+		//Tracker tracker = new Tracker();
+
 		System.out.println("0. Add new Item");
 		System.out.println("1. Show all items");
 		System.out.println("2. Edit item");
@@ -30,24 +35,31 @@ public class StartUI {
 
 		String answer = input.ask("Select: ");
 
-		Tracker tracker = new Tracker();
+		while (notExit) {
 		
-		if (ADD.equals(answer)) {
-			this.createItem(tracker);
-		} else if (SHOWALL.equals(answer)) {
-			this.showAll(tracker);
-		} else if (EDIT.equals(answer)) {
-			this.edit(tracker);
-		} else if (DEL.equals(answer)) {
-			this.delete(tracker);
-		} else if (FINDID.equals(answer)) {
-			this.findById(tracker);
-		} else if (FINDNAME.equals(answer)) {
-			this.findByName(tracker);
-		} else if (EXIT.equals(answer)) {
-			notExit	= false;	
-		} else {
-			System.out.println("Please, try again");
+			if (ADD.equals(answer)) {
+				this.createItem(tracker);
+				init();
+			} else if (SHOWALL.equals(answer)) {
+				this.showAll(tracker);
+				init();
+			} else if (EDIT.equals(answer)) {
+				this.edit(tracker);
+				init();
+			} else if (DEL.equals(answer)) {
+				this.delete(tracker);
+				init();
+			} else if (FINDID.equals(answer)) {
+				this.findById(tracker);
+				init();
+			} else if (FINDNAME.equals(answer)) {
+				this.findByName(tracker);
+				init();
+			} else if (EXIT.equals(answer)) {
+				notExit	= false;	
+			} else {
+				System.out.println("Please, try again");
+			}
 		}
 
 	}
@@ -56,46 +68,72 @@ public class StartUI {
 		
 		String name = input.ask("Enter name: ");
 		String description = input.ask("Enter description: ");
+		long create = System.currentTimeMillis();
 
-		tracker.add(new Item(name, description));
+		tracker.add(new Item(name, description, create));
 	}
 
 	public void showAll(Tracker tracker) {
-		Item[] result = new Item[100];
-		result = tracker.getAll();
-		//System.out.println("222");
-		for (Item item : result) {
-			//System.out.println("333");
-			System.out.println(item.getName());
-			//System.out.println("444");
+		System.out.println("--------------------");
+		for (Item item : tracker.getAll()) {
+			System.out.println("Name :  " + item.getName());
+			System.out.println("Desc :  " + item.getDescription());
+			System.out.println("Create: " + item.getCreate());
+			System.out.println("ID :    " + item.getId());
+			System.out.println("--------------------");
 		}
 	}
 
 	public void edit(Tracker tracker) {
-		String nameOld = input.ask("Enter name: ");
-		String descriptionOld = input.ask("Enter description: ");
+		String id = input.ask("Enter ID: ");
+		String name = input.ask("Enter name: ");
+		String description = input.ask("Enter description: ");
+		long create = System.currentTimeMillis();
 
+		Item item = new Item(name, description, create);
+		item.setId(id);
 
-		tracker.update(new Item(nameOld, descriptionOld));
+		tracker.update(item);
 	}
 
 	public void delete(Tracker tracker) {
-		tracker.delete(new Item("first task", "second desc", 123L));
+		String id = input.ask("Enter ID: ");
+		
+		if (tracker.findById(id) == null) {
+			System.out.println(id + " not found");
+		} else {
+			tracker.delete(tracker.findById(id));
+			System.out.println("Remov " + id + " was successful");
+		}
 	}
 
 	public void findById(Tracker tracker) {
-		tracker.findById("123456");
+		String id = input.ask("Enter ID: ");
+
+		System.out.println("Name :  " + tracker.findById(id).getName());
+		System.out.println("Desc :  " + tracker.findById(id).getDescription());
+		System.out.println("Create: " + tracker.findById(id).getCreate());
 	}
 
 	public void findByName(Tracker tracker) {
-		tracker.findByName("first task");
+		String name = input.ask("Enter name: ");
+
+		if (tracker.findByName(name).length == 0) {
+			System.out.println("Not found");
+		} else {
+			System.out.println("--------------------");
+			for (Item item : tracker.findByName(name)) {
+				System.out.println("Name :  " + item.getName());
+				System.out.println("Desc :  " + item.getDescription());
+				System.out.println("Create: " + item.getCreate());
+				System.out.println("ID :    " + item.getId());
+				System.out.println("--------------------");
+			}
+		}
 	}
 
 	public static void main(String[] args) {
 		Input input = new ConsoleInput();
-		
-		while (notExit) {
-			new StartUI(input).init();
-		}
+		new StartUI(input).init();
 	}
 }

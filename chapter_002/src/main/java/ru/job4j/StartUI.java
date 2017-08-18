@@ -4,6 +4,7 @@ import ru.job4j.models.*;
 
 public class StartUI {
 	private Input input;
+	Tracker tracker = new Tracker();
 	
 	private static boolean notExit = true;
 
@@ -19,11 +20,7 @@ public class StartUI {
 		this.input = input;
 	}
 
-	Tracker tracker = new Tracker();
-
 	public void init() {
-
-		//Tracker tracker = new Tracker();
 
 		System.out.println("0. Add new Item");
 		System.out.println("1. Show all items");
@@ -37,7 +34,9 @@ public class StartUI {
 
 		while (notExit) {
 		
-			if (ADD.equals(answer)) {
+			if ((Integer.parseInt(answer) < 0) && (Integer.parseInt(answer) > 6)) {
+				System.out.println("Please, try again!");
+			}else if (ADD.equals(answer)) {
 				this.createItem(tracker);
 				init();
 			} else if (SHOWALL.equals(answer)) {
@@ -57,9 +56,7 @@ public class StartUI {
 				init();
 			} else if (EXIT.equals(answer)) {
 				notExit	= false;	
-			} else {
-				System.out.println("Please, try again");
-			}
+			} 
 		}
 
 	}

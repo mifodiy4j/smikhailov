@@ -70,6 +70,7 @@ public class Tracker {
             shift++;
         }
         System.arraycopy(items, shift + 1, items, shift, items.length - shift - 1);
+        items[items.length - 1] = null;
     }
 
     /**

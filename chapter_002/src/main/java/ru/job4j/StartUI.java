@@ -4,7 +4,8 @@ import ru.job4j.models.*;
 
 public class StartUI {
 	private Input input;
-	Tracker tracker = new Tracker();
+	Tracker tracker;
+	//Tracker tracker = new Tracker();
 	
 	private static boolean notExit = true;
 
@@ -16,8 +17,9 @@ public class StartUI {
 	private static final String FINDNAME = "5";
 	private static final String EXIT = "6";
 
-	public StartUI(Input input) {
+	public StartUI(Input input, Tracker tracker) {
 		this.input = input;
+		this.tracker = tracker;
 	}
 
 	public void init() {
@@ -38,22 +40,22 @@ public class StartUI {
 				System.out.println("Please, try again!");
 			}else if (ADD.equals(answer)) {
 				this.createItem(tracker);
-				init();
+				answer = input.ask("Select: ");
 			} else if (SHOWALL.equals(answer)) {
 				this.showAll(tracker);
-				init();
+				answer = input.ask("Select: ");
 			} else if (EDIT.equals(answer)) {
 				this.edit(tracker);
-				init();
+				answer = input.ask("Select: ");
 			} else if (DEL.equals(answer)) {
 				this.delete(tracker);
-				init();
+				answer = input.ask("Select: ");
 			} else if (FINDID.equals(answer)) {
 				this.findById(tracker);
-				init();
+				answer = input.ask("Select: ");
 			} else if (FINDNAME.equals(answer)) {
 				this.findByName(tracker);
-				init();
+				answer = input.ask("Select: ");
 			} else if (EXIT.equals(answer)) {
 				notExit	= false;	
 			} 
@@ -131,6 +133,7 @@ public class StartUI {
 
 	public static void main(String[] args) {
 		Input input = new ConsoleInput();
-		new StartUI(input).init();
+		Tracker tracker = new Tracker();
+		new StartUI(input, tracker).init();
 	}
 }

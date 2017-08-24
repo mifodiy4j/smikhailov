@@ -5,7 +5,6 @@ import ru.job4j.models.*;
 public class StartUI {
 	private Input input;
 	Tracker tracker;
-	//Tracker tracker = new Tracker();
 	
 	private static boolean notExit = true;
 
@@ -57,8 +56,8 @@ public class StartUI {
 				this.findByName(tracker);
 				answer = input.ask("Select: ");
 			} else if (EXIT.equals(answer)) {
-				notExit	= false;	
-			} 
+				notExit	= false;
+			}
 		}
 
 	}

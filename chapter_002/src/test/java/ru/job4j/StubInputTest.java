@@ -22,26 +22,26 @@ public class StubInputTest {
 	@Test
 	public void whenUserAddItemThenTrackerHasNewItemWithSameName() {
    		Tracker tracker = new Tracker();     // создаём Tracker
-   		Input input = new StubInput(new String[]{"0", "test name", "desc", "6"});   //создаём StubInput с последовательностью действий
+   		Item item = tracker.add(new Item());
+   		Input input = new StubInput(new String[]{"0", "test name", "desc", "0", "a", "b", "2", item.getId(), "q", "w", "6"});   //создаём StubInput с последовательностью действий
    		new StartUI(input, tracker).init();     //   создаём StartUI и вызываем метод init()
-   		assertThat(tracker.getAll()[0].getName(), is("test name")); // проверяем, что нулевой элемент массива в трекере содержит имя, введённое при эмуляции.
+   		assertThat(tracker.getAll()[1].getName(), is("test name")); // проверяем, что нулевой элемент массива в трекере содержит имя, введённое при эмуляции.
+   		assertThat(tracker.getAll()[2].getName(), is("a"));
+   		assertThat(tracker.findById(item.getId()).getName(), is("q"));
 	}
-	
+
 	/**
-	* Test edit.
+	* Test createItem.
 	*/
 	@Test
- 	public void whenUpdateThenTrackerHasUpdatedValue() {
-	    // создаём Tracker
-	    Tracker tracker = new Tracker();
-	    //Напрямую добавляем заявку
-	    Item item = tracker.add(new Item());
-	    //создаём StubInput с последовательностью действий
-	    Input input = new StubInput(new String[]{"2", item.getId(), "test name", "desc", "6"});
-	    // создаём StartUI и вызываем метод init()
-	    new StartUI(input, tracker).init();
-	    // проверяем, что нулевой элемент массива в трекере содержит имя, введённое при эмуляции.
-	    assertThat(tracker.findById(item.getId()).getName(), is("test name"));
+	public void whenUserAddItemThenTrackerHasNewItemWithSameName1() {
+   		Tracker tracker = new Tracker();     // создаём Tracker
+   		Item item = tracker.add(new Item());
+   		Input input = new StubInput(new String[]{"0", "test name", "desc", "0", "a", "b", "2", item.getId(), "q", "w", "6"});   //создаём StubInput с последовательностью действий
+   		new StartUI(input, tracker).init();     //   создаём StartUI и вызываем метод init()
+   		assertThat(tracker.getAll()[1].getName(), is("test name")); // проверяем, что нулевой элемент массива в трекере содержит имя, введённое при эмуляции.
+   		assertThat(tracker.getAll()[2].getName(), is("a"));
+   		assertThat(tracker.findById(item.getId()).getName(), is("q"));
 	}
 
 

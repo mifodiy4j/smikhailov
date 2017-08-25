@@ -4,7 +4,7 @@ import ru.job4j.models.*;
 
 public class StartUI {
 	private Input input;
-	Tracker tracker;
+	//Tracker tracker;
 	
 	private static boolean notExit = true;
 
@@ -16,14 +16,28 @@ public class StartUI {
 	private static final String FINDNAME = "5";
 	private static final String EXIT = "6";
 
-	public StartUI(Input input, Tracker tracker) {
+	/*public StartUI(Input input, Tracker tracker) {
 		this.input = input;
 		this.tracker = tracker;
+	}*/
+
+	public StartUI(Input input) {
+		this.input = input;
 	}
 
 	public void init() {
 
-		System.out.println("0. Add new Item");
+		Tracker tracker = new Tracker();
+		MenuTracker menu = new MenuTracker(this.input, tracker);
+		menu.fillActions();
+
+		do {
+			menu.show();
+			int key = Integer.valueOf(input.ask("Select: "));
+			menu.select(key);
+		} while(!"y".equals(this.input.ask("Exit? (y) : ")));
+
+		/*System.out.println("0. Add new Item");
 		System.out.println("1. Show all items");
 		System.out.println("2. Edit item");
 		System.out.println("3. Delete item");
@@ -58,7 +72,7 @@ public class StartUI {
 			} else if (EXIT.equals(answer)) {
 				notExit	= false;
 			}
-		}
+		}*/
 
 	}
 
@@ -132,7 +146,8 @@ public class StartUI {
 
 	public static void main(String[] args) {
 		Input input = new ConsoleInput();
-		Tracker tracker = new Tracker();
-		new StartUI(input, tracker).init();
+		/*Tracker tracker = new Tracker();
+		new StartUI(input, tracker).init();*/
+		new StartUI(input).init();
 	}
 }

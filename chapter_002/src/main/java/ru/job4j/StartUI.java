@@ -4,7 +4,6 @@ import ru.job4j.models.*;
 
 public class StartUI {
 	private Input input;
-	//Tracker tracker;
 	
 	private static boolean notExit = true;
 
@@ -15,11 +14,6 @@ public class StartUI {
 	private static final String FINDID = "4";
 	private static final String FINDNAME = "5";
 	private static final String EXIT = "6";
-
-	/*public StartUI(Input input, Tracker tracker) {
-		this.input = input;
-		this.tracker = tracker;
-	}*/
 
 	public StartUI(Input input) {
 		this.input = input;
@@ -36,43 +30,6 @@ public class StartUI {
 			int key = Integer.valueOf(input.ask("Select: "));
 			menu.select(key);
 		} while(!"y".equals(this.input.ask("Exit? (y) : ")));
-
-		/*System.out.println("0. Add new Item");
-		System.out.println("1. Show all items");
-		System.out.println("2. Edit item");
-		System.out.println("3. Delete item");
-		System.out.println("4. Find item by Id");
-		System.out.println("5. Find items by name");
-		System.out.println("6. Exit Program");
-
-		String answer = input.ask("Select: ");
-
-		while (notExit) {
-		
-			if ((Integer.parseInt(answer) < 0) && (Integer.parseInt(answer) > 6)) {
-				System.out.println("Please, try again!");
-			}else if (ADD.equals(answer)) {
-				this.createItem(tracker);
-				answer = input.ask("Select: ");
-			} else if (SHOWALL.equals(answer)) {
-				this.showAll(tracker);
-				answer = input.ask("Select: ");
-			} else if (EDIT.equals(answer)) {
-				this.edit(tracker);
-				answer = input.ask("Select: ");
-			} else if (DEL.equals(answer)) {
-				this.delete(tracker);
-				answer = input.ask("Select: ");
-			} else if (FINDID.equals(answer)) {
-				this.findById(tracker);
-				answer = input.ask("Select: ");
-			} else if (FINDNAME.equals(answer)) {
-				this.findByName(tracker);
-				answer = input.ask("Select: ");
-			} else if (EXIT.equals(answer)) {
-				notExit	= false;
-			}
-		}*/
 
 	}
 
@@ -146,8 +103,6 @@ public class StartUI {
 
 	public static void main(String[] args) {
 		Input input = new ConsoleInput();
-		/*Tracker tracker = new Tracker();
-		new StartUI(input, tracker).init();*/
 		new StartUI(input).init();
 	}
 }

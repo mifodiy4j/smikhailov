@@ -3,6 +3,7 @@ package ru.job4j;
 import ru.job4j.models.*;
 
 public class StartUI {
+	private int[] ranges;
 	private Input input;
 	
 	private static boolean notExit = true;
@@ -23,12 +24,17 @@ public class StartUI {
 
 		Tracker tracker = new Tracker();
 		MenuTracker menu = new MenuTracker(this.input, tracker);
+		
+		ranges = new int [menu.getActionsLength()];
+		for (int i = 0; i < menu.getActionsLength(); i++) {
+			ranges[i] = i;
+		}
+
 		menu.fillActions();
 
 		do {
 			menu.show();
-			int key = Integer.valueOf(input.ask("Select: "));
-			menu.select(key);
+			menu.select(input.ask("Select: ", ranges));
 		} while(!"y".equals(this.input.ask("Exit? (y) : ")));
 
 	}
@@ -102,7 +108,8 @@ public class StartUI {
 	}
 
 	public static void main(String[] args) {
-		Input input = new ConsoleInput();
+		//Input input = new ConsoleInput();
+		Input input = new ValidateInput();
 		new StartUI(input).init();
 	}
 }

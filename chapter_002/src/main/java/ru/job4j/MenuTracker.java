@@ -77,6 +77,10 @@ public class MenuTracker {
 		this.tracker = tracker;
 	}
 
+	public int getActionsLength() {
+		return actions.length;
+	}
+
 	public void fillActions() {
 		this.actions[0] = this.new AddItem();
 		this.actions[1] = new MenuTracker.ShowItems();

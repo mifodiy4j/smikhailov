@@ -10,7 +10,12 @@ import ru.job4j.models.*;
  *@version 1
  */
 
-class EditItem implements UserAction {
+class EditItem extends BaseAction {
+
+	EditItem(String name, int key) {
+		super(name, key);
+	}
+
 	public int key() {
 		return 2;
 	}
@@ -25,13 +30,15 @@ class EditItem implements UserAction {
 		tracker.update(item);
 	}
 
-	public String info() {
-		return String.format("%s, %s", this.key(), "Edit item");
-	}
 }
 
-class FindItemByName implements UserAction {
+class FindItemByName extends BaseAction {
 	private int i = 0;
+
+	FindItemByName(String name, int key) {
+		super(name, key);
+	}
+
 	public int key() {
 		return 5;
 	}
@@ -47,12 +54,14 @@ class FindItemByName implements UserAction {
 		
 	}
 
-	public String info() {
-		return String.format("%s, %s", this.key(), "Find items by name");
-	}
 }
 
-class ExitProgram implements UserAction {
+class ExitProgram extends BaseAction {
+	
+	ExitProgram(String name, int key) {
+		super(name, key);
+	}
+
 	public int key() {
 		return 6;
 	}
@@ -61,9 +70,6 @@ class ExitProgram implements UserAction {
 		
 	}
 
-	public String info() {
-		return String.format("%s, %s", this.key(), "Exit Program");
-	}
 }
 
 public class MenuTracker {
@@ -82,13 +88,13 @@ public class MenuTracker {
 	}
 
 	public void fillActions() {
-		this.actions[0] = this.new AddItem();
-		this.actions[1] = new MenuTracker.ShowItems();
-		this.actions[2] = new EditItem();
-		this.actions[3] = this.new DelItem();
+		this.actions[0] = this.new AddItem("Add new item", 0);
+		this.actions[1] = new MenuTracker.ShowItems("Show all items", 1);
+		this.actions[2] = new EditItem("Edit item", 2);
+		this.actions[3] = this.new DelItem("Delete item", 3);
 		this.actions[4] = new MenuTracker.FindItemById();
-		this.actions[5] = new FindItemByName();
-		this.actions[6] = new ExitProgram();
+		this.actions[5] = new FindItemByName("Find items by name", 5);
+		this.actions[6] = new ExitProgram("Exit Program", 6);
 	}
 
 	public void select(int key) {
@@ -103,7 +109,12 @@ public class MenuTracker {
 		}
 	}
 
-	private class AddItem implements UserAction {
+	private class AddItem extends BaseAction {
+		
+		AddItem(String name, int key) {
+			super(name, key);
+		}
+
 		public int key() {
 			return 0;
 		}
@@ -115,12 +126,14 @@ public class MenuTracker {
 			tracker.add(new Item(name, desc, create));
 		}
 
-		public String info() {
-			return String.format("%s, %s", this.key(), "Add new item");
-		}
 	}
 
-	private static class ShowItems implements UserAction {
+	private static class ShowItems extends BaseAction {
+
+		ShowItems(String name, int key) {
+			super(name, key);
+		}
+
 		public int key() {
 			return 1;
 		}
@@ -133,12 +146,14 @@ public class MenuTracker {
 			}
 		}
 
-		public String info() {
-			return String.format("%s, %s", this.key(), "Show all items");
-		}
 	}
 
-	private class DelItem implements UserAction {
+	private class DelItem extends BaseAction {
+
+		DelItem(String name, int key) {
+			super(name, key);
+		}
+
 		public int key() {
 			return 3;
 		}
@@ -152,9 +167,6 @@ public class MenuTracker {
 			tracker.delete(item);
 		}
 
-		public String info() {
-			return String.format("%s, %s", this.key(), "Delete item");
-		}
 	}
 
 	private static class FindItemById implements UserAction {

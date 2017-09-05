@@ -35,4 +35,15 @@ public class BishopTest {
       assertThat(bishop.way(cellDist)[1].getColumn(), is(cellArrayResult[1].getColumn()));
 	}
 
+   @Test(expected = ImpossibleMoveException.class)
+   public void whenBishopInvalidStep() {
+      Cell cellStart = new Cell(2,3);
+      Bishop bishop = new Bishop(cellStart);
+      
+      Cell cellDist = new Cell(5,5);
+
+      bishop.way(cellDist);
+
+   }
+
 }

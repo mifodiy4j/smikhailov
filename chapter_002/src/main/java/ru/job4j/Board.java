@@ -8,12 +8,17 @@ public class Board{
 	private Cell[] cellArrayMove;
 	private boolean hasFigureOnWay = false;
 
+	public Board (Figure[] figures) {
+		this.figures = figures;
+	}
+
 	boolean move(Cell source, Cell dist) throws ImpossibleMoveException, OccupiedWayException, FigureNotFoundException { 
 		
 		for (Figure figure : figures) {
 			if ((figure.position).equals(source)) {
 				findFigure = true;
 				figureMove = figure;
+				throw new FigureNotFoundException("Figure is not find.");
 			}
 		}
 

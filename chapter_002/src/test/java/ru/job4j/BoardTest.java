@@ -21,13 +21,15 @@ public class BoardTest {
 	*/
    @Test(expected = FigureNotFoundException.class)
    public void whenFigureNotFound() {
-      Board board = new Board();
       
-      board.figures = {
-         new Bishop(new Cell(0, 2))
+      Figure[] figures = new Figure[] {
+         new Bishop(new Cell(0, 2)),
+         new Bishop(new Cell(0, 5))
       };
 
-      board.move(new Cell(0,0), new Cell(1,1));
+      Board board = new Board(figures);
+
+      boolean b = board.move(new Cell(0,0), new Cell(1,1));
 
    }
 

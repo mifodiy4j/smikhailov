@@ -4,7 +4,6 @@ public class Board{
 	Figure[] figures;
 
 	private boolean findFigure = false;
-	private Figure figureMove;
 	private Cell[] cellArrayMove;
 	private boolean hasFigureOnWay = false;
 
@@ -17,16 +16,12 @@ public class Board{
 		for (Figure figure : figures) {
 			if ((figure.position).equals(source)) {
 				findFigure = true;
-				figureMove = figure;
-				throw new FigureNotFoundException("Figure is not find.");
 			}
 		}
 
-		if (findFigure) {
+		if (!findFigure) {
 			throw new FigureNotFoundException("Figure is not find.");
 		}
-
-		cellArrayMove = figureMove.way(dist);
 		
 		for (Figure figure : figures) {
 			for (Cell cell : cellArrayMove) {
@@ -36,11 +31,6 @@ public class Board{
 			}
 		}
 
-		if ((hasFigureOnWay) && !(figureMove instanceof Knight)) {
-			throw new OccupiedWayException("Occupied way.");
-		}
-
-		//Figure figure.clone(Cell dist);
 		return true;
 	}
 

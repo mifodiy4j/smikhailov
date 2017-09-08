@@ -11,4 +11,6 @@ public abstract class Figure {
     Если фигура туда пойти не может. выбросить исключение ImposibleMoveException */
 	abstract Cell[] way(Cell dist) throws ImpossibleMoveException;
 
+	abstract void clone(Cell position);
+
 }

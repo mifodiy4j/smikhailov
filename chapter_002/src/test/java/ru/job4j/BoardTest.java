@@ -33,4 +33,48 @@ public class BoardTest {
 
    }
 
+   @Test(expected = ImpossibleMoveException.class)
+   public void whenFigureHasInvalidMove() {
+      
+      Figure[] figures = new Figure[] {
+         new Bishop(new Cell(0, 2)),
+         new Bishop(new Cell(0, 5))
+      };
+
+      Board board = new Board(figures);
+
+      boolean b = board.move(new Cell(0,2), new Cell(0,1));
+
+   }
+
+   @Test(expected = OccupiedWayException.class)
+   public void whenFigureHasFigureOnWay() {
+      
+      Figure[] figures = new Figure[] {
+         new Bishop(new Cell(0, 2)),
+         new Bishop(new Cell(1, 3))
+      };
+
+      Board board = new Board(figures);
+
+      boolean b = board.move(new Cell(0,2), new Cell(3,5));
+
+   }
+
+   @Test
+   public void whenFigureHasGoodWay() {
+      
+      Figure[] figures = new Figure[] {
+         new Bishop(new Cell(0, 2)),
+         new Bishop(new Cell(0, 5))
+      };
+
+      Board board = new Board(figures);
+
+      boolean b = board.move(new Cell(0,2), new Cell(3,5));
+
+      assertThat(b, is(true));
+
+   }
+
 }

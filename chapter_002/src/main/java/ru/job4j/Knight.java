@@ -63,4 +63,8 @@ public class Knight extends Figure {
 
 		return cellArray;
 	}
+
+	void clone(Cell position) {
+		new Knight(position);
+	}
 }

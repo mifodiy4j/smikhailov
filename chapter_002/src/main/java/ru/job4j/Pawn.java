@@ -1,11 +1,11 @@
 package ru.job4j;
 
-public class Bishop extends Figure {
+public class Pawn extends Figure {
 
 	Cell[] cellArray;
 	private int changeString, changeColumn, lengthCellArray;
 
-	public Bishop (Cell position) {
+	public Pawn (Cell position) {
 		super(position);
 	}
 
@@ -25,24 +25,17 @@ public class Bishop extends Figure {
 			changeString = dist.getString() - position.getString();
 			changeColumn = dist.getColumn() - position.getColumn();
 
-			if (Math.abs(changeString) == Math.abs(changeColumn)) 
+			if (changeString == 1) 
 				newPositionValid = true;
+
 		} else {
 			throw new ImpossibleMoveException("Out of board rage.");
 		}
 
 		if (newPositionValid) {
-			lengthCellArray = Math.abs(changeString) - 1;
-			cellArray = new Cell[lengthCellArray];
+			cellArray = new Cell[1];
 
-			int nextString = position.getString();
-			int nextColumn = position.getColumn();
-
-			for (int i = 0; i < lengthCellArray; i++) {
-				nextString = nextString + changeString/Math.abs(changeString);
-				nextColumn = nextColumn + changeColumn/Math.abs(changeColumn);
-				cellArray[i] = new Cell(nextString, nextColumn);
-			}
+			cellArray[0] = new Cell(position.getString(), position.getColumn());
 
 		} else {
 			throw new ImpossibleMoveException("Invalid position on board, this figure has another move.");
@@ -52,6 +45,6 @@ public class Bishop extends Figure {
 	}
 
 	void clone(Cell position) {
-		new Bishop(position);
+		new Pawn(position);
 	}
 }

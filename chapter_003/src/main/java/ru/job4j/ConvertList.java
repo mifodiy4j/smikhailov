@@ -17,7 +17,12 @@ public class ConvertList {
 
     public int[][] toArray (List<Integer> list, int rows) {
 
-        int column = list.size() / rows + 1;
+        int column;
+        if (list.size() % rows == 0) {
+            column = list.size() / rows;
+        } else {
+            column = list.size() / rows + 1;
+        }
         int[][] array = new int[rows][column];
 
         System.out.println(column);

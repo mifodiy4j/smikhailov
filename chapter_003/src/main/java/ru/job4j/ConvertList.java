@@ -41,4 +41,20 @@ public class ConvertList {
 
         return array;
     }
+
+    public List<Integer> convert (List<int[]> list) {
+        List<Integer> result = new ArrayList<>();
+
+        ListIterator<int[]> iter = list.listIterator();
+
+        while (iter.hasNext()) {
+            for (int  i = 0; i < iter.next().length; i++) {
+                iter.previous();
+                result.add(iter.next()[i]);
+                iter.previous();
+            }
+        }
+        return result;
+    }
+
 }

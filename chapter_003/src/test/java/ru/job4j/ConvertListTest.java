@@ -108,6 +108,31 @@ public class ConvertListTest {
      * Test convertList.
      */
     @Test
+    public void whenListConvertToArray5Elements() {
+
+        ConvertList convertList = new ConvertList();
+
+        List<Integer> list = new ArrayList<>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        list.add(0);
+        list.add(5);
+
+        int[][] array = {
+                {1, 2},
+                {3, 0},
+                {5, 0}
+        };
+
+        assertThat(convertList.toArray(list, 3), is(array));
+
+    }
+
+    /**
+     * Test convertList.
+     */
+    @Test
     public void whenArrayConvertToList7Elements() {
 
         ConvertList convertList = new ConvertList();
@@ -128,6 +153,32 @@ public class ConvertListTest {
         };
 
         assertThat(convertList.toList(array), is(list));
+
+    }
+
+    /**
+     * Test convertList.
+     */
+    @Test
+    public void whenConvert2List() {
+
+        ConvertList convertList = new ConvertList();
+
+        List<int[]> list = new ArrayList<>();
+        list.add(new int[]{1, 2});
+        list.add(new int[]{3, 4, 5, 6});
+
+        List<Integer> result = convertList.convert(list);
+
+        List<Integer> expectation =  new ArrayList<>();
+        expectation.add(1);
+        expectation.add(2);
+        expectation.add(3);
+        expectation.add(4);
+        expectation.add(5);
+        expectation.add(6);
+
+        assertThat(result, is(expectation));
 
     }
 

@@ -7,13 +7,7 @@ import java.util.*;
 public class SortUser {
 
     public Set<User> sort (List<User> list) {
-        Set<User> users = new TreeSet<>();
-
-        ListIterator<User> iter = list.listIterator();
-
-        while (iter.hasNext()) {
-            users.add(iter.next());
-            }
+        Set<User> users = new TreeSet<>(list);
         return users;
     }
 

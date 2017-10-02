@@ -18,47 +18,26 @@ public class Bank {
     }
 
     public void addAccountToUser(User user, Account account) {
-        if (usersBank.containsKey(user)) {
-            List<Account> listAccount = new ArrayList<>();
-            listAccount = usersBank.get(user);
-            listAccount.add(account);
-            usersBank.put(user, listAccount);
-        } else {
-            System.out.println("User not found");
-        }
+        usersBank.get(user).add(account);
     }
 
     public void deleteAccountFromUser(User user, Account account) {
-        if (usersBank.containsKey(user)) {
-            List<Account> listAccount = new ArrayList<>();
-            listAccount = usersBank.get(user);
-            listAccount.remove(account);
-            usersBank.put(user, listAccount);
-        } else {
-            System.out.println("User not found");
-        }
+        usersBank.get(user).remove(account);
     }
 
     public List<Account> getUserAccounts (User user) {
-        List<Account> listAccount = new ArrayList<>();
-
-        if (usersBank.containsKey(user)) {
-            listAccount = usersBank.get(user);
-        } else {
-            System.out.println("User not found");
-        }
-        return listAccount;
+        return usersBank.get(user);
     }
 
     public boolean transferMoney (User srcUser, Account srcAccount, User dstUser, Account dstAccount, double amount) {
         boolean statusTransfer = false;
+
         if (usersBank.containsKey(srcUser) && usersBank.containsKey(dstUser)) {
-            List<Account> listAccountSrc = usersBank.get(srcUser);
-            List<Account> listAccountDst = usersBank.get(dstUser);
-            if (listAccountSrc.contains(srcAccount) && listAccountDst.contains(dstAccount)) {
-                for (Account accountSrc : listAccountSrc) {
+            
+            if (usersBank.get(srcUser).contains(srcAccount) && usersBank.get(dstUser).contains(dstAccount)) {
+                for (Account accountSrc : usersBank.get(srcUser)) {
                     if (accountSrc.equals(srcAccount)) {
-                        for (Account accountDst : listAccountDst) {
+                        for (Account accountDst : usersBank.get(dstUser)) {
                             if (accountDst.equals(dstAccount)) {
 
                                 if (accountSrc.getValue() >= amount) {
@@ -77,23 +56,3 @@ public class Bank {
         return statusTransfer;
     }
 }
-
-
-/*
-Необходимо реализовать возможность перечислять деньги, как с одного счёта User на другой счёт того же User, так и на счёт другого User.
-
-В программе должны быть методы:
-
-public void addUser(User user) {} - добавление пользователя.
-
-public void deleteUser(User user) {} - удаление пользователя.
-
-public void addAccountToUser(User user, Account account) {} - добавить счёт пользователю.
-
-public void deleteAccountFromUser(User user, Account account) {} - удалить один счёт пользователя.
-
-public List<Accounts> getUserAccounts (User user) {} - получить список счетов для пользователя.
-
-public boolean transferMoney (User srcUser, Account srcAccount, User dstUser, Account dstAccount, double amount) - метод для перечисления денег с одного счёта на другой счёт:
-если счёт не найден или не хватает денег на счёте srcAccount (с которого переводят) должен вернуть false.
-*/

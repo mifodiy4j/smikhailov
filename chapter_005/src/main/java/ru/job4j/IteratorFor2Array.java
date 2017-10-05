@@ -1,6 +1,7 @@
 package ru.job4j;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class IteratorFor2Array implements Iterator {
 
@@ -23,7 +24,11 @@ public class IteratorFor2Array implements Iterator {
     public Object next() {
         if (indexX == value[indexY].length) {
             indexX = 0;
-            return value[++indexY][indexX++];
+            if (indexY == value.length - 1) {
+                throw new NoSuchElementException();
+            } else {
+                return value[++indexY][indexX++];
+            }
         } else {
             return value[indexY][indexX++];
         }

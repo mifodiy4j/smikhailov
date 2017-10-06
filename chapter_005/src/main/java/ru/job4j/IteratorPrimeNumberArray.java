@@ -17,6 +17,9 @@ public class IteratorPrimeNumberArray implements Iterator {
     public boolean hasNext() {
         for (int i = index; i < value.length; i++) {
             boolean markerCheckPrime = true;
+            if (value[i] == 1) {
+                markerCheckPrime = false;
+            }
             for (int d = 2; d * d <= value[i]; d++) {
                 if (value[i] % d == 0) {
                     markerCheckPrime = false;

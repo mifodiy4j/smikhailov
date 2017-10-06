@@ -32,27 +32,18 @@ public class Bank {
     public boolean transferMoney (User srcUser, Account srcAccount, User dstUser, Account dstAccount, double amount) {
         boolean statusTransfer = false;
 
-        if (usersBank.containsKey(srcUser) && usersBank.containsKey(dstUser)) {
-            
-            if (usersBank.get(srcUser).contains(srcAccount) && usersBank.get(dstUser).contains(dstAccount)) {
-                for (Account accountSrc : usersBank.get(srcUser)) {
-                    if (accountSrc.equals(srcAccount)) {
-                        for (Account accountDst : usersBank.get(dstUser)) {
-                            if (accountDst.equals(dstAccount)) {
+        List<Account> accounts = usersBank.get(srcUser);
+        Account accountSrc = accounts.get(accounts.indexOf(srcAccount));
 
-                                if (accountSrc.getValue() >= amount) {
-                                    accountSrc.setValue(accountSrc.getValue() - amount);
-                                    accountDst.setValue(accountDst.getValue() + amount);
-                                    statusTransfer = true;
-                                }
-                            }
-                        }
+        accounts = usersBank.get(dstUser);
+        Account accountDst = accounts.get(accounts.indexOf(dstAccount));
 
-
-                    }
-                }
-            }
+        if (accountSrc.getValue() >= amount) {
+            accountSrc.setValue(accountSrc.getValue() - amount);
+            accountDst.setValue(accountDst.getValue() + amount);
+            statusTransfer = true;
         }
+
         return statusTransfer;
     }
 }

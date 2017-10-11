@@ -11,6 +11,13 @@ public class SimpleArray<E> {
 
     public void add(E value) {
         this.objects[index++] = value;
+        if(index >= objects.length) {
+            Object[] newObjects = new Object[objects.length * 3 / 2 + 1];
+            for (int i = 0; i < objects.length; i++) {
+                newObjects[i] = objects[i];
+            }
+            objects = newObjects;
+        }
     }
 
     public void update(int position, E newValue) {
@@ -19,12 +26,14 @@ public class SimpleArray<E> {
 
     public void delete(int position) {
         for (int i = position; i < objects.length - 1; i++) {
-            objects[position] = objects[position + 1];
+            objects[i] = objects[i + 1];
+        }
+        if (index >= position) {
+            index--;
         }
     }
 
     public E get(int position) {
         return (E) this.objects[position];
     }
-    //add, update, delete, get(int index);
 }

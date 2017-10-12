@@ -1,23 +1,21 @@
 package ru.job4j;
 
 public abstract class AbstractStore implements Store {
-    private int lengthArray;
+    private int lengthArray = 10;
+    private int position = 0;
     SimpleArray<Base> array = new SimpleArray<>(lengthArray);
-
-    public AbstractStore(int lengthArray) {
-        this.lengthArray = lengthArray;
-    }
 
     @Override
     public Base add(Base model) {
         array.add(model);
+        position++;
         return model;
     }
 
     @Override
     public Base update(Base model) {
-        for (int i = 0; i < lengthArray; i++) {
-            if (array.get(i).equals(model)) {
+        for (int i = 0; i < position; i++) {
+            if (array.get(i).getId().equals(model.getId())) {
                 array.update(i, model);
                 return model;
             }
@@ -27,9 +25,10 @@ public abstract class AbstractStore implements Store {
 
     @Override
     public boolean delete(String id) {
-        for (int i = 0; i < lengthArray; i++) {
+        for (int i = 0; i < position; i++) {
             if (array.get(i).getId().equals(id)) {
                 array.delete(i);
+                position--;
                 return true;
             }
         }

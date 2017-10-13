@@ -59,7 +59,7 @@ public class MyArrayList<E> implements Iterable<E> {
 
             @Override
             public E next() {
-                if (cursor > index) {
+                if (cursor >= index) {
                     throw new NoSuchElementException();
                 }
                 return (E)container[cursor++];

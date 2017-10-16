@@ -86,7 +86,7 @@ public class MyLinkedList<E> implements Iterable<E> {
 
             @Override
             public boolean hasNext() {
-                if (x.next == null) {
+                if (x == null) {
                     return false;
                 }
                 return true;
@@ -94,7 +94,7 @@ public class MyLinkedList<E> implements Iterable<E> {
 
             @Override
             public E next() {
-                if (x.next == null) {
+                if (x == null) {
                     throw new NoSuchElementException();
                 }
 

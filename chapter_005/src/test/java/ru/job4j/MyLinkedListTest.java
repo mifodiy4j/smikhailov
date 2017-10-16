@@ -37,7 +37,7 @@ public class MyLinkedListTest {
             iter.next();
             result++;
         }
-        assertThat(result, is(4));
+        assertThat(result, is(5));
     }
 
     @Test (expected = IndexOutOfBoundsException.class)
@@ -48,5 +48,18 @@ public class MyLinkedListTest {
         ml.add("2");
 
         String result = ml.get(3);
+    }
+
+    @Test
+    public void whenContainterHasOneElement() {
+        final MyLinkedList<String> ml = new MyLinkedList<>();
+        ml.add("0");
+        final Iterator<String> iter = ml.iterator();
+        int result = 0;
+        while (iter.hasNext()) {
+            iter.next();
+            result++;
+        }
+        assertThat(result, is(1));
     }
 }

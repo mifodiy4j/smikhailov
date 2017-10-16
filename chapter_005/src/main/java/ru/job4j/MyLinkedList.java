@@ -100,7 +100,7 @@ public class MyLinkedList<E> implements Iterable<E> {
 
                 Element<E> res = x;
                 x = x.next;
-                return (E)res;
+                return res.item;
             }
         };
     }

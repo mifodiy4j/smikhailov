@@ -1,29 +1,28 @@
 package ru.job4j;
 
-import java.util.EmptyStackException;
 import java.util.LinkedList;
-import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
- * Realiztion of Stack
- * Created by SERG on 13.10.2017.
+ * Realization of Queue
+ * Created by SERG on 16.10.2017.
  */
-public class SimpleStack<E> {
+public class SimpleQueue<E> {
 
     LinkedList<E> list = new LinkedList<>();
     int index = 0;
 
     /**
-     * Remove last element and return it
+     * Remove first element and return it
      * @return
      */
     public E poll() {
         if (index == 0) {
-            throw new EmptyStackException();
+            throw new NoSuchElementException();
         }
 
-        E result = (E)list.getLast();
-        list.removeLast();
+        E result = (E)list.getFirst();
+        list.removeFirst();
         index--;
 
         return result;

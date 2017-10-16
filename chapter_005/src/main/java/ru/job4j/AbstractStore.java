@@ -1,9 +1,13 @@
 package ru.job4j;
 
 public abstract class AbstractStore implements Store {
-    private int lengthArray = 10;
+    private int lengthArray;
     private int position = 0;
     SimpleArray<Base> array = new SimpleArray<>(lengthArray);
+
+    public AbstractStore(int lengthArray) {
+        this.lengthArray = lengthArray;
+    }
 
     @Override
     public Base add(Base model) {

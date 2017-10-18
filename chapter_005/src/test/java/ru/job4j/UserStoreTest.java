@@ -9,7 +9,7 @@ public class UserStoreTest {
 
     @Test
     public void whenUpdateUserShouldReturnTheBaseType() {
-        UserStore userStore = new UserStore();
+        UserStore userStore = new UserStore(10);
         User user1 = new User("name1");
         user1.setId("111111");
         userStore.add(user1);
@@ -30,7 +30,7 @@ public class UserStoreTest {
 
     @Test
     public void whenUpdateUserWhenLastAdd() {
-        UserStore userStore = new UserStore();
+        UserStore userStore = new UserStore(10);
         User user1 = new User("name1");
         user1.setId("111111");
         userStore.add(user1);
@@ -51,7 +51,7 @@ public class UserStoreTest {
 
     @Test
     public void whenDeleteUserShouldReturnTrue() {
-        UserStore userStore = new UserStore();
+        UserStore userStore = new UserStore(10);
         User user1 = new User("name1");
         user1.setId("111111");
         userStore.add(user1);
@@ -69,7 +69,7 @@ public class UserStoreTest {
 
     @Test
     public void whenDeleteUserShouldReturnFalse() {
-        UserStore userStore = new UserStore();
+        UserStore userStore = new UserStore(10);
         User user1 = new User("name1");
         user1.setId("111111");
         userStore.add(user1);

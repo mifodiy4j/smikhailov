@@ -7,9 +7,9 @@ import java.util.NoSuchElementException;
 public class MyArrayList<E> implements Iterable<E> {
 
     private static final int DEFAULT_CAPACITY = 10;
-    private Object[] container;
-    private int size = 0;
-    int index = 0;
+    protected Object[] container;
+    int size = 0;
+    protected int index = 0;
 
     /**
      * Конструктор

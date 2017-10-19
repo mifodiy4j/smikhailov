@@ -14,7 +14,7 @@ public class SimpleSetTest {
 
     @Test
     public void testIterator() {
-        SimpleSet<String> simpleSet = new SimpleSet<>(10);
+        SimpleSet<String> simpleSet = new SimpleSet<>();
         simpleSet.add("zero");
         simpleSet.add("first");
         simpleSet.add("second");
@@ -31,7 +31,7 @@ public class SimpleSetTest {
 
     @Test
     public void whenAddDuplicate() {
-        SimpleSet<String> simpleSet = new SimpleSet<>(10);
+        SimpleSet<String> simpleSet = new SimpleSet<>();
         simpleSet.add("zero");
         simpleSet.add("first");
         simpleSet.add("second");

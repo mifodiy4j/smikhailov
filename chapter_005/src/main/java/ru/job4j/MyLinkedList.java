@@ -1,24 +1,22 @@
 package ru.job4j;
 
-import java.util.Arrays;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
 /**
  * Created by SERG on 13.10.2017.
  */
 public class MyLinkedList<E> implements Iterable<E> {
-    private int size = 0;
+    protected int size = 0;
 
-    Element<E> first;
-    Element<E> last;
+    protected Element<E> first;
+    protected Element<E> last;
 
     /**
      * Элемент коллекции
      * @param <E>
      */
-    private static class Element<E> {
+    protected static class Element<E> {
         E item;
         Element<E> next;
         Element<E> prev;

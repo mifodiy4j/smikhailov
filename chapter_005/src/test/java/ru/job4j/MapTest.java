@@ -36,6 +36,14 @@ public class MapTest {
             return birthday != null ? birthday.equals(user.birthday) : user.birthday == null;
 
         }
+
+        @Override
+        public int hashCode() {
+            int result = name != null ? name.hashCode() : 0;
+            result = 31 * result + children;
+            result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
+            return result;
+        }
     }
 
     @Test
@@ -48,6 +56,8 @@ public class MapTest {
         Object obj = new Object();
         map.put(first, obj);
         map.put(second, obj);
+
+        System.out.println("first.equals(second) = " + first.equals(second));
         System.out.printf("%s %n",map);
         System.out.printf("Size map = %d",map.size());
     }

@@ -13,7 +13,7 @@ public class Directory<T, V> implements Iterable {
 
     boolean insert(T key, V value) {
         int k = key.hashCode();
-        int index = k % catalog.length;
+        int index = Math.abs(k) % catalog.length;
         catalog[index] = new Node<>(key, value);
 
         int load = 0;
@@ -24,31 +24,35 @@ public class Directory<T, V> implements Iterable {
         }
 
         if (load >= catalog.length * DEFAULT_LOAD_FACTOR) {
-            Node[] temp = Arrays.copyOf(catalog, catalog.length);
-            catalog = new Node[catalog.length * 3 / 2 + 1];
-            for (int i = 0; i < temp.length; i++) {
-                if (temp[i] != null) {
-                    key = (T) temp[i].getKey();
-                    k = key.hashCode();
-                    index = k % catalog.length;
-                    value = (V) temp[i].getValue();
-                    catalog[index] = new Node<>(key, value);
-                }
-            }
+            increaseSize();
         }
 
         return true;
     }
 
+    public void increaseSize() {
+        Node[] temp = Arrays.copyOf(catalog, catalog.length);
+        catalog = new Node[catalog.length * 3 / 2 + 1];
+        for (int i = 0; i < temp.length; i++) {
+            if (temp[i] != null) {
+                T key = (T) temp[i].getKey();
+                int k = key.hashCode();
+                int index = Math.abs(k) % catalog.length;
+                V value = (V) temp[i].getValue();
+                catalog[index] = new Node<>(key, value);
+            }
+        }
+    }
+
     V get(T key) {
         int k = key.hashCode();
-        int index = k % catalog.length;
+        int index = Math.abs(k) % catalog.length;
         return (catalog[index] != null) ? (V) catalog[index].getValue() : null;
     }
 
     boolean delete(T key) {
         int k = key.hashCode();
-        int index = k % catalog.length;
+        int index = Math.abs(k) % catalog.length;
         catalog[index] = null;
         return true;
     }
@@ -59,20 +63,18 @@ public class Directory<T, V> implements Iterable {
             int cursor = 0;
             @Override
             public boolean hasNext() {
-                for (int i = cursor; i < catalog.length; i++) {
-                    if (catalog[i] != null) return true;
+                for (; cursor < catalog.length; cursor++) {
+                    if (catalog[cursor] != null) {return true;}
                 }
                 return false;
             }
 
             @Override
             public Node next() {
-                if (cursor >= catalog.length) {
+                if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                int prevCursor = cursor;
-                hasNext();
-                return catalog[prevCursor];
+                return (Node) catalog[cursor++].value;
             }
         };
     }

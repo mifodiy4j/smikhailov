@@ -24,11 +24,8 @@ public class SimpleSetHash<E> {
 
         if (!contains(e)) {
             int k = e.hashCode();
-            int index = k % container.length;
+            int index = Math.abs(k) % container.length;
             container[index] = e;
-            if(index >= container.length) {
-                container = Arrays.copyOf(container, container.length * 3 / 2 + 1);
-            }
         } else {
             return false;
         }
@@ -46,7 +43,7 @@ public class SimpleSetHash<E> {
             for (int i = 0; i < temp.length; i++) {
                 if (temp[i] != null) {
                     int k = temp[i].hashCode();
-                    int index = k % container.length;
+                    int index = Math.abs(k) % container.length;
                     container[index] = temp[i];
                 }
             }
@@ -61,7 +58,7 @@ public class SimpleSetHash<E> {
      */
     public boolean contains(E e) {
         int k = e.hashCode();
-        int index = k % container.length;
+        int index = Math.abs(k) % container.length;
         return container[index] != null;
     }
 
@@ -72,7 +69,7 @@ public class SimpleSetHash<E> {
      */
     public boolean remove(E e) {
         int k = e.hashCode();
-        int index = k % container.length;
+        int index = Math.abs(k) % container.length;
         container[index] = null;
         return true;
     }

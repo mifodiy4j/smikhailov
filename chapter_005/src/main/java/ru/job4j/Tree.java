@@ -1,38 +1,55 @@
 package ru.job4j;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 class Tree<E extends Comparable<E>> implements SimpleTree<E> {
 
     Node<E> root;
+    List<E> listTree = new ArrayList<>();
 
     class Node<E> {
         List<Node<E>> children;
-        E value;
-
-        public List<Node<E>> getChildren() {
-            return children;
-        }
+        private E value;
     }
 
+    /**
+     * Добавление элемента дерева, по значению родительского узла
+     * @param parent - значение родительского узла
+     * @param child
+     * @return
+     */
     @Override
     public boolean add(E parent, E child) {
         if (root == null) {
+            root = new Node<>();
             root.value = parent;
-            return true;
-        } else {
+            addChild(listTree, root);
+        }
+        Iterator<E> iter = listTree.iterator();
 
-            Iterator<E> iter = iterator();
-
+        while(iter.hasNext()) {
+            E element = iter.next();
+            Node<E> node = new Node<>();
+            node.value = element;
             if (compare(node, parent) == 0) {
-                node.children.add(child);
+                Node<E> chi = new Node<>();
+                chi.value = child;
+                node.children.add(chi);
                 return true;
             }
-            return false;
         }
+        return false;
+
+    }
+
+    /**
+     * @param first
+     * @param second
+     * @return
+     */
+    private int compare(Node<E> first, E second) {
+        E e = first.value;
+        return e.compareTo(second);
     }
 
     /**
@@ -43,9 +60,8 @@ class Tree<E extends Comparable<E>> implements SimpleTree<E> {
      */
     public void addChild(List<E> list, Node<E> node) {
         list.add(node.value);
-        for (Node<E> ch : node.children) {
-            list.add(ch.value);
-            if (ch.children != null) {
+        if (node.children != null) {
+            for (Node<E> ch : node.children) {
                 addChild(list, ch);
             }
         }
@@ -53,21 +69,16 @@ class Tree<E extends Comparable<E>> implements SimpleTree<E> {
 
     @Override
     public Iterator<E> iterator() {
-        List<E> listTree = new ArrayList<>();
-        addChild(listTree, root);
 
         return new Iterator<E>() {
             int index = 0;
 
             @Override
             public boolean hasNext() {
-                boolean res = false;
-                if (index < listTree.size()) {
-                    res = true;
-                } else {
+                if (index >= listTree.size()) {
                     throw new NoSuchElementException();
                 }
-                return res;
+                return true;
             }
 
             @Override

@@ -8,7 +8,7 @@ class Tree<E extends Comparable<E>> implements SimpleTree<E> {
     List<E> listTree = new ArrayList<>();
 
     class Node<E> {
-        List<Node<E>> children;
+        List<Node<E>> children = new ArrayList<>();
         private E value;
     }
 
@@ -35,6 +35,7 @@ class Tree<E extends Comparable<E>> implements SimpleTree<E> {
                 Node<E> chi = new Node<>();
                 chi.value = child;
                 node.children.add(chi);
+                addChild(listTree, node);
                 return true;
             }
         }
@@ -53,13 +54,22 @@ class Tree<E extends Comparable<E>> implements SimpleTree<E> {
     }
 
     /**
-     * Добавление элементов дерева в list
+     * Добавление элементов дерева в list, добавление значения Node и
+     * при наличие дочерних элементов - добавить дочерние элементы
      * @param list список куда добавляем элементы
      * @param node элемент дерева, который необходимо добавить в список,
      *             и при наличие дочерних элементов также добавить.
      */
     public void addChild(List<E> list, Node<E> node) {
-        list.add(node.value);
+        boolean elementInList = false;
+        for (E elementList : list) {
+            if (elementList.equals(node.value)) {
+                elementInList = true;
+            }
+        }
+        if (!elementInList) {
+            list.add(node.value);
+        }
         if (node.children != null) {
             for (Node<E> ch : node.children) {
                 addChild(list, ch);

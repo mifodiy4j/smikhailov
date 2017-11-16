@@ -4,12 +4,30 @@ import java.util.*;
 
 class Tree<E extends Comparable<E>> implements SimpleTree<E> {
 
+    private Queue<Node<E>> queue = new LinkedList<>();
     Node<E> root;
     List<E> listTree = new ArrayList<>();
 
+    /**
+     * Класс ячейка
+     * @param <E>
+     */
     class Node<E> {
         List<Node<E>> children = new ArrayList<>();
         private E value;
+        boolean visited;
+
+        /**
+         * Конструктор для ячейки дерева
+         * @param value
+         */
+        public Node(E value) {
+            this.value = value;
+        }
+
+        public List<Node<E>> getChildren() {
+            return children;
+        }
     }
 
     /**
@@ -21,32 +39,52 @@ class Tree<E extends Comparable<E>> implements SimpleTree<E> {
     @Override
     public boolean add(E parent, E child) {
         if (root == null) {
-            root = new Node<>();
-            root.value = parent;
-            addChild(listTree, root);
+            root = new Node<>(parent);
         }
-        Iterator<E> iter = listTree.iterator();
 
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            Node<E> element = queue.remove();
+            if (compare(element, parent) == 0) {
+                if (!containsInCollection(child)) {
+                    Node<E> chi = new Node<>(child);
+                    element.children.add(chi);
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            List<Node<E>> childrens = element.getChildren();
+            for (int i = 0; i < childrens.size(); i++) {
+                Node<E> n = childrens.get(i);
+                if(n != null) {
+                    queue.add(n);
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Проверка наличия элемента в коллекции по значению ячейки
+     * @param e
+     * @return false - нет элемента в коллекции, true - есть
+     */
+    public boolean containsInCollection(E e) {
+        Iterator<E> iter = iterator();
         while(iter.hasNext()) {
-            E element = iter.next();
-            Node<E> node = new Node<>();
-            node.value = element;
-            if (compare(node, parent) == 0) {
-                Node<E> chi = new Node<>();
-                chi.value = child;
-                node.children.add(chi);
-                addChild(listTree, node);
+            if (iter.next().equals(e)) {
                 return true;
             }
         }
         return false;
-
     }
 
     /**
+     * Сравнение значения ячейки с другим значением
      * @param first
      * @param second
-     * @return
+     * @return 0 - если равны, >0 - если значение ячейки больше проверямого значения, <0 - в других случаях
      */
     private int compare(Node<E> first, E second) {
         E e = first.value;
@@ -54,39 +92,19 @@ class Tree<E extends Comparable<E>> implements SimpleTree<E> {
     }
 
     /**
-     * Добавление элементов дерева в list, добавление значения Node и
-     * при наличие дочерних элементов - добавить дочерние элементы
-     * @param list список куда добавляем элементы
-     * @param node элемент дерева, который необходимо добавить в список,
-     *             и при наличие дочерних элементов также добавить.
+     * Итератор
+     * @return
      */
-    public void addChild(List<E> list, Node<E> node) {
-        boolean elementInList = false;
-        for (E elementList : list) {
-            if (elementList.equals(node.value)) {
-                elementInList = true;
-            }
-        }
-        if (!elementInList) {
-            list.add(node.value);
-        }
-        if (node.children != null) {
-            for (Node<E> ch : node.children) {
-                addChild(list, ch);
-            }
-        }
-    }
-
     @Override
     public Iterator<E> iterator() {
-
+        bfs(root);
         return new Iterator<E>() {
             int index = 0;
 
             @Override
             public boolean hasNext() {
                 if (index >= listTree.size()) {
-                    throw new NoSuchElementException();
+                    return false;
                 }
                 return true;
             }
@@ -96,5 +114,59 @@ class Tree<E extends Comparable<E>> implements SimpleTree<E> {
                 return listTree.get(index++);
             }
         };
+    }
+
+    /**
+     * метод добавления значения ячеик в listTree (без дубликатов)
+     * основан на методе поиска по ширине
+     * @param node
+     */
+    public void bfs(Node<E> node)
+    {
+        Queue<Node<E>> queueBfs = new LinkedList<>();
+        queueBfs.add(node);
+        while (!queueBfs.isEmpty()) {
+            boolean markerInList = false;
+            Node<E> element = queueBfs.remove();
+            for (E e : listTree) {
+                if (e.equals(element.value)) {
+                    markerInList = true;
+                }
+            }
+            if (!markerInList) {
+                listTree.add(element.value);
+            }
+
+            List<Node<E>> childrens = element.getChildren();
+            for (int i = 0; i < childrens.size(); i++) {
+                Node<E> n = childrens.get(i);
+                if(n != null) {
+                    queueBfs.add(n);
+                }
+            }
+        }
+    }
+
+    /**
+     * Проверка относится дерево к бинарному
+     * @return true - бинарное, иначе нет
+     */
+    public boolean isBinary() {
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            Node<E> element = queue.remove();
+
+            List<Node<E>> childrens = element.getChildren();
+            if (childrens.size() > 2) {
+                return false;
+            }
+            for (int i = 0; i < childrens.size(); i++) {
+                Node<E> n = childrens.get(i);
+                if(n != null) {
+                    queue.add(n);
+                }
+            }
+        }
+        return true;
     }
 }

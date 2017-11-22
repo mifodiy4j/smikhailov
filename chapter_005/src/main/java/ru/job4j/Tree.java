@@ -152,9 +152,10 @@ class Tree<E extends Comparable<E>> implements SimpleTree<E> {
      * @return true - бинарное, иначе нет
      */
     public boolean isBinary() {
-        queue.add(root);
-        while (!queue.isEmpty()) {
-            Node<E> element = queue.remove();
+        Stack<Node<E>> stack = new Stack<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            Node<E> element = stack.pop();
 
             List<Node<E>> childrens = element.getChildren();
             if (childrens.size() > 2) {
@@ -163,10 +164,11 @@ class Tree<E extends Comparable<E>> implements SimpleTree<E> {
             for (int i = 0; i < childrens.size(); i++) {
                 Node<E> n = childrens.get(i);
                 if(n != null) {
-                    queue.add(n);
+                    stack.push(n);
                 }
             }
         }
         return true;
     }
+
 }

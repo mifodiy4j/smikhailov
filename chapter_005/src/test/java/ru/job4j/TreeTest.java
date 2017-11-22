@@ -123,7 +123,7 @@ public class TreeTest {
     }
 
     @Test
-    public void whenInsertIsNotBinaryTreeShouldReturnTheListElements() {
+    public void whenInsertIsNotBinaryTreeShouldReturnFalse() {
 
         Tree<String> tree = new Tree<>();
 
@@ -136,6 +136,24 @@ public class TreeTest {
         boolean result = tree.isBinary();
 
         Assert.assertThat(result, is(false));
+    }
+
+    @Test
+    public void whenInsertIsBinaryTreeShouldReturnTrue() {
+
+        Tree<String> tree = new Tree<>();
+
+        tree.add("10", "4");
+        tree.add("4", "3");
+        tree.add("4", "1");
+        tree.add("10", "2");
+        tree.add("2", "7");
+        tree.add("3", "5");
+        tree.add("2", "6");
+
+        boolean result = tree.isBinary();
+
+        Assert.assertThat(result, is(true));
     }
 
 }

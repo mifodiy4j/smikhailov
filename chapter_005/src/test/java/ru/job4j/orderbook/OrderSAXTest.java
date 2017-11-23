@@ -10,7 +10,7 @@ public class OrderSAXTest {
 
     @Test
     public void whenOrderBookCreateForBookOne() {
-        OrderSAX orderSAX = new OrderSAX("book-1", "orders.xml");
+        OrderSAX orderSAX = new OrderSAX("book-2", "orders.xml");
         try {
             orderSAX.order();
         } catch (ParserConfigurationException e) {

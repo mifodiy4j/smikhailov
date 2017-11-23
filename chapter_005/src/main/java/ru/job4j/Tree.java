@@ -4,7 +4,7 @@ import java.util.*;
 
 class Tree<E extends Comparable<E>> implements SimpleTree<E> {
 
-    private Queue<Node<E>> queue = new LinkedList<>();
+    private Stack<Node<E>> stack = new Stack<>();
     Node<E> root;
     List<E> listTree = new ArrayList<>();
 
@@ -15,7 +15,6 @@ class Tree<E extends Comparable<E>> implements SimpleTree<E> {
     class Node<E> {
         List<Node<E>> children = new ArrayList<>();
         private E value;
-        boolean visited;
 
         /**
          * Конструктор для ячейки дерева
@@ -41,10 +40,10 @@ class Tree<E extends Comparable<E>> implements SimpleTree<E> {
         if (root == null) {
             root = new Node<>(parent);
         }
+        stack.push(root);
+        while (!stack.isEmpty()) {
 
-        queue.add(root);
-        while (!queue.isEmpty()) {
-            Node<E> element = queue.remove();
+            Node<E> element = stack.pop();
             if (compare(element, parent) == 0) {
                 if (!containsInCollection(child)) {
                     Node<E> chi = new Node<>(child);
@@ -57,8 +56,8 @@ class Tree<E extends Comparable<E>> implements SimpleTree<E> {
             List<Node<E>> childrens = element.getChildren();
             for (int i = 0; i < childrens.size(); i++) {
                 Node<E> n = childrens.get(i);
-                if(n != null) {
-                    queue.add(n);
+                if (n != null) {
+                    stack.push(n);
                 }
             }
         }
@@ -97,7 +96,8 @@ class Tree<E extends Comparable<E>> implements SimpleTree<E> {
      */
     @Override
     public Iterator<E> iterator() {
-        bfs(root);
+        //bfs(root);
+        dfs(root);
         return new Iterator<E>() {
             int index = 0;
 
@@ -118,16 +118,15 @@ class Tree<E extends Comparable<E>> implements SimpleTree<E> {
 
     /**
      * метод добавления значения ячеик в listTree (без дубликатов)
-     * основан на методе поиска по ширине
+     * основан на методе поиска в глубину
      * @param node
      */
-    public void bfs(Node<E> node)
-    {
-        Queue<Node<E>> queueBfs = new LinkedList<>();
-        queueBfs.add(node);
-        while (!queueBfs.isEmpty()) {
+    public void dfs(Node<E> node) {
+        Stack<Node<E>> stackDfs = new Stack<>();
+        stackDfs.push(node);
+        while (!stackDfs.isEmpty()) {
             boolean markerInList = false;
-            Node<E> element = queueBfs.remove();
+            Node<E> element = stackDfs.pop();
             for (E e : listTree) {
                 if (e.equals(element.value)) {
                     markerInList = true;
@@ -141,7 +140,7 @@ class Tree<E extends Comparable<E>> implements SimpleTree<E> {
             for (int i = 0; i < childrens.size(); i++) {
                 Node<E> n = childrens.get(i);
                 if(n != null) {
-                    queueBfs.add(n);
+                    stackDfs.push(n);
                 }
             }
         }

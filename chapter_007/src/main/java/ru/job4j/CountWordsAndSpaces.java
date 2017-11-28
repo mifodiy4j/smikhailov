@@ -6,14 +6,17 @@ public class CountWordsAndSpaces implements Runnable {
     private int countWords;
     private int countSpaces;
 
-    public CountWordsAndSpaces(String str, boolean status) {
+    Thread t;
+
+    public CountWordsAndSpaces(String str, String name, boolean status) {
         this.str = str;
         this.status = status;
+        t = new Thread(this, name);
+        t.start();
     }
 
     @Override
     public void run() {
-        System.out.println("TO DO RUN + " + status);
 
         if (status) {
             for (int i = 0; i < str.length(); i++) {

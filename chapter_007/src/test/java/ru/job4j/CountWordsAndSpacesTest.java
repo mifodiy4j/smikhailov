@@ -2,17 +2,18 @@ package ru.job4j;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 public class CountWordsAndSpacesTest {
 
     @Test
     public void whenStringContainsFiveSpacesAndSixWords() {
         String str = "asd fgh hjk klj ghj yuuio";
-        CountWordsAndSpaces countWords = new CountWordsAndSpaces(str, false);
-        new Thread(countWords).start();
+        CountWordsAndSpaces countWords = new CountWordsAndSpaces(str, "countWords", false);
+        CountWordsAndSpaces countSpaces = new CountWordsAndSpaces(str, "countSpaces", true);
 
-        CountWordsAndSpaces countSpaces = new CountWordsAndSpaces(str, true);
-        new Thread(countSpaces).start();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

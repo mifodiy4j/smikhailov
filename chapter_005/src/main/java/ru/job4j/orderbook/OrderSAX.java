@@ -59,6 +59,7 @@ public class OrderSAX {
         SAXParser saxParser = factory.newSAXParser();
 
         saxParser.parse(new File(pathName), handler);
-        System.out.println(orderBook.toString());
+
+        orderBook.print();
     }
 }

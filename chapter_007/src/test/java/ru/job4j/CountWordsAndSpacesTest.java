@@ -5,15 +5,39 @@ import org.junit.Test;
 public class CountWordsAndSpacesTest {
 
     @Test
-    public void whenStringContainsFiveSpacesAndSixWords() {
+    public void whenStringContainsFiveSpacesAndSixWords() throws InterruptedException {
         String str = "asd fgh hjk klj ghj yuuio";
-        CountWordsAndSpaces countWords = new CountWordsAndSpaces(str, "countWords", false);
-        CountWordsAndSpaces countSpaces = new CountWordsAndSpaces(str, "countSpaces", true);
+        CountWordsAndSpaces countWS = new CountWordsAndSpaces();
 
+        Thread wordsThread = new Thread(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        System.out.printf("Words count : %s %n", countWS.countWords(str));
+                    }
+                }
+        );
+
+        Thread spacesThread = new Thread(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        System.out.printf("Spaces count : %s %n", countWS.countSpaces(str));
+                    }
+                }
+        );
+
+        System.out.printf("%s %n", "Start programme");
+
+        wordsThread.start();
+        spacesThread.start();
         try {
-            Thread.sleep(1000);
+            wordsThread.join();
+            spacesThread.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        System.out.printf("%s %n", "Stop programme");
     }
 }

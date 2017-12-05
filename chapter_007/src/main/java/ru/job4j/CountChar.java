@@ -9,9 +9,12 @@ public class CountChar implements Runnable {
 
     @Override
     public void run() {
-        System.out.printf("Поток { %s } начал работу%n", Thread.currentThread().getName());
-        this.count(str);
-        System.out.printf("Поток { %s } отработал%n", Thread.currentThread().getName());
+        while(!Thread.currentThread().isInterrupted()){
+            System.out.printf("Поток { %s } начал работу%n", Thread.currentThread().getName());
+            this.count(str);
+            System.out.printf("Поток { %s } отработал%n", Thread.currentThread().getName());
+            Thread.currentThread().interrupt();
+        }
     }
 
     public void count(String str) {

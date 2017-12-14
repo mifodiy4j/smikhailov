@@ -12,13 +12,13 @@ public class TimeTest {
                 " ui uu yu yu yu yu yu yu yu yu yu yu yu yu yu yu yu yu" +
                 " ui uu yu yu yu yu yu yu yu yu yu yu yu yu yu yu yu yu" +
                 " xc oi lg jh hj jh hj hj hj hj vb df df df df rt gh hj qe";
-        Thread t1 = new Thread(new Time(10), "t1");
-        Thread t2 = new Thread(new CountChar(str), "t2");
+        Thread time = new Thread(new Time(1000), "t1");
+        Thread count = new Thread(new CountChar(str), "t2");
 
-        t1.start();
-        t2.start();
+        time.start();
+        count.start();
 
-        t1.join();
-        t2.interrupt();
+        time.join();
+        count.interrupt();
     }
 }

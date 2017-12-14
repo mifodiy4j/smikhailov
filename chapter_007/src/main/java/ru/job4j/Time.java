@@ -9,12 +9,12 @@ public class Time implements Runnable{
 
     @Override
     public void run() {
-        System.out.printf("Поток { %s } начал работу%n", Thread.currentThread().getName());
+        System.out.printf("Поток TIME { %s } начал работу %n", Thread.currentThread().getName());
         try {
             Thread.sleep(timeDelay);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.printf("Поток { %s } отработал%n", Thread.currentThread().getName());
+        System.out.printf("Поток TIME { %s } отработал %n", Thread.currentThread().getName());
     }
 }

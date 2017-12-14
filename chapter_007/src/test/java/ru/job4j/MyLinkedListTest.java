@@ -2,12 +2,12 @@ package ru.job4j;
 
 import org.junit.Test;
 
-public class MyArrayListTest {
+public class MyLinkedListTest {
 
     @Test
     public void test() {
 
-        MyArrayList<Integer> ml = new MyArrayList<>();
+        MyLinkedList<Integer> ml = new MyLinkedList<>();
 
         for (int i = 0; i < 6; i++) {
             Thread t = new Thread(new CountThread(ml, 2 * i));
@@ -39,10 +39,10 @@ public class MyArrayListTest {
     }
 
     class CountThread implements Runnable {
-        MyArrayList<Integer> ml;
+        MyLinkedList<Integer> ml;
         int x;
 
-        public CountThread(MyArrayList<Integer> ml, int x) {
+        public CountThread(MyLinkedList<Integer> ml, int x) {
             this.ml = ml;
             this.x = x;
         }
@@ -61,4 +61,5 @@ public class MyArrayListTest {
 
         }
     }
+
 }

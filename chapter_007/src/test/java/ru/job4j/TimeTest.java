@@ -11,14 +11,19 @@ public class TimeTest {
                 " ui uu yu yu yu yu yu yu yu yu yu yu yu yu yu yu yu yu" +
                 " ui uu yu yu yu yu yu yu yu yu yu yu yu yu yu yu yu yu" +
                 " ui uu yu yu yu yu yu yu yu yu yu yu yu yu yu yu yu yu" +
-                " xc oi lg jh hj jh hj hj hj hj vb df df df df rt gh hj qe";
-        Thread time = new Thread(new Time(1000), "t1");
-        Thread count = new Thread(new CountChar(str), "t2");
+                " xc oi lg jh hj jh hj hj hj hj vb df df df df rt gh hj";
+
+        Thread time = new Thread(new Time(1000));
+
+        CountChar countChar = new CountChar(str);
+        Thread count = new Thread(countChar);
 
         time.start();
         count.start();
 
         time.join();
         count.interrupt();
+
+        System.out.println(String.format("Итого пробелов в строке : %d %n", countChar.getCount()));
     }
 }

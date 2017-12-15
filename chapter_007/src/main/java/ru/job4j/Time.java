@@ -1,6 +1,6 @@
 package ru.job4j;
 
-public class Time implements Runnable{
+public class Time implements Runnable {
     int timeDelay;
 
     public Time(int timeDelay) {
@@ -15,6 +15,7 @@ public class Time implements Runnable{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
         System.out.printf("Поток TIME { %s } отработал %n", Thread.currentThread().getName());
     }
 }

@@ -20,17 +20,15 @@ public class Anagramma {
             return false;
         }
 
-        int k;
-        for(int i = 0; i < name1.length(); i++) {
-            if (letters.containsKey(name1.charAt(i))) {
+        int k = 0;
+        for (int i = 0; i < name1.length(); i++) {
+            if (letters.putIfAbsent(name1.charAt(i), 1) != null) {
                 k = letters.get(name1.charAt(i));
-            } else {
-                k = 0;
+                letters.put(name1.charAt(i), ++k);
             }
-            letters.put(name1.charAt(i), ++k);
         }
 
-        for(int j = 0; j < name2.length(); j++) {
+        for (int j = 0; j < name2.length(); j++) {
             if (letters.containsKey(name2.charAt(j))) {
                 k = letters.remove(name2.charAt(j));
                 if (k > 1) {
@@ -39,8 +37,6 @@ public class Anagramma {
             }
         }
 
-        if (letters.size() == 0) {
-            return true;
-        } else return false;
+        return letters.isEmpty();
     }
 }

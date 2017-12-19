@@ -11,29 +11,18 @@ public class CountChar implements Runnable {
 
     @Override
     public void run() {
-        while (!Thread.currentThread().isInterrupted()) {
-            System.out.printf("Поток COUNT { %s } начал работу %n", Thread.currentThread().getName());
-            while (!Thread.currentThread().isInterrupted()) {
-                this.count(str);
-            }
-            System.out.printf("Поток COUNT { %s } отработал %n", Thread.currentThread().getName());
-        }
+        System.out.printf("Поток COUNT { %s } начал работу %n", Thread.currentThread().getName());
+        this.count(str);
+        System.out.printf("Поток COUNT { %s } отработал %n", Thread.currentThread().getName());
     }
 
     public void count(String str) {
-        for (int i = 0; i < str.length(); i++) {
+        for (int i = 0; i < str.length() && !Thread.currentThread().isInterrupted(); i++) {
             if (str.charAt(i) == ' ' && str.charAt(i + 1) != ' ') {
-                try {
-                    Thread.sleep(10);
-                } catch (InterruptedException e) {
-                    System.out.printf("Времени на подсчет не хватило %n");
-                    e.printStackTrace();
-                }
                 count++;
                 System.out.printf("Количество пробелов посчитано = %d  %n", count);
             }
         }
-        Thread.currentThread().interrupt();
     }
 
     public int getCount() {

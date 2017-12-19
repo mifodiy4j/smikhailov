@@ -13,7 +13,7 @@ public class TimeTest {
                 " ui uu yu yu yu yu yu yu yu yu yu yu yu yu yu yu yu yu" +
                 " xc oi lg jh hj jh hj hj hj hj vb df df df df rt gh hj";
 
-        Thread time = new Thread(new Time(1000));
+        Thread time = new Thread(new Time(5));
 
         CountChar countChar = new CountChar(str);
         Thread count = new Thread(countChar);

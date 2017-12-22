@@ -17,6 +17,7 @@ public class ParallerSearchTest {
         ParallerSearch parallerSearch = new ParallerSearch("d:\\test", "qwerty", list);
 
         System.out.println(parallerSearch.result());
+
     }
 
 }

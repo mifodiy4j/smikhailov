@@ -18,6 +18,8 @@ public class ParallerSearch {
 
     private List<String> resultList = new ArrayList<>();
 
+    List<Thread> massThread = new ArrayList<Thread>();
+
     /**
      * Конструктор
      *
@@ -39,6 +41,7 @@ public class ParallerSearch {
     List<String> result() throws IOException, InterruptedException {
         File fl = new File(root);
         checkFilesFromFolder(fl);
+        waitAllThread();
 
         return resultList;
     }
@@ -56,11 +59,16 @@ public class ParallerSearch {
             if (entry.isFile()) {
                 Thread t = new Thread(new SearchInFileThread(text, exts, entry, resultList));
                 t.start();
-                t.join();
-                continue;
+                massThread.add(t);
             } else {
                 checkFilesFromFolder(entry);
             }
+        }
+    }
+
+    private void waitAllThread() throws InterruptedException {
+        for(Thread t : massThread) {
+            t.join();
         }
     }
 }
@@ -90,16 +98,19 @@ class SearchInFileThread implements Runnable {
                     fis = new FileInputStream(f);
                     content = new byte[fis.available()];
                     fis.read(content);
-                    fis.close();
                 } catch (IOException e) {
                     e.printStackTrace();
+                } finally {
+                    try {
+                        fis.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
 
-                String[] lines = new String(content, StandardCharsets.UTF_8).split("\n");
-                for (String line : lines) {
-                    if (text.equals(line)) {
-                        resultList.add(f.getName());
-                    }
+                String lines = new String(content, StandardCharsets.UTF_8);
+                if (lines.contains(text)) {
+                    resultList.add(f.getName());
                 }
             }
         }

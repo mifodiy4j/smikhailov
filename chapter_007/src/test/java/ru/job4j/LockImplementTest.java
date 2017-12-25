@@ -15,7 +15,7 @@ public class LockImplementTest {
             Thread t = new Thread(new CountLock(common, lockImplement));
             t.setName("Поток " + i);
             t.start();
-            t.join();  //?
+            t.join();
         }
     }
 }

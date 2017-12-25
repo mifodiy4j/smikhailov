@@ -25,18 +25,6 @@ public class LockImplement {
         isLocked = false;
         notify();
     }
-
-    public static void main(String[] args) {
-        LockImplement lockImplement = new LockImplement();
-        Common common = new Common();
-
-        for (int i = 1; i < 6; i++) {
-
-            Thread t = new Thread(new CountLock(common, lockImplement));
-            t.setName("Поток " + i);
-            t.start();
-        }
-    }
 }
 
 class Common {

@@ -16,6 +16,10 @@
     <modules>
         <module>chapter_001</module>
         <module>chapter_002</module>
+        <module>chapter_003</module>
+        <module>chapter_005</module>
+	    <module>chapter_007</module>
+	    <module>chapter_003_</module>
     </modules>
 	
 	<dependencies>
@@ -30,6 +34,21 @@
             <artifactId>junit</artifactId>
             <version>4.12</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.1-901-1.jdbc4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.25</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-nop</artifactId>
+            <version>1.7.25</version>
         </dependency>
     </dependencies>
 </project>

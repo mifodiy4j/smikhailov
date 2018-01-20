@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databases>
+    <database>
+        <nameDB>tracker</nameDB>
+        <port>5432</port>
+        <login>postgres</login>
+        <password>root</password>
+        <createTable>tracker</createTable>
+        <column>
+            <name>id</name>
+            <type>serial primary key</type>
+        </column>
+        <column>
+            <name>name</name>
+            <type>character varying(200)</type>
+        </column>
+        <column>
+            <name>description</name>
+            <type>character varying(2000)</type>
+        </column>
+        <column>
+            <name>create_date</name>
+            <type>timestamp</type>
+        </column>
+        <column>
+            <name>comments</name>
+            <type>character varying(2000)</type>
+        </column>
+    </database>
+
+    <insert>
+        <name>root</name>
+        <description>description_A</description>
+        <create_date>2014-11-11</create_date>
+        <comments>comment_A</comments>
+    </insert>
+</databases>

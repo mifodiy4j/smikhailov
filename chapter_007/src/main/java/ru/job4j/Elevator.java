@@ -1,8 +1,8 @@
 package ru.job4j;
 
-import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
+import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 public class Elevator {
@@ -14,62 +14,91 @@ public class Elevator {
 
     private int currentFloor = 1;
 
-    private Queue<Integer> queue = new LinkedList<>();
+    Queue<Floor> floorPQ;
 
-    public Elevator(int countFloors, double heightFloor, double speed, int timeBeforeOpeningAndClosing) {
+    public Elevator(int countFloors, float heightFloor, float speed, int timeBeforeOpeningAndClosing) {
         this.countFloors = countFloors;
         this.heightFloor = heightFloor;
         this.speed = speed;
         this.timeBeforeOpeningAndClosing = timeBeforeOpeningAndClosing;
+
+        floorPQ = new PriorityBlockingQueue<>(countFloors, new FloorComparator());
+
         System.out.printf("кол-во этажей в подъезде : %d %n", this.countFloors);
         System.out.printf("высота одного этажа : %2.2f %n", this.heightFloor);
         System.out.printf("скорость лифта при движении в метрах в секунду : %2.2f %n", this.speed);
         System.out.printf("время между открытием и закрытием дверей : %d %n", this.timeBeforeOpeningAndClosing);
     }
 
-    public void statusElevator() throws InterruptedException {
+    public void readButtonPress() {
+        System.out.printf("Please, enter the floor%n");
 
-        if (!queue.isEmpty()) {
-            int nextFloor = queue.remove();
-            if (nextFloor > currentFloor) {
-                nextFloorUp(nextFloor);
-            } else if (nextFloor < currentFloor) {
-                nextFloorDown(nextFloor);
+        Scanner sc = new Scanner(System.in);
+
+        while (true) {
+            if (sc.hasNext()) {
+                String str = sc.next();
+                checkPress(str);
             }
-
         }
     }
 
-    public void nextFloorUp(int nFloor) {
-        for (int i = currentFloor; i < nFloor; i++) {
+    public void checkPress(String str) {
+        int n = Integer.parseInt(str);
+        if (n <= countFloors) {
+            int pr = 1;
+            //move down
+            if (currentFloor > n) {
+                for (int i = currentFloor - 1; i >= n; i--) {
+                    addInQueue(i, pr++);
+                }
+            } else { //move up
+                for (int i = currentFloor + 1; i <= n; i++) {
+                    addInQueue(i, pr++);
+                }
+            }
+        } else {
+            System.out.printf("Please, enter again %n");
+        }
+    }
+
+    public void addInQueue(int n, int pr) {
+
+        if (!containsInQueue(n)) {
+            floorPQ.add(new Floor(n, pr));
+        }
+
+    }
+
+    public boolean containsInQueue(int n) {
+        boolean status = false;
+        for (Floor f : floorPQ) {
+            if (f.getNumber() == n) {
+                status = true;
+            }
+        }
+        return status;
+    }
+
+    public void moveElevator() {
+
+        if (!floorPQ.isEmpty()) {
+
             System.out.printf("Current floor = %d %n", currentFloor);
             try {
                 TimeUnit.SECONDS.sleep((long) (heightFloor / speed));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            currentFloor++;
-        }
 
-        if (currentFloor == nFloor) {
-            closeOpenDoor();
-        }
-    }
+            Floor nextFloor = floorPQ.remove();
+            currentFloor = nextFloor.getNumber();
 
-    public void nextFloorDown(int nFloor) {
-        for (int i = currentFloor; i > nFloor; i--) {
-            System.out.printf("Current floor = %d %n", currentFloor);
-            try {
-                TimeUnit.SECONDS.sleep((long) (heightFloor / speed));
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            if (floorPQ.isEmpty()) {
+                closeOpenDoor();
             }
-            currentFloor--;
         }
 
-        if (currentFloor == nFloor) {
-            closeOpenDoor();
-        }
     }
 
     public void closeOpenDoor() {
@@ -87,27 +116,17 @@ public class Elevator {
 
         Elevator elevator = new Elevator(
                 Integer.parseInt(args[0]),
-                Double.parseDouble(args[1]),
-                Double.parseDouble(args[2]),
+                Float.parseFloat(args[1]),
+                Float.parseFloat(args[2]),
                 Integer.parseInt(args[3])
         );
-        //Elevator elevator = new Elevator(20, 3, 1, 5);
-
-        System.out.printf("Please, enter the floor%n" +
-                "\"<\" - enter in the cabin elevator%n" +
-                "\">\" - enter in the floor%n");
-
-        Scanner sc = new Scanner(System.in);
+        //Elevator elevator = new Elevator(10, 3, 1, 5);
 
         Thread elevatorThread = new Thread() {
             @Override
             public void run() {
                 while (true) {
-                    try {
-                        elevator.statusElevator();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                    elevator.moveElevator();
                 }
             }
         };
@@ -116,22 +135,8 @@ public class Elevator {
             @Override
             public void run() {
                 while (true) {
-                    if (sc.hasNext()) {
-                        String str = sc.next();
-                        if (str.startsWith("<")) {
-                            addInQueue(str);
-                        } else if (str.startsWith(">")) {
-                            addInQueue(str);
-                        } else {
-                            System.out.printf("Please, enter again");
-                        }
-                    }
+                    elevator.readButtonPress();
                 }
-            }
-
-            public void addInQueue(String str) {
-                int n = Integer.parseInt(str.substring(1));
-                elevator.queue.add(n);
             }
         };
 

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databases>
+    <insert>
+        <name>root</name>
+        <description>description_B</description>
+        <create_date>2015-05-05</create_date>
+        <comments>comment_B</comments>
+    </insert>
+</databases>

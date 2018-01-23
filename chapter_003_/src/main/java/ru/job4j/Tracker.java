@@ -30,6 +30,7 @@ public class Tracker {
     private static final Logger Log = LoggerFactory.getLogger(SQL_Storage.class);
 
     private String fileName;
+    private String fileNameForAdd;
     private String nameDB = "";
     private String port;
     private String url;
@@ -47,8 +48,9 @@ public class Tracker {
      * @param fileName - имя XML файла, в котором указаны
      *                 настройки базы данных и свойства новой табдиы.
      */
-    public Tracker(String fileName) {
+    public Tracker(String fileName, String fileNameForAdd) {
         this.fileName = fileName;
+        this.fileNameForAdd = fileNameForAdd;
     }
 
     /**
@@ -258,7 +260,7 @@ public class Tracker {
                 }
             };
 
-            saxParser.parse(new File(fileName), handler);
+            saxParser.parse(new File(fileNameForAdd), handler);
         } catch (Throwable e) {
             e.printStackTrace();
         }

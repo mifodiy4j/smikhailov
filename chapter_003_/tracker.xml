@@ -27,11 +27,4 @@
             <type>character varying(2000)</type>
         </column>
     </database>
-
-    <insert>
-        <name>root</name>
-        <description>description_A</description>
-        <create_date>2014-11-11</create_date>
-        <comments>comment_A</comments>
-    </insert>
 </databases>

@@ -14,6 +14,8 @@ public class UsersServlet extends HttpServlet {
 
     private static final Logger Log = LoggerFactory.getLogger(EchoServlet.class);
 
+    private final UserStore users = UserStore.getInstance();
+
     /**
      * Получает данные о пользователе
      * @param req
@@ -28,9 +30,7 @@ public class UsersServlet extends HttpServlet {
 
         PrintWriter writer = new PrintWriter(resp.getOutputStream());
 
-        UserStore us = new UserStore();
-        writer.append("users : " + us.selectById(id));
-
+        writer.append("users : " + users.selectById(id));
         writer.flush();
     }
 
@@ -48,9 +48,8 @@ public class UsersServlet extends HttpServlet {
         String parametrLogin = req.getParameter("login");
         String parametrEmail = req.getParameter("email");
         String parametrCreateDate = req.getParameter("createDate");
-        UserStore us = new UserStore();
-        us.add(parametrName, parametrLogin, parametrEmail, parametrCreateDate);
-        doGet(req, resp);
+
+        users.add(parametrName, parametrLogin, parametrEmail, parametrCreateDate);
     }
 
     /**
@@ -63,12 +62,15 @@ public class UsersServlet extends HttpServlet {
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
-        String parametrName = req.getParameter("name");
-        String parametrLogin = req.getParameter("login");
-        String parametrEmail = req.getParameter("email");
-        String parametrCreateDate = req.getParameter("createDate");
+        String parametrId = req.getParameter("id");
+        int id = Integer.parseInt(parametrId);
+        String parametrNewName = req.getParameter("name");
 
-        doGet(req, resp);
+        users.updateNameById(id, parametrNewName);
+
+        PrintWriter writer = new PrintWriter(resp.getOutputStream());
+        writer.append("users : " + users.selectById(id));
+        writer.flush();
     }
 
     /**
@@ -80,7 +82,11 @@ public class UsersServlet extends HttpServlet {
      */
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doDelete(req, resp);
+        resp.setContentType("text/html");
+        String parametrId = req.getParameter("id");
+        int id = Integer.parseInt(parametrId);
+
+        users.deleteById(id);
     }
 }
 

@@ -4,25 +4,29 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 public class UserStore {
-
-    private static final Logger Log = LoggerFactory.getLogger(UserStore.class);
 
     String url = "jdbc:postgresql://localhost:5432/java_a_from_z";
     String username = "postgres";
     String password = "root";
     Connection conn = null;
 
+    private static final Logger Log = LoggerFactory.getLogger(UserStore.class);
+
+    private static final UserStore instance = new UserStore();
+
+    public static UserStore getInstance() {
+        return instance;
+    }
+
     public String selectById(int id) {
 
         StringBuilder sb = new StringBuilder();
 
         try {
-            Class.forName("com.example.jdbc.Driver");
+            Class.forName("org.postgresql.Driver");
             conn = DriverManager.getConnection(url, username, password);
             PreparedStatement st = conn.prepareStatement(
                     "SELECT * FROM usersServlet as us where us.id = ?"
@@ -55,32 +59,33 @@ public class UserStore {
         return sb.toString();
     }
 
-    public int add(String name, String login, String email, String create_date) {
+    public void add(String name, String login, String email, String create_date) {
 
         try {
-            Class.forName("com.example.jdbc.Driver");
+            Class.forName("org.postgresql.Driver");
             conn = DriverManager.getConnection(url, username, password);
             PreparedStatement st = conn.prepareStatement(
                     "insert into usersServlet(name, login, email, create_date)" +
-                            "values(?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS
+                            "values(?, ?, ?, ?)"/*, Statement.RETURN_GENERATED_KEYS*/
             );
 
             st.setString(1, name);
             st.setString(2, login);
             st.setString(3, email);
-            Timestamp ts = convertStringToTimestamp(create_date);
+
+            Timestamp ts;
+            ts = convertStringToTimestamp(create_date);
             if (ts != null) {
                 st.setTimestamp(4, ts);
             } else {
                 st.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
             }
 
-            //st.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
             st.executeUpdate();
-            ResultSet rs = st.getGeneratedKeys();
+            /*ResultSet rs = st.getGeneratedKeys();
             if (rs.next()) {
                 return rs.getInt("id");
-            }
+            }*/
         } catch (Exception e) {
             Log.error(e.getMessage(), e);
         } finally {
@@ -92,12 +97,12 @@ public class UserStore {
                 }
             }
         }
-        return -1;
     }
 
     public int updateNameById(int id, String name) {
 
         try {
+            Class.forName("org.postgresql.Driver");
             conn = DriverManager.getConnection(url, username, password);
             PreparedStatement st = conn.prepareStatement(
                     "update usersServlet set name = ? where id = ?"
@@ -120,9 +125,10 @@ public class UserStore {
         return 0;
     }
 
-    public int deleteById(int id) {
+    public void deleteById(int id) {
 
         try {
+            Class.forName("org.postgresql.Driver");
             conn = DriverManager.getConnection(url, username, password);
             PreparedStatement st = conn.prepareStatement(
                     "delete FROM usersServlet where id = ?"
@@ -141,21 +147,18 @@ public class UserStore {
                 }
             }
         }
-        return 0;
     }
 
     public static Timestamp convertStringToTimestamp(String str_date) {
+        Timestamp timestamp = null;
         try {
-            DateFormat formatter;
-            formatter = new SimpleDateFormat("dd/MM/yyyy");
-            Date date = (Date) formatter.parse(str_date);
-            java.sql.Timestamp timeStampDate = new Timestamp(date.getTime());
-
-            return timeStampDate;
-        } catch (ParseException e) {
-            System.out.println("Exception :" + e);
-            return null;
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            java.util.Date parsedDate = dateFormat.parse(str_date);
+            timestamp = new java.sql.Timestamp(parsedDate.getTime());
+        } catch(Exception e) {
+            Log.error(e.getMessage(), e);
         }
+        return timestamp;
     }
 
 }

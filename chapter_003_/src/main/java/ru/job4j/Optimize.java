@@ -4,10 +4,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.parsers.*;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
@@ -15,23 +18,30 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import java.io.File;
 import java.sql.*;
+import java.util.List;
 
+/**
+ * @author  Sergey Mikhailov
+ * @since   1.0
+ */
 public class Optimize {
 
-    private static final Logger Log = LoggerFactory.getLogger(SQL_Storage.class);
+    private static final Logger Log = LoggerFactory.getLogger(Optimize.class);
 
     private String url;
     private String username;
     private String password;
-    private int N;
+    private int size;
+
+    private Connection conn;
 
     private int sumOfValuesFields = 0;
 
-    public Optimize(String url, String username, String password, int n) {
+    public Optimize(String url, String username, String password, int size) {
         this.url = url;
         this.username = username;
         this.password = password;
-        N = n;
+        this.size = size;
     }
 
     public void setUrl(String url) {
@@ -46,63 +56,107 @@ public class Optimize {
         this.password = password;
     }
 
-    public void setN(int n) {
-        N = n;
+    public void setSize(int size) {
+        this.size = size;
     }
 
+    /**
+     * Подключение к базе данных <code>url</code> используя
+     * логин <code>username</code> и пароль <code>password</code>
+     * @return объект класса Connection - сеанс работы с БД
+     * @throws SQLException
+     */
+    private Connection getConn() throws SQLException {
+        Connection result;
+
+        if (conn != null) {
+            result = conn;
+        } else {
+            result = DriverManager.getConnection(url, username, password);
+        }
+
+        return result;
+    }
+
+    /**
+     * Создается новая таблица TEST с колонкой <code>field</code> типа integer
+     */
     public void createTable() {
-        Connection conn = null;
+
         try {
-            conn = DriverManager.getConnection(url, username, password);
-            Statement st = conn.createStatement();
+            conn = getConn();
+            conn.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.error(e.getMessage(), e);
+        }
+        try (Statement st = conn.createStatement()) {
             st.execute("create table if NOT EXISTS TEST(FIELD integer);");
+            conn.commit();
         } catch (Exception e) {
             Log.error(e.getMessage(), e);
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (Exception e) {
-                    Log.error(e.getMessage(), e);
-                }
+            try {
+                conn.rollback();
+            } catch (SQLException e1) {
+                Log.error(e1.getMessage(), e1);
             }
         }
     }
 
+    /**
+     * Вводятся новые последовательные записи в таблицу TEST в колонку <code>field</code>
+     * с 1 по <code>size</code>
+     */
     public void enterRecordsInTable() {
-        Connection conn = null;
         try {
-            conn = DriverManager.getConnection(url, username, password);
-            PreparedStatement st = conn.prepareStatement("insert into TEST(field) values(?)");
-            for (int i = 1; i <= N; i++) {
+            conn = getConn();
+            conn.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.error(e.getMessage(), e);
+        }
+        try (PreparedStatement st = conn.prepareStatement("insert into TEST(field) values(?)")) {
+
+            for (int i = 1; i <= size; i++) {
                 st.setInt(1, i);
                 st.executeUpdate();
             }
 
+            conn.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void deleteRecordsInTable() {
-        Connection conn = null;
-        try {
-            conn = DriverManager.getConnection(url, username, password);
-            Statement st = conn.createStatement();
-            st.execute("TRUNCATE TEST;");
-        } catch (Exception e) {
             Log.error(e.getMessage(), e);
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (Exception e) {
-                    Log.error(e.getMessage(), e);
-                }
+            try {
+                conn.rollback();
+            } catch (SQLException e1) {
+                Log.error(e1.getMessage(), e1);
             }
         }
     }
 
+    /**
+     * Очистка всех строк в таблице TEST
+     */
+    public void deleteRecordsInTable() {
+        try {
+            conn = getConn();
+            conn.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.error(e.getMessage(), e);
+        }
+        try (Statement st = conn.createStatement()) {
+            st.execute("TRUNCATE TEST;");
+            conn.commit();
+        } catch (Exception e) {
+            Log.error(e.getMessage(), e);
+            try {
+                conn.rollback();
+            } catch (SQLException e1) {
+                Log.error(e1.getMessage(), e1);
+            }
+        }
+    }
+
+    /**
+     * Создание файла <code>1.xml</code> с заданной структурой
+     */
     public void createXML() {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder documentBuilder = null;
@@ -115,7 +169,7 @@ public class Optimize {
             Element root = doc.createElement("entries");
             doc.appendChild(root);
 
-            for (int i = 0; i < N; i++) {
+            for (int i = 0; i < size; i++) {
                 Element node1 = doc.createElement("entry");
                 root.appendChild(node1);
 
@@ -139,12 +193,18 @@ public class Optimize {
         }
     }
 
+    /**
+     * Вывод всех значений колонки <code>field</code> таблицы TEST в консоль
+     */
     public void outRecordsFromTable() {
-        Connection conn = null;
         try {
-            conn = DriverManager.getConnection(url, username, password);
-            PreparedStatement st = conn.prepareStatement("select t.field from TEST as t");
-            ResultSet rs = st.executeQuery();
+            conn = getConn();
+        } catch (SQLException e) {
+            Log.error(e.getMessage(), e);
+        }
+        try (PreparedStatement st = conn.prepareStatement("select t.field from TEST as t");
+             ResultSet rs = st.executeQuery()) {
+
             while (rs.next()) {
                 System.out.println(rs.getInt("field"));
             }
@@ -153,6 +213,10 @@ public class Optimize {
         }
     }
 
+    /**
+     * Создание файла <code>1.xml</code> с заданной структурой и
+     * запись в него значений из таблицы TEST
+     */
     public void enterRecordsInXML() {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder documentBuilder = null;
@@ -165,11 +229,15 @@ public class Optimize {
             Element root = doc.createElement("entries");
             doc.appendChild(root);
 
-            Connection conn = null;
             try {
-                conn = DriverManager.getConnection(url, username, password);
-                PreparedStatement st = conn.prepareStatement("select t.field from TEST as t");
-                ResultSet rs = st.executeQuery();
+                conn = getConn();
+                conn.setAutoCommit(false);
+            } catch (SQLException e) {
+                Log.error(e.getMessage(), e);
+            }
+            try (PreparedStatement st = conn.prepareStatement("select t.field from TEST as t");
+                 ResultSet rs = st.executeQuery()) {
+
                 while (rs.next()) {
 
                     Element node1 = doc.createElement("entry");
@@ -181,8 +249,15 @@ public class Optimize {
 
 
                 }
+
+                conn.commit();
             } catch (SQLException e) {
-                e.printStackTrace();
+                Log.error(e.getMessage(), e);
+                try {
+                    conn.rollback();
+                } catch (SQLException e1) {
+                    Log.error(e1.getMessage(), e1);
+                }
             }
 
             File file = new File("1.xml");
@@ -200,6 +275,11 @@ public class Optimize {
         }
     }
 
+    /**
+     * Преобразование содержимого файла <code>1.xml</code> к структуре заданного
+     * типа в файл <code>2.xml</code>. Преобразование выполняется посредством XSLT,
+     * структура нового файла определена в файле <code>1.xsl</code>
+     */
     public void modernXML() {
         try {
             File xmlfile = new File("1.xml");
@@ -216,27 +296,30 @@ public class Optimize {
         }
     }
 
+    /**
+     * Парсинг файла <code>2.xml</code>, подсчет суммы всех атрибутов
+     * <code>field</code> и вывод в консоль
+     */
     public void parsingXML() {
 
         try {
-            SAXParserFactory factory = SAXParserFactory.newInstance();
-            SAXParser saxParser = factory.newSAXParser();
+            File file = new File("2.xml");
+            JAXBContext jaxbContext = JAXBContext.newInstance(Entries.class);
 
-            DefaultHandler handler = new DefaultHandler() {
+            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+            Entries entries = (Entries) jaxbUnmarshaller.unmarshal(file);
 
-                public void startElement(String uri, String localName,
-                                         String qName, Attributes attributes) throws SAXException {
-                    if ("entry".equalsIgnoreCase(qName)) {
-                        if ("field".equals(attributes.getLocalName(0))) {
-                            sumOfValuesFields += Integer.parseInt(attributes.getValue(0));
-                        }
-                    }
-                }
-            };
+            System.out.println("Field ");
 
-            saxParser.parse(new File("2.xml"), handler);
+            List<Entry> entryList = entries.getEntry();
+
+            for (Entry entry : entryList) {
+                sumOfValuesFields += entry.getField();
+            }
+
             System.out.println(sumOfValuesFields);
-        } catch (Throwable e) {
+
+        } catch (JAXBException e) {
             e.printStackTrace();
         }
 
@@ -260,5 +343,34 @@ public class Optimize {
         optimize.modernXML();
 
         optimize.parsingXML();
+    }
+}
+
+@XmlRootElement
+class Entries {
+
+    List<Entry> entryList;
+
+    @XmlElement
+    public List<Entry> getEntry() {
+        return entryList;
+    }
+
+    public void setEntry(List<Entry> entriesList) {
+        this.entryList = entriesList;
+    }
+
+}
+
+class Entry {
+    private int field;
+
+    @XmlAttribute
+    public int getField() {
+        return field;
+    }
+
+    public void setField(int field) {
+        this.field = field;
     }
 }

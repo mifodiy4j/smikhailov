@@ -9,7 +9,7 @@ public class OptimizeTest {
 
     @Test
     public void testCreateTable() {
-        Optimize optimize = new Optimize("jdbc:postgresql://localhost:5432/SQLite", "postgres", "root", 10);
+        Optimize optimize = new Optimize("jdbc:postgresql://localhost:5432/SQLite", "postgres", "postgres", 10);
         optimize.createTable();
     }
 

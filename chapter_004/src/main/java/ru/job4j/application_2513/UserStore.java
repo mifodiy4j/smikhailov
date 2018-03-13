@@ -3,23 +3,20 @@ package ru.job4j.application_2513;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Date;
+
 
 public class UserStore {
 
-    private InitialContext ic;
-    private DataSource ds;
-
-    Connection conn = null;
+    Connection conn;
 
     private static final Logger Log = LoggerFactory.getLogger(UserStore.class);
+
 
     /**
      * Подключение к базе данных <code>url</code> используя
@@ -27,11 +24,13 @@ public class UserStore {
      * @return объект класса Connection - сеанс работы с БД
      * @throws SQLException
      */
-    private Connection getConn() throws SQLException, NamingException {
+    private static Connection getConn() throws SQLException {
 
-        ic = new InitialContext();
-        ds = (DataSource) ic.lookup("java:/comp/env/jdbc/usersServlet");
-        return ds.getConnection();
+        Connection result = null;
+
+            result = DataSource.getInstance().getBds().getConnection();
+
+        return result;
     }
 
     /**
@@ -43,12 +42,17 @@ public class UserStore {
 
         User user = new User();
 
+        /*try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }*/
+
         try {
             conn = getConn();
+            conn.setAutoCommit(false);
         } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (NamingException e) {
-            e.printStackTrace();
+            Log.error(e.getMessage(), e);
         }
 
         try (PreparedStatement st = conn.prepareStatement(
@@ -66,8 +70,14 @@ public class UserStore {
             }
 
             st.executeUpdate();
+            conn.commit();
         } catch (Exception e) {
             Log.error(e.getMessage(), e);
+            try {
+                conn.rollback();
+            } catch (SQLException e1) {
+                Log.error(e1.getMessage(), e1);
+            }
         }
         return user;
     }
@@ -83,11 +93,16 @@ public class UserStore {
     public void add(String name, String login, String email, String create_date) {
 
         try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        try {
             conn = getConn();
+            conn.setAutoCommit(false);
         } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (NamingException e) {
-            e.printStackTrace();
+            Log.error(e.getMessage(), e);
         }
 
         try (PreparedStatement st = conn.prepareStatement(
@@ -109,9 +124,18 @@ public class UserStore {
             }
 
             st.executeUpdate();
-
+            conn.commit();
+            /*ResultSet rs = st.getGeneratedKeys();
+            if (rs.next()) {
+                return rs.getInt("id");
+            }*/
         } catch (Exception e) {
             Log.error(e.getMessage(), e);
+            try {
+                conn.rollback();
+            } catch (SQLException e1) {
+                Log.error(e1.getMessage(), e1);
+            }
         }
     }
 
@@ -131,10 +155,9 @@ public class UserStore {
 
         try {
             conn = getConn();
+            conn.setAutoCommit(false);
         } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (NamingException e) {
-            e.printStackTrace();
+            Log.error(e.getMessage(), e);
         }
 
         try (PreparedStatement st = conn.prepareStatement(
@@ -146,8 +169,14 @@ public class UserStore {
             st.setInt(2, id);
             st.executeUpdate();
 
+            conn.commit();
         } catch (Exception e) {
             Log.error(e.getMessage(), e);
+            try {
+                conn.rollback();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
         }
         return selectById(id);
     }
@@ -166,10 +195,9 @@ public class UserStore {
 
         try {
             conn = getConn();
+            conn.setAutoCommit(false);
         } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (NamingException e) {
-            e.printStackTrace();
+            Log.error(e.getMessage(), e);
         }
 
         try (PreparedStatement st = conn.prepareStatement(
@@ -178,9 +206,15 @@ public class UserStore {
         ){
             st.setInt(1, id);
             st.executeUpdate();
+            conn.commit();
 
         } catch (Exception e) {
             Log.error(e.getMessage(), e);
+            try {
+                conn.rollback();
+            } catch (SQLException e1) {
+                Log.error(e1.getMessage(), e1);
+            }
         }
     }
 
@@ -192,12 +226,17 @@ public class UserStore {
 
         List<Integer> listId = new ArrayList<>();
 
+        /*try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }*/
+
         try {
             conn = getConn();
+            conn.setAutoCommit(false);
         } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (NamingException e) {
-            e.printStackTrace();
+            Log.error(e.getMessage(), e);
         }
 
         try (PreparedStatement st = conn.prepareStatement(
@@ -211,8 +250,14 @@ public class UserStore {
             }
 
             st.executeUpdate();
+            conn.commit();
         } catch (Exception e) {
             Log.error(e.getMessage(), e);
+            try {
+                conn.rollback();
+            } catch (SQLException e1) {
+                Log.error(e1.getMessage(), e1);
+            }
         }
         return listId;
     }

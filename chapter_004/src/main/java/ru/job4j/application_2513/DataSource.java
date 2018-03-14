@@ -1,6 +1,9 @@
 package ru.job4j.application_2513;
 
-import org.apache.commons.dbcp.BasicDataSource;
+import org.apache.commons.dbcp2.BasicDataSource;
+
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class DataSource {
 
@@ -28,5 +31,14 @@ public class DataSource {
 
     public BasicDataSource getBds() {
         return bds;
+    }
+
+    public Connection getConnection() {
+        try {
+            return bds.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

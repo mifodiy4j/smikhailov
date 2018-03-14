@@ -10,28 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
 
-
 public class UserStore {
 
-    Connection conn;
-
     private static final Logger Log = LoggerFactory.getLogger(UserStore.class);
-
-
-    /**
-     * Подключение к базе данных <code>url</code> используя
-     * логин <code>username</code> и пароль <code>password</code>
-     * @return объект класса Connection - сеанс работы с БД
-     * @throws SQLException
-     */
-    private static Connection getConn() throws SQLException {
-
-        Connection result = null;
-
-            result = DataSource.getInstance().getBds().getConnection();
-
-        return result;
-    }
 
     /**
      * Метод возвращает объект класса <code>User</code> по заданному <code>id</code>
@@ -42,14 +23,9 @@ public class UserStore {
 
         User user = new User();
 
-        /*try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }*/
-
+        Connection conn = null;
         try {
-            conn = getConn();
+            conn = DataSource.getInstance().getBds().getConnection();
             conn.setAutoCommit(false);
         } catch (SQLException e) {
             Log.error(e.getMessage(), e);
@@ -60,13 +36,16 @@ public class UserStore {
             ) {
 
             st.setInt(1, id);
-            ResultSet rs = st.executeQuery();
+            try (ResultSet rs = st.executeQuery()) {
 
-            while (rs.next()) {
-                user.setName(rs.getString("name"));
-                user.setLogin(rs.getString("login"));
-                user.setEmail(rs.getString("email"));
-                user.setCreateDate(rs.getString("create_date"));
+                while (rs.next()) {
+                    user.setName(rs.getString("name"));
+                    user.setLogin(rs.getString("login"));
+                    user.setEmail(rs.getString("email"));
+                    user.setCreateDate(rs.getString("create_date"));
+                }
+            } catch (Exception e) {
+                Log.error(e.getMessage(), e);
             }
 
             st.executeUpdate();
@@ -90,16 +69,12 @@ public class UserStore {
      * @param create_date дата создания в формате dd/MM/yyyy. Если указано неверно или
      *                    <code>null</code> то текущая дата
      */
+
     public void add(String name, String login, String email, String create_date) {
 
+        Connection conn = null;
         try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            conn = getConn();
+            conn = DataSource.getInstance().getBds().getConnection();
             conn.setAutoCommit(false);
         } catch (SQLException e) {
             Log.error(e.getMessage(), e);
@@ -107,7 +82,7 @@ public class UserStore {
 
         try (PreparedStatement st = conn.prepareStatement(
                 "insert into usersServlet(name, login, email, create_date)" +
-                        "values(?, ?, ?, ?)"/*, Statement.RETURN_GENERATED_KEYS*/
+                        "values(?, ?, ?, ?)"//, Statement.RETURN_GENERATED_KEYS
                 )
             ){
 
@@ -145,16 +120,12 @@ public class UserStore {
      * @param name новое имя пользователя
      * @return объект класса <code>User</code> с заданным id после имзменения
      */
+
     public User updateNameById(int id, String name) {
 
+        Connection conn = null;
         try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            conn = getConn();
+            conn = DataSource.getInstance().getBds().getConnection();
             conn.setAutoCommit(false);
         } catch (SQLException e) {
             Log.error(e.getMessage(), e);
@@ -185,16 +156,12 @@ public class UserStore {
      * Удаляет запись в БД по заданному <code>id</code>
      * @param id записи для удаления
      */
+
     public void deleteById(int id) {
 
+        Connection conn = null;
         try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            conn = getConn();
+            conn = DataSource.getInstance().getBds().getConnection();
             conn.setAutoCommit(false);
         } catch (SQLException e) {
             Log.error(e.getMessage(), e);
@@ -226,20 +193,16 @@ public class UserStore {
 
         List<Integer> listId = new ArrayList<>();
 
-        /*try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }*/
-
+        Connection conn = null;
         try {
-            conn = getConn();
+            conn = DataSource.getInstance().getBds().getConnection();
             conn.setAutoCommit(false);
         } catch (SQLException e) {
             Log.error(e.getMessage(), e);
         }
 
         try (PreparedStatement st = conn.prepareStatement(
+        //try (PreparedStatement st = conn.prepareStatement(
                 "SELECT id FROM usersServlet")
         ) {
 

@@ -2,9 +2,6 @@ package ru.job4j.application_2513;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-
 public class DataSource {
 
     private static final String DRIVER_CLASS_NAME = "org.postgresql.Driver";
@@ -21,6 +18,9 @@ public class DataSource {
         bds.setUsername(username);
         bds.setPassword(password);
         bds.setInitialSize(CONN_POOL_SIZE);
+        bds.setMaxTotal(100);
+        bds.setMaxWaitMillis(10000);
+        bds.setMaxIdle(10);
     }
 
     private static final DataSource instance = new DataSource();
@@ -33,12 +33,4 @@ public class DataSource {
         return bds;
     }
 
-    public Connection getConnection() {
-        try {
-            return bds.getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 }

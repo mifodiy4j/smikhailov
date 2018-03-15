@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 public class UsersServlet extends HttpServlet {
 
@@ -28,6 +29,9 @@ public class UsersServlet extends HttpServlet {
         resp.setContentType("text/html");
         PrintWriter writer = new PrintWriter(resp.getOutputStream());
 
+        User user;
+        List<Integer> listId = this.users.getListId();
+
         StringBuilder sb = new StringBuilder("<table border='1'>");
         sb.append("<tr>" +
                 "<th>" + "ID" + "</th>" +
@@ -37,8 +41,8 @@ public class UsersServlet extends HttpServlet {
                 "<th>" + "Create Date" + "</th>" +
                 "</tr>");
 
-        for (int id : this.users.getListId()) {
-            User user = this.users.selectById(id);
+        for (int id : listId) {
+            user = this.users.selectById(id);
             sb.append("<tr>" +
                     "<td>" + id + "</td>" +
                     "<td>" + user.getName() + "</td>" +

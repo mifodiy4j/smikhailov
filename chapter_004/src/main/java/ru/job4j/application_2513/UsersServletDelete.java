@@ -13,8 +13,6 @@ public class UsersServletDelete extends HttpServlet {
 
     private static final Logger Log = LoggerFactory.getLogger(UsersServletDelete.class);
 
-    //private final UserStore users = UserStore.getInstance();
-
     private final UserStore users = new UserStore();
 
     /**

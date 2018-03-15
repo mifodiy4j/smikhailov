@@ -13,8 +13,6 @@ public class UsersServletEdit extends HttpServlet {
 
     private static final Logger Log = LoggerFactory.getLogger(UsersServletEdit.class);
 
-    //private final UserStore users = UserStore.getInstance();
-
     private final UserStore users = new UserStore();
 
     /**

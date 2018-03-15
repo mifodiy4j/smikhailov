@@ -16,6 +16,7 @@ public class UserStore {
 
     /**
      * Метод возвращает объект класса <code>User</code> по заданному <code>id</code>
+     *
      * @param id искомой записи в БД
      * @return объект класса <code>User</code> с заданным <code>id</code>
      */
@@ -31,12 +32,13 @@ public class UserStore {
             Log.error(e.getMessage(), e);
         }
 
-        try (PreparedStatement st = conn.prepareStatement(
-                "SELECT * FROM usersServlet as us where us.id = ?")
-            ) {
+        try (PreparedStatement st = conn.prepareStatement("SELECT * FROM usersServlet as us where us.id = ?");
+        ) {
 
             st.setInt(1, id);
-            try (ResultSet rs = st.executeQuery()) {
+
+            try (ResultSet rs = st.executeQuery()
+            ) {
 
                 while (rs.next()) {
                     user.setName(rs.getString("name"));
@@ -44,13 +46,10 @@ public class UserStore {
                     user.setEmail(rs.getString("email"));
                     user.setCreateDate(rs.getString("create_date"));
                 }
-            } catch (Exception e) {
-                Log.error(e.getMessage(), e);
             }
 
-            st.executeUpdate();
             conn.commit();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             Log.error(e.getMessage(), e);
             try {
                 conn.rollback();
@@ -63,14 +62,16 @@ public class UserStore {
 
     /**
      * Метод добавляет новую запись в БД
-     * @param name - имя пользователя
-     * @param login - login пользователя
-     * @param email - email пользователя
+     *
+     * @param name        - имя пользователя
+     * @param login       - login пользователя
+     * @param email       - email пользователя
      * @param create_date дата создания в формате dd/MM/yyyy. Если указано неверно или
      *                    <code>null</code> то текущая дата
+     * @return <code>id</code> новой добавленной записи
      */
 
-    public void add(String name, String login, String email, String create_date) {
+    public int add(String name, String login, String email, String create_date) {
 
         Connection conn = null;
         try {
@@ -82,9 +83,9 @@ public class UserStore {
 
         try (PreparedStatement st = conn.prepareStatement(
                 "insert into usersServlet(name, login, email, create_date)" +
-                        "values(?, ?, ?, ?)"//, Statement.RETURN_GENERATED_KEYS
-                )
-            ){
+                        "values(?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS
+        )
+        ) {
 
             st.setString(1, name);
             st.setString(2, login);
@@ -99,11 +100,14 @@ public class UserStore {
             }
 
             st.executeUpdate();
+
             conn.commit();
-            /*ResultSet rs = st.getGeneratedKeys();
+
+            ResultSet rs = st.getGeneratedKeys();
             if (rs.next()) {
                 return rs.getInt("id");
-            }*/
+            }
+
         } catch (Exception e) {
             Log.error(e.getMessage(), e);
             try {
@@ -112,11 +116,13 @@ public class UserStore {
                 Log.error(e1.getMessage(), e1);
             }
         }
+        return 0;
     }
 
     /**
      * Присваимвает пользователю с <code>id</code> имя <code>name</code>.
-     * @param id пользователя, имя которого необходимо поменять
+     *
+     * @param id   пользователя, имя которого необходимо поменять
      * @param name новое имя пользователя
      * @return объект класса <code>User</code> с заданным id после имзменения
      */
@@ -133,7 +139,7 @@ public class UserStore {
 
         try (PreparedStatement st = conn.prepareStatement(
                 "update usersServlet set name = ? where id = ?"
-                )
+        )
         ) {
 
             st.setString(1, name);
@@ -154,6 +160,7 @@ public class UserStore {
 
     /**
      * Удаляет запись в БД по заданному <code>id</code>
+     *
      * @param id записи для удаления
      */
 
@@ -169,8 +176,8 @@ public class UserStore {
 
         try (PreparedStatement st = conn.prepareStatement(
                 "delete FROM usersServlet where id = ?"
-                )
-        ){
+        )
+        ) {
             st.setInt(1, id);
             st.executeUpdate();
             conn.commit();
@@ -187,6 +194,7 @@ public class UserStore {
 
     /**
      * Возвращает список всех <code>id</code> пользователей в БД
+     *
      * @return <code>List<Integer></code>
      */
     public List<Integer> getListId() {
@@ -202,17 +210,14 @@ public class UserStore {
         }
 
         try (PreparedStatement st = conn.prepareStatement(
-        //try (PreparedStatement st = conn.prepareStatement(
-                "SELECT id FROM usersServlet")
+                "SELECT id FROM usersServlet");
+             ResultSet rs = st.executeQuery()
         ) {
 
-            ResultSet rs = st.executeQuery();
+                while (rs.next()) {
+                    listId.add(Integer.parseInt(rs.getString("id")));
+                }
 
-            while (rs.next()) {
-                listId.add(Integer.parseInt(rs.getString("id")));
-            }
-
-            st.executeUpdate();
             conn.commit();
         } catch (Exception e) {
             Log.error(e.getMessage(), e);
@@ -228,6 +233,7 @@ public class UserStore {
     /**
      * Преобразует запись даты из формата <code>String</code>
      * в формат <code>Timestamp</code>
+     *
      * @param str_date
      * @return объект класса Timestamp
      */
@@ -238,7 +244,7 @@ public class UserStore {
             formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date date = (Date) formatter.parse(str_date);
             timestamp = new Timestamp(date.getTime());
-        } catch(Exception e) {
+        } catch (Exception e) {
             Log.error(e.getMessage(), e);
         }
         return timestamp;

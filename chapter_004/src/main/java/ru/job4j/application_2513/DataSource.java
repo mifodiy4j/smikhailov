@@ -7,7 +7,7 @@ public class DataSource {
     private static final String DRIVER_CLASS_NAME = "org.postgresql.Driver";
     private static final String url = "jdbc:postgresql://localhost:5432/java_a_from_z";
     private static final String username = "postgres";
-    private static final String password = "root";
+    private static final String password = "postgres";
     private static final int CONN_POOL_SIZE = 5;
 
     private BasicDataSource bds = new BasicDataSource();

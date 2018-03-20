@@ -33,6 +33,6 @@ public class UsersServletAdd extends HttpServlet {
         users.add(parametrName, parametrLogin, parametrEmail, parametrCreateDate);
 
         //resp.sendRedirect(req.getContextPath()+"/user");
-        resp.sendRedirect(String.format("%s/user/index.jsp",req.getContextPath()));
+        resp.sendRedirect(String.format("%s/user/",req.getContextPath()));
     }
 }

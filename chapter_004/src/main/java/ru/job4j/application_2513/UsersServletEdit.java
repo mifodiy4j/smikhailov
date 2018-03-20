@@ -32,6 +32,6 @@ public class UsersServletEdit extends HttpServlet {
         users.updateNameById(id, parametrNewName);
 
         //resp.sendRedirect(req.getContextPath()+"/user");
-        resp.sendRedirect(String.format("%s/user/index.jsp",req.getContextPath()));
+        resp.sendRedirect(String.format("%s/user/",req.getContextPath()));
     }
 }

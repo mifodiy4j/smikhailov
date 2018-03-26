@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class UserControllerServlet extends HttpServlet {
+public class UserControllerServletForAdmin extends HttpServlet {
 
-    private static final Logger Log = LoggerFactory.getLogger(UserControllerServlet.class);
+    private static final Logger Log = LoggerFactory.getLogger(UserControllerServletForAdmin.class);
 
     /**
      * Получает данные о пользователе

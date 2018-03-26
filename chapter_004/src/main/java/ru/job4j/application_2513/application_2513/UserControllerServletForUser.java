@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class UserControllerServlet extends HttpServlet {
+public class UserControllerServletForUser extends HttpServlet {
 
-    private static final Logger Log = LoggerFactory.getLogger(UserControllerServlet.class);
+    private static final Logger Log = LoggerFactory.getLogger(UserControllerServletForUser.class);
 
     /**
      * Получает данные о пользователе
@@ -25,6 +25,6 @@ public class UserControllerServlet extends HttpServlet {
         req.setAttribute("users", new UserStore());
         req.setAttribute("listId", new UserStore().getListId());
 
-        req.getRequestDispatcher("/WEB-INF/views/UserViewForAdmin.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/views/UserViewForUser.jsp").forward(req, resp);
     }
 }

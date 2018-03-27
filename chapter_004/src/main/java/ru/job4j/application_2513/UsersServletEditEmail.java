@@ -32,6 +32,6 @@ public class UsersServletEditEmail extends HttpServlet {
         users.updateEmailById(id, parametrNewEmail);
 
         //resp.sendRedirect(req.getContextPath()+"/user");
-        resp.sendRedirect(String.format("%s/user/",req.getContextPath()));
+        resp.sendRedirect(String.format("%s/user/role",req.getContextPath()));
     }
 }

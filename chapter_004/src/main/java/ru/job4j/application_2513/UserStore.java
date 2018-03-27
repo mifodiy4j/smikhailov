@@ -32,7 +32,7 @@ public class UserStore {
 
         Connection conn = null;
         try {
-            conn = DataSource.getInstance().getBds().getConnection();
+            conn = DataSource.getInstance().getConnection();
             conn.setAutoCommit(false);
         } catch (SQLException e) {
             Log.error(e.getMessage(), e);
@@ -57,7 +57,7 @@ public class UserStore {
             }
 
             conn.commit();
-            conn.close();
+            DataSource.getInstance().close();
         } catch (SQLException e) {
             Log.error(e.getMessage(), e);
             try {
@@ -84,7 +84,7 @@ public class UserStore {
 
         Connection conn = null;
         try {
-            conn = DataSource.getInstance().getBds().getConnection();
+            conn = DataSource.getInstance().getConnection();
             conn.setAutoCommit(false);
         } catch (SQLException e) {
             Log.error(e.getMessage(), e);
@@ -117,6 +117,8 @@ public class UserStore {
                 return rs.getInt("id");
             }
 
+            DataSource.getInstance().close();
+
         } catch (Exception e) {
             Log.error(e.getMessage(), e);
             try {
@@ -140,7 +142,7 @@ public class UserStore {
 
         Connection conn = null;
         try {
-            conn = DataSource.getInstance().getBds().getConnection();
+            conn = DataSource.getInstance().getConnection();
             conn.setAutoCommit(false);
         } catch (SQLException e) {
             Log.error(e.getMessage(), e);
@@ -156,6 +158,7 @@ public class UserStore {
             st.executeUpdate();
 
             conn.commit();
+            DataSource.getInstance().close();
         } catch (Exception e) {
             Log.error(e.getMessage(), e);
             try {
@@ -171,7 +174,7 @@ public class UserStore {
 
         Connection conn = null;
         try {
-            conn = DataSource.getInstance().getBds().getConnection();
+            conn = DataSource.getInstance().getConnection();
             conn.setAutoCommit(false);
         } catch (SQLException e) {
             Log.error(e.getMessage(), e);
@@ -187,7 +190,7 @@ public class UserStore {
             st.executeUpdate();
 
             conn.commit();
-            conn.close();
+            DataSource.getInstance().close();
         } catch (Exception e) {
             Log.error(e.getMessage(), e);
             try {
@@ -203,7 +206,7 @@ public class UserStore {
 
         Connection conn = null;
         try {
-            conn = DataSource.getInstance().getBds().getConnection();
+            conn = DataSource.getInstance().getConnection();
             conn.setAutoCommit(false);
         } catch (SQLException e) {
             Log.error(e.getMessage(), e);
@@ -219,7 +222,7 @@ public class UserStore {
             st.executeUpdate();
 
             conn.commit();
-            conn.close();
+            DataSource.getInstance().close();
         } catch (Exception e) {
             Log.error(e.getMessage(), e);
             try {
@@ -241,7 +244,7 @@ public class UserStore {
 
         Connection conn = null;
         try {
-            conn = DataSource.getInstance().getBds().getConnection();
+            conn = DataSource.getInstance().getConnection();
             conn.setAutoCommit(false);
         } catch (SQLException e) {
             Log.error(e.getMessage(), e);
@@ -254,6 +257,7 @@ public class UserStore {
             st.setInt(1, id);
             st.executeUpdate();
             conn.commit();
+            DataSource.getInstance().close();
 
         } catch (Exception e) {
             Log.error(e.getMessage(), e);
@@ -276,7 +280,7 @@ public class UserStore {
 
         Connection conn = null;
         try {
-            conn = DataSource.getInstance().getBds().getConnection();
+            conn = DataSource.getInstance().getConnection();
             conn.setAutoCommit(false);
         } catch (SQLException e) {
             Log.error(e.getMessage(), e);
@@ -292,6 +296,7 @@ public class UserStore {
                 }
 
             conn.commit();
+            DataSource.getInstance().close();
         } catch (Exception e) {
             Log.error(e.getMessage(), e);
             try {
@@ -329,7 +334,7 @@ public class UserStore {
 
         Connection conn = null;
         try {
-            conn = DataSource.getInstance().getBds().getConnection();
+            conn = DataSource.getInstance().getConnection();
             conn.setAutoCommit(false);
         } catch (SQLException e) {
             Log.error(e.getMessage(), e);
@@ -349,6 +354,7 @@ public class UserStore {
             }
 
             conn.commit();
+            DataSource.getInstance().close();
         } catch (SQLException e) {
             Log.error(e.getMessage(), e);
             try {
@@ -371,7 +377,7 @@ public class UserStore {
 
         Connection conn = null;
         try {
-            conn = DataSource.getInstance().getBds().getConnection();
+            conn = DataSource.getInstance().getConnection();
             conn.setAutoCommit(false);
         } catch (SQLException e) {
             Log.error(e.getMessage(), e);
@@ -391,7 +397,7 @@ public class UserStore {
             }
 
             conn.commit();
-            conn.close();
+            DataSource.getInstance().close();
         } catch (SQLException e) {
             Log.error(e.getMessage(), e);
             try {
@@ -410,7 +416,7 @@ public class UserStore {
 
             Connection conn = null;
             try {
-                conn = DataSource.getInstance().getBds().getConnection();
+                conn = DataSource.getInstance().getConnection();
                 conn.setAutoCommit(false);
             } catch (SQLException e) {
                 Log.error(e.getMessage(), e);
@@ -430,7 +436,7 @@ public class UserStore {
                 }
 
                 conn.commit();
-                conn.close();
+                DataSource.getInstance().close();
             } catch (SQLException e) {
                 Log.error(e.getMessage(), e);
                 try {
@@ -449,7 +455,7 @@ public class UserStore {
 
         Connection conn = null;
         try {
-            conn = DataSource.getInstance().getBds().getConnection();
+            conn = DataSource.getInstance().getConnection();
             conn.setAutoCommit(false);
         } catch (SQLException e) {
             Log.error(e.getMessage(), e);
@@ -469,7 +475,7 @@ public class UserStore {
             }
 
             conn.commit();
-            conn.close();
+            DataSource.getInstance().close();
         } catch (SQLException e) {
             Log.error(e.getMessage(), e);
             try {
@@ -486,7 +492,7 @@ public class UserStore {
 
         Connection conn = null;
         try {
-            conn = DataSource.getInstance().getBds().getConnection();
+            conn = DataSource.getInstance().getConnection();
             conn.setAutoCommit(false);
         } catch (SQLException e) {
             Log.error(e.getMessage(), e);
@@ -502,7 +508,7 @@ public class UserStore {
             st.executeUpdate();
 
             conn.commit();
-            conn.close();
+            DataSource.getInstance().close();
         } catch (Exception e) {
             Log.error(e.getMessage(), e);
             try {

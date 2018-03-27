@@ -24,9 +24,9 @@ public class SigninController extends HttpServlet{
 
             synchronized (session) {
                 session.setAttribute("login", login);
-                resp.sendRedirect(String.format("%s/user/role", req.getContextPath()));
                 session.setAttribute("role", UserStore.getInstance().selectRoleByRoleId(roleId));
                 session.setAttribute("id", UserStore.getInstance().selectIdByLogin(login));
+                resp.sendRedirect(String.format("%s/user/role", req.getContextPath()));
             }
         } else {
             req.setAttribute("error", String.format("Error in application%nCredentional invalid"));

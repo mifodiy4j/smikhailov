@@ -20,13 +20,15 @@ public class AvtoFilter implements Filter{
         String role = (String) request.getSession().getAttribute("role");
         if (role != null && role.equals("Admin")) {
             //response.sendRedirect("/WEB-INF/views/UserViewForAdmin.jsp");
-            request.getRequestDispatcher("/WEB-INF/views/UserViewForAdmin.jsp").forward(request, response);
-            //response.sendRedirect(String.format("%s/", request.getContextPath()));
+            //request.getRequestDispatcher("/WEB-INF/views/UserViewForAdmin.jsp").forward(request, response);
+            response.sendRedirect(String.format("%s/user/role/admin", request.getContextPath()));
             //chain.doFilter(req, resp);
 
         } else if (role != null && role.equals("User")) {
-            request.getRequestDispatcher("/WEB-INF/views/UserViewForUser.jsp").forward(request, response);
+            response.sendRedirect(String.format("%s/user/role/user", request.getContextPath()));
+            //request.getRequestDispatcher("/WEB-INF/views/UserViewForUser.jsp").forward(request, response);
         }
+
     }
 
     @Override

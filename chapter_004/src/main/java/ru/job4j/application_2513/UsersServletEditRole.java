@@ -33,6 +33,6 @@ public class UsersServletEditRole extends HttpServlet {
         users.updateRole(id, role_id);
 
         //resp.sendRedirect(req.getContextPath()+"/user");
-        resp.sendRedirect(String.format("%s/user/",req.getContextPath()));
+        resp.sendRedirect(String.format("%s/user/role",req.getContextPath()));
     }
 }

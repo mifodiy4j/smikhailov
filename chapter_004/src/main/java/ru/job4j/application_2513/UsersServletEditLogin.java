@@ -32,6 +32,6 @@ public class UsersServletEditLogin extends HttpServlet {
         users.updateLoginById(id, parametrNewLogin);
 
         //resp.sendRedirect(req.getContextPath()+"/user");
-        resp.sendRedirect(String.format("%s/user/",req.getContextPath()));
+        resp.sendRedirect(String.format("%s/user/role",req.getContextPath()));
     }
 }

@@ -32,6 +32,6 @@ public class UsersServletEditName extends HttpServlet {
         users.updateNameById(id, parametrNewName);
 
         //resp.sendRedirect(req.getContextPath()+"/user");
-        resp.sendRedirect(String.format("%s/user/",req.getContextPath()));
+        resp.sendRedirect(String.format("%s/user/role",req.getContextPath()));
     }
 }

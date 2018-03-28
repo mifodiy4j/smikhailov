@@ -13,7 +13,7 @@ public class UsersServletEditName extends HttpServlet {
 
     private static final Logger Log = LoggerFactory.getLogger(UsersServletEditName.class);
 
-    private final UserStore users = new UserStore();
+    private UserStore userStore = UserStore.INSTANCE;;
 
     /**
      * Создает пользователя
@@ -29,9 +29,8 @@ public class UsersServletEditName extends HttpServlet {
         int id = Integer.parseInt(parametrId);
         String parametrNewName = req.getParameter("name");
 
-        users.updateNameById(id, parametrNewName);
+        userStore.updateNameById(id, parametrNewName);
 
-        //resp.sendRedirect(req.getContextPath()+"/user");
         resp.sendRedirect(String.format("%s/user/role",req.getContextPath()));
     }
 }

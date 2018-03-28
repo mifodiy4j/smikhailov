@@ -33,7 +33,7 @@ public class UsersServletAddTest {
 
         usersServletAdd.doPost(request, response);
 
-        List<Integer> listId = UserStore.getInstance().getListId();
+        List<Integer> listId = UserStore.INSTANCE.getListId();
 
         User userWhomAdd = new User(name, login, email, createDate);
         userWhomAdd.setRole("User");
@@ -42,7 +42,7 @@ public class UsersServletAddTest {
         boolean result = false;
 
         for (int id : listId) {
-            User user = UserStore.getInstance().selectById(id);
+            User user = UserStore.INSTANCE.selectById(id);
             if (user.equals(userWhomAdd)) {
                 result = true;
             }

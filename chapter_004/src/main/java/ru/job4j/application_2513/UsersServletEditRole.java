@@ -13,7 +13,7 @@ public class UsersServletEditRole extends HttpServlet {
 
     private static final Logger Log = LoggerFactory.getLogger(UsersServletEditRole.class);
 
-    private final UserStore users = new UserStore();
+    private UserStore userStore = UserStore.INSTANCE;;
 
     /**
      * Создает пользователя
@@ -30,9 +30,8 @@ public class UsersServletEditRole extends HttpServlet {
         String parametrRole = req.getParameter("role");
         int role_id = Integer.parseInt(parametrRole);
 
-        users.updateRole(id, role_id);
+        userStore.updateRole(id, role_id);
 
-        //resp.sendRedirect(req.getContextPath()+"/user");
         resp.sendRedirect(String.format("%s/user/role",req.getContextPath()));
     }
 }

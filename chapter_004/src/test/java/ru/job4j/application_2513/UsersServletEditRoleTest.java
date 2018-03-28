@@ -29,7 +29,7 @@ public class UsersServletEditRoleTest {
 
         usersServletEditRole.doPost(request, response);
 
-        User user = UserStore.getInstance().selectById(Integer.parseInt(id));
+        User user = UserStore.INSTANCE.selectById(Integer.parseInt(id));
 
         assertThat(user.getRole(), is("Admin"));
     }

@@ -17,15 +17,16 @@ public class SigninController extends HttpServlet{
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
-        if (UserStore.getInstance().isCredentional(login, password)) {
+        UserStore userStore = UserStore.INSTANCE;
+        if (userStore.isCredentional(login, password)) {
             HttpSession session = req.getSession();
 
-            int roleId = UserStore.getInstance().selectRoleIdByLogin(login);
+            int roleId = userStore.selectRoleIdByLogin(login);
 
             synchronized (session) {
                 session.setAttribute("login", login);
-                session.setAttribute("role", UserStore.getInstance().selectRoleByRoleId(roleId));
-                session.setAttribute("id", UserStore.getInstance().selectIdByLogin(login));
+                session.setAttribute("role", userStore.selectRoleByRoleId(roleId));
+                session.setAttribute("id", userStore.selectIdByLogin(login));
                 resp.sendRedirect(String.format("%s/user/role", req.getContextPath()));
             }
         } else {

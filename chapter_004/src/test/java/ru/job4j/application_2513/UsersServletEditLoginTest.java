@@ -29,7 +29,7 @@ public class UsersServletEditLoginTest {
 
         usersServletEditLogin.doPost(request, response);
 
-        User user = UserStore.getInstance().selectById(Integer.parseInt(id));
+        User user = UserStore.INSTANCE.selectById(Integer.parseInt(id));
 
         assertThat(user.getLogin(), is(newLogin));
     }

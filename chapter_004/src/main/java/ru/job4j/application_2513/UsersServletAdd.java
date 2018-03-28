@@ -13,7 +13,7 @@ public class UsersServletAdd extends HttpServlet {
 
     private static final Logger Log = LoggerFactory.getLogger(UsersServletAdd.class);
 
-    private final UserStore users = new UserStore();
+    private UserStore userStore = UserStore.INSTANCE;;
 
     /**
      * Создает пользователя
@@ -30,9 +30,8 @@ public class UsersServletAdd extends HttpServlet {
         String parametrEmail = req.getParameter("email");
         String parametrCreateDate = req.getParameter("createDate");
 
-        users.add(parametrName, parametrLogin, parametrEmail, parametrCreateDate);
+        userStore.add(parametrName, parametrLogin, parametrEmail, parametrCreateDate);
 
-        //resp.sendRedirect(req.getContextPath()+"/user");
         resp.sendRedirect(String.format("%s/user/role",req.getContextPath()));
     }
 }

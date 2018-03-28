@@ -13,7 +13,7 @@ public class UsersServletDelete extends HttpServlet {
 
     private static final Logger Log = LoggerFactory.getLogger(UsersServletDelete.class);
 
-    private final UserStore users = new UserStore();
+    private UserStore userStore = UserStore.INSTANCE;;
 
     /**
      * Создает пользователя
@@ -28,9 +28,8 @@ public class UsersServletDelete extends HttpServlet {
         String parametrId = req.getParameter("id");
         int id = Integer.parseInt(parametrId);
 
-        users.deleteById(id);
+        userStore.deleteById(id);
 
-        //resp.sendRedirect(req.getContextPath()+"/user");
         resp.sendRedirect(String.format("%s/user/role",req.getContextPath()));
     }
 }

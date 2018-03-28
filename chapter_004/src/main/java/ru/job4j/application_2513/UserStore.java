@@ -10,15 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
 
-public class UserStore {
+public enum UserStore {
+
+    INSTANCE;
 
     private static final Logger Log = LoggerFactory.getLogger(UserStore.class);
-
-    private static final UserStore instance = new UserStore();
-
-    public static UserStore getInstance() {
-        return instance;
-    }
 
     /**
      * Метод возвращает объект класса <code>User</code> по заданному <code>id</code>

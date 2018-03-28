@@ -15,7 +15,7 @@ public class UsersServlet extends HttpServlet {
 
     private static final Logger Log = LoggerFactory.getLogger(UsersServlet.class);
 
-    private final UserStore users = new UserStore();
+    private UserStore userStore = UserStore.INSTANCE;
 
     /**
      * Получает данные о пользователе
@@ -30,7 +30,7 @@ public class UsersServlet extends HttpServlet {
         PrintWriter writer = new PrintWriter(resp.getOutputStream());
 
         User user;
-        List<Integer> listId = this.users.getListId();
+        List<Integer> listId = this.userStore.getListId();
 
         StringBuilder sb = new StringBuilder("<table border='1'>");
         sb.append("<tr>" +
@@ -42,7 +42,7 @@ public class UsersServlet extends HttpServlet {
                 "</tr>");
 
         for (int id : listId) {
-            user = this.users.selectById(id);
+            user = this.userStore.selectById(id);
             sb.append("<tr>" +
                     "<td>" + id + "</td>" +
                     "<td>" + user.getName() + "</td>" +

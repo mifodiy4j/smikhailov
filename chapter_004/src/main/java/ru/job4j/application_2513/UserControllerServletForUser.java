@@ -22,8 +22,9 @@ public class UserControllerServletForUser extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("users", new UserStore());
-        req.setAttribute("listId", new UserStore().getListId());
+        UserStore userStore = UserStore.INSTANCE;
+        req.setAttribute("users", userStore);
+        req.setAttribute("listId", userStore.getListId());
 
         req.getRequestDispatcher("/WEB-INF/views/UserViewForUser.jsp").forward(req, resp);
     }

@@ -14,8 +14,7 @@ public class UserStoreTest {
 
         List<Integer> list;
 
-        UserStore userStore = new UserStore();
-        list = userStore.getListId();
+        list = UserStore.INSTANCE.getListId();
 
         System.out.println(list);
 
@@ -29,8 +28,7 @@ public class UserStoreTest {
 
         User user;
 
-        UserStore userStore = new UserStore();
-        user = userStore.selectById(60);
+        user = UserStore.INSTANCE.selectById(60);
 
         System.out.println(user);
     }
@@ -40,19 +38,18 @@ public class UserStoreTest {
 
         List<Integer> list;
 
-        UserStore userStore = new UserStore();
-        list = userStore.getListId();
+        list = UserStore.INSTANCE.getListId();
 
         for (int i : list) {
-            User user = userStore.selectById(i);
+            User user = UserStore.INSTANCE.selectById(i);
             System.out.println(user);
         }
     }
 
     @Test
     public void testAdd() {
-        UserStore userStore = new UserStore();
-        int temp = userStore.add("name_1","login_1", "email_1", null);
+
+        int temp = UserStore.INSTANCE.add("name_1","login_1", "email_1", null);
 
         System.out.println(temp);
     }

@@ -13,7 +13,7 @@ public class UsersServletEditEmail extends HttpServlet {
 
     private static final Logger Log = LoggerFactory.getLogger(UsersServletEditEmail.class);
 
-    private final UserStore users = new UserStore();
+    private UserStore userStore = UserStore.INSTANCE;
 
     /**
      * Создает пользователя
@@ -29,9 +29,8 @@ public class UsersServletEditEmail extends HttpServlet {
         int id = Integer.parseInt(parametrId);
         String parametrNewEmail = req.getParameter("email");
 
-        users.updateEmailById(id, parametrNewEmail);
+        userStore.updateEmailById(id, parametrNewEmail);
 
-        //resp.sendRedirect(req.getContextPath()+"/user");
         resp.sendRedirect(String.format("%s/user/role",req.getContextPath()));
     }
 }

@@ -29,7 +29,7 @@ public class UsersServletDeleteTest {
 
         usersServletDelete.doPost(request, response);
 
-        List<Integer> listId = UserStore.getInstance().getListId();
+        List<Integer> listId = UserStore.INSTANCE.getListId();
 
         boolean result = false;
 

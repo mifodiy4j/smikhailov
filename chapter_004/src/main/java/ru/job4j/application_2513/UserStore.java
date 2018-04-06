@@ -49,6 +49,8 @@ public enum UserStore {
                     user.setCreateDate(rs.getString("create_date"));
                     user.setPassword(rs.getString("password"));
                     user.setRole(selectRoleByRoleId(rs.getInt("role_id")));
+                    user.setCountry(rs.getString("country"));
+                    user.setCity(rs.getString("city"));
                 }
             }
 
@@ -516,4 +518,145 @@ public enum UserStore {
         return selectById(id);
     }
 
+    public User updateCountryById(int id, String country) {
+
+        Connection conn = null;
+        try {
+            conn = DataSource.getInstance().getConnection();
+            conn.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.error(e.getMessage(), e);
+        }
+
+        try (PreparedStatement st = conn.prepareStatement(
+                "update usersServlet set country = ? where id = ?"
+        )
+        ) {
+
+            st.setString(1, country);
+            st.setInt(2, id);
+            st.executeUpdate();
+
+            conn.commit();
+            DataSource.getInstance().close();
+        } catch (Exception e) {
+            Log.error(e.getMessage(), e);
+            try {
+                conn.rollback();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+        }
+        return selectById(id);
+    }
+
+    public User updateCityById(int id, String city) {
+
+        Connection conn = null;
+        try {
+            conn = DataSource.getInstance().getConnection();
+            conn.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.error(e.getMessage(), e);
+        }
+
+        try (PreparedStatement st = conn.prepareStatement(
+                "update usersServlet set city = ? where id = ?"
+        )
+        ) {
+
+            st.setString(1, city);
+            st.setInt(2, id);
+            st.executeUpdate();
+
+            conn.commit();
+            DataSource.getInstance().close();
+        } catch (Exception e) {
+            Log.error(e.getMessage(), e);
+            try {
+                conn.rollback();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+        }
+        return selectById(id);
+    }
+
+    /**
+     * Возвращает список уникальных <code>country</code> пользователей в БД
+     *
+     * @return <code>List<String></code>
+     */
+    public List<String> getListCountry() {
+
+        List<String> listCountry = new ArrayList<>();
+
+        Connection conn = null;
+        try {
+            conn = DataSource.getInstance().getConnection();
+            conn.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.error(e.getMessage(), e);
+        }
+
+        try (PreparedStatement st = conn.prepareStatement(
+                "SELECT country FROM usersServlet WHERE country IS NOT NULL group by country");
+             ResultSet rs = st.executeQuery()
+        ) {
+
+            while (rs.next()) {
+                listCountry.add(rs.getString("country"));
+            }
+
+            conn.commit();
+            DataSource.getInstance().close();
+        } catch (Exception e) {
+            Log.error(e.getMessage(), e);
+            try {
+                conn.rollback();
+            } catch (SQLException e1) {
+                Log.error(e1.getMessage(), e1);
+            }
+        }
+        return listCountry;
+    }
+
+    /**
+     * Возвращает список уникальных <code>city</code> пользователей в БД
+     *
+     * @return <code>List<String></code>
+     */
+    public List<String> getListCity() {
+
+        List<String> listCity = new ArrayList<>();
+
+        Connection conn = null;
+        try {
+            conn = DataSource.getInstance().getConnection();
+            conn.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.error(e.getMessage(), e);
+        }
+
+        try (PreparedStatement st = conn.prepareStatement(
+                "SELECT city FROM usersServlet WHERE city IS NOT NULL group by city");
+             ResultSet rs = st.executeQuery()
+        ) {
+
+            while (rs.next()) {
+                listCity.add(rs.getString("city"));
+            }
+
+            conn.commit();
+            DataSource.getInstance().close();
+        } catch (Exception e) {
+            Log.error(e.getMessage(), e);
+            try {
+                conn.rollback();
+            } catch (SQLException e1) {
+                Log.error(e1.getMessage(), e1);
+            }
+        }
+        return listCity;
+    }
 }

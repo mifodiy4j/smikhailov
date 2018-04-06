@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+
+    <style>
+        body{
+            background-color: coral;
+            text-align: justify;
+        }
+        select {
+            width: 300px;
+        }
+    </style>
+    <script>
+        var valId = location.search.substr(1).split('=')[1];
+
+        $(
+                loadUser(),
+                loadListCountry(),
+                loadListCity()
+        );
+
+        function loadUser() {
+            $.ajax('./jsonUser', {
+                method: 'get',
+                data: {
+                    id: valId
+                },
+                complete: function (data) {
+                    var result = "<tr>" +
+                            "<th>Name</th>" +
+                            "<th>Login</th>" +
+                            "<th>Email</th>" +
+                            "<th>Create Date</th>" +
+                            "<th>Password</th>" +
+                            "<th>Role</th>" +
+                            "<th>Country</th>" +
+                            "<th>City</th>" +
+                            "</tr>";
+
+                    var user = JSON.parse(data.responseText);
+
+                    result += "<tr>" +
+                            "<td>" + user[0].name + "</td>" +
+                            "<td>" + user[0].login + "</td>" +
+                            "<td>" + user[0].email + "</td>" +
+                            "<td>" + user[0].createDate + "</td>" +
+                            "<td>" + user[0].password + "</td>" +
+                            "<td>" + user[0].role + "</td>" +
+                            "<td>" + user[0].country + "</td>" +
+                            "<td>" + user[0].city + "</td>" +
+                            "</tr>";
+
+                    var table = document.getElementById("users");
+                    table.innerHTML = result;
+
+                    $("#login").empty();
+                    $("#login").append("<b>" + user[0].login + "</b>");
+                    $("#role").empty();
+                    $("#role").append(user[0].role);
+                }
+            });
+        }
+
+        function loadListCountry() {
+            $.ajax('./jsonCountry', {
+                method: 'post',
+                complete: function (data) {
+                    var countryArray = JSON.parse(data.responseText);
+
+                    var options = '';
+                    for ( var i = 0; i < countryArray.length; i++ ) {
+                        options += '<option value="' + countryArray[i].country + '">' + countryArray[i].country + '</option>';
+                    }
+
+                    $( '#editCountrySelect' ).html( options );
+                    $('#editCountrySelect').select2({tags: true});
+
+                }
+            });
+            return false;
+        }
+
+        function loadListCity() {
+            $.ajax('./jsonCity', {
+                method: 'post',
+                complete: function (data) {
+                    var cityArray = JSON.parse(data.responseText);
+
+                    var options = '';
+                    for ( var i = 0; i < cityArray.length; i++ ) {
+                        options += '<option value="' + cityArray[i].city + '">' + cityArray[i].city + '</option>';
+                    }
+
+                    $( '#editCitySelect' ).html( options );
+                    $('#editCitySelect').select2({tags: true});
+
+                }
+            });
+            return false;
+        }
+
+        function setName() {
+            $.ajax('./jsonEditName', {
+                method: 'post',
+                data: {
+                    id: valId,
+                    name: document.getElementsByName("name")[0].value
+                },
+                complete: function (result) {
+                    loadUser();
+                }
+            });
+            return false;
+        }
+
+        function setLogin() {
+            $.ajax('./jsonEditLogin', {
+                method: 'post',
+                data: {
+                    id: valId,
+                    login: document.getElementsByName("login")[0].value
+                },
+                //complete: function (result) {
+                    success: function (result) {
+                    if (result[0].result == "change") {
+                        $("#statusEditLogin").empty();
+                        loadUser();
+                    } else if (result[0].result == "no valid") {
+                        $("#statusEditLogin").empty();
+                        $("#statusEditLogin").append("This login already exists");
+                        loadUser();
+                    }
+                }
+            });
+            return false;
+        }
+
+        function setEmail() {
+            $.ajax('./jsonEditEmail', {
+                method: 'post',
+                data: {
+                    id: valId,
+                    email: document.getElementsByName("email")[0].value
+                },
+                complete: function (result) {
+                    loadUser();
+                }
+            });
+            return false;
+        }
+
+        function setCountry() {
+            $.ajax('./jsonEditCountry', {
+                method: 'post',
+                data: {
+                    id: valId,
+                    country: document.getElementsByName("country")[0].value
+                },
+                complete: function (result) {
+                    loadUser();
+                }
+            });
+            return false;
+        }
+
+        function setCity() {
+            $.ajax('./jsonEditCity', {
+                method: 'post',
+                data: {
+                    id: valId,
+                    city: document.getElementsByName("city")[0].value
+                },
+                complete: function (result) {
+                    loadUser();
+                }
+            });
+            return false;
+        }
+
+    </script>
+</head>
+<body>
+
+<h3>Hello, your login:
+    <div id="login"></div>
+    status:
+    <div id="role"></div>
+</h3>
+
+<br/>
+
+<form id="editName">
+    Enter name:<br/>
+    <input type="text" name="name" placeholder="new Name" size="20"><br/>
+</form>
+<input type="submit" value="Edit" onclick="return setName();"><br/>
+
+<br/>
+
+<form id="editLogin">
+    Enter login:<br/>
+    <input type="text" name="login" placeholder="new Login" size="20">
+    <output name="statusEditLogin" id="statusEditLogin"></output><br/>
+</form>
+<input type="submit" value="Edit" onclick="return setLogin();"><br/>
+
+<br/>
+
+<form id="editEmail">
+    Enter:<br/>
+    <input type="text" name="email" placeholder="new@Email" size="20"><br/>
+</form>
+<input type="submit" value="Edit" onclick="return setEmail();"><br/>
+
+<br/>
+
+<form id="editCountry">
+    select country :
+    <select name="country" id="editCountrySelect">
+    </select>
+    <br/>
+</form>
+<input type="submit" value="Edit" onclick="return setCountry();"><br/>
+
+<br/>
+
+<form id="editCity">
+    select city :
+    <select name="city" id="editCitySelect">
+    </select>
+    <br/>
+</form>
+<input type="submit" value="Edit" onclick="return setCity();"><br/>
+
+<br/>
+
+<div>
+    <table id="users" style="border: 1px solid #000000;" border="1" cellpadding="1" cellspacing="1">
+
+    </table>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script>
+        $(
+                loadUser()
+        );
+
+        function loadUser() {
+            $.ajax('./json', {
+                method: 'get',
+                complete: function (data) {
+                    var result = "<tr>" +
+                            "<td>Login</td>" +
+                            "<td>Email</td>" +
+                            "</tr>";
+                    console.log("SUCCESS_1" );
+                    console.log(data);
+                    var users = JSON.parse(data.responseText);
+                    console.log(users);
+                    for (var i = 0; i != users.length; ++i) {
+                        result += "<tr>" +
+                                "<td>" + users[i].login + "</td>" +
+                                "<td>" + users[i].email + "</td>" +
+                                "</tr>";
+                    }
+                    var table = document.getElementById("users");
+                    table.innerHTML = result;
+                }
+            });
+        }
+
+        function createUser() {
+            $.ajax('./json', {
+                method : 'post',
+                data : {login : document.getElementsByName("name")[0].value},
+                complete : loadUser()
+            })
+            return false;
+        }
+
+        function validate() {
+            var result = true;
+            var name = document.getElementsByName("name")[0].value;
+            if(name == '') {
+                result = false;
+            }
+            if (!result) {
+                alert("please connect input date.");
+            }
+
+        }
+    </script>
+</head>
+<body>
+
+<h3>Hello, your login: ${login} status: ${role}</h3>
+<br/>
+
+<div>
+    <table id="users" style="border: 1px solid #000000;" border="1" cellpadding="1" cellspacing="1">
+        <tr>
+            <td>Login</td>
+            <td>Email</td>
+        </tr>
+    </table>
+</div>
+
+
+</body>
+</html>

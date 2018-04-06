@@ -3,6 +3,17 @@
 <html>
 <head>
     <title>Title</title>
+    <style>
+    body {
+    background-color: powderblue;
+    }
+    h1 {
+    color: blue;
+    }
+    p {
+    color: red;
+    }
+    </style>
 </head>
 <body>
 
@@ -66,7 +77,7 @@
     <tr>
         <td><c:out value="${id}"/></td>
         <td><c:out value="${users.selectById(id).name}"/></td>
-        <td><c:out value="${users.selectById(id).login}"/></td>
+        <td><a href="${pageContext.servletContext.contextPath}/Items.html?id=${user.id}"><c:out value="${users.selectById(id).login}"/></a></td>
         <td><c:out value="${users.selectById(id).email}"/></td>
         <td><c:out value="${users.selectById(id).createDate}"/></td>
         <td><c:out value="${users.selectById(id).password}"/></td>

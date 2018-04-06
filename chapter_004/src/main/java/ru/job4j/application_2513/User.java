@@ -9,6 +9,9 @@ public class User {
     private String password;
     private String role;
 
+    private String country;
+    private String city;
+
     public User() {
     }
 
@@ -26,6 +29,17 @@ public class User {
         this.createDate = createDate;
         this.password = password;
         this.role = role;
+    }
+
+    public User(String name, String login, String email, String createDate, String password, String role, String country, String city) {
+        this.name = name;
+        this.login = login;
+        this.email = email;
+        this.createDate = createDate;
+        this.password = password;
+        this.role = role;
+        this.country = country;
+        this.city = city;
     }
 
     public String getName() {
@@ -76,6 +90,22 @@ public class User {
         this.role = role;
     }
 
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -112,6 +142,9 @@ public class User {
                 ", createDate='" + createDate + '\'' +
                 ", password='" + password + '\'' +
                 ", role='" + role + '\'' +
+                ", country='" + country + '\'' +
+                ", city='" + city + '\'' +
                 '}';
     }
+
 }

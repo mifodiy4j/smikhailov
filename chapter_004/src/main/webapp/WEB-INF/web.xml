@@ -1,6 +1,6 @@
 <web-app>
 
-    <filter>
+    <!--<filter>
         <filter-name>AuthFilter</filter-name>
         <filter-class>ru.job4j.AuthFilter</filter-class>
     </filter>
@@ -28,14 +28,175 @@
     <filter-mapping>
         <filter-name>Application AvtoFilter</filter-name>
         <url-pattern>/user/role</url-pattern>
-    </filter-mapping>
+    </filter-mapping>-->
 
     <servlet>
+        <servlet-name>Json Controller</servlet-name>
+        <servlet-class>ru.job4j.application_2513.JsonController</servlet-class>
+        <description>This servlet is json</description>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Json Controller</servlet-name>
+        <url-pattern>/json</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Json User</servlet-name>
+        <servlet-class>ru.job4j.application_2513.JsonUser</servlet-class>
+        <description>This servlet is json</description>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Json User</servlet-name>
+        <url-pattern>/jsonUser</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Json Admin</servlet-name>
+        <servlet-class>ru.job4j.application_2513.JsonAdmin</servlet-class>
+        <description>This servlet is json</description>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Json Admin</servlet-name>
+        <url-pattern>/jsonAdmin</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Json Edit Name</servlet-name>
+        <servlet-class>ru.job4j.application_2513.JsonEditName</servlet-class>
+        <description>This servlet is json</description>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Json Edit Name</servlet-name>
+        <url-pattern>/jsonEditName</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Json Edit Login</servlet-name>
+        <servlet-class>ru.job4j.application_2513.JsonEditLogin</servlet-class>
+        <description>This servlet is json</description>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Json Edit Login</servlet-name>
+        <url-pattern>/jsonEditLogin</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Json Edit Email</servlet-name>
+        <servlet-class>ru.job4j.application_2513.JsonEditEmail</servlet-class>
+        <description>This servlet is json</description>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Json Edit Email</servlet-name>
+        <url-pattern>/jsonEditEmail</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Json Delete</servlet-name>
+        <servlet-class>ru.job4j.application_2513.JsonDelete</servlet-class>
+        <description>This servlet is json</description>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Json Delete</servlet-name>
+        <url-pattern>/jsonDelete</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Json Edit Role</servlet-name>
+        <servlet-class>ru.job4j.application_2513.JsonEditRole</servlet-class>
+        <description>This servlet is json</description>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Json Edit Role</servlet-name>
+        <url-pattern>/jsonEditRole</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Json Add User</servlet-name>
+        <servlet-class>ru.job4j.application_2513.JsonAddUser</servlet-class>
+        <description>This servlet is json</description>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Json Add User</servlet-name>
+        <url-pattern>/jsonAddUser</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Json Country</servlet-name>
+        <servlet-class>ru.job4j.application_2513.JsonCountry</servlet-class>
+        <description>This servlet is json</description>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Json Country</servlet-name>
+        <url-pattern>/jsonCountry</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Json Edit Country</servlet-name>
+        <servlet-class>ru.job4j.application_2513.JsonEditCountry</servlet-class>
+        <description>This servlet is json</description>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Json Edit Country</servlet-name>
+        <url-pattern>/jsonEditCountry</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Json City</servlet-name>
+        <servlet-class>ru.job4j.application_2513.JsonCity</servlet-class>
+        <description>This servlet is json</description>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Json City</servlet-name>
+        <url-pattern>/jsonCity</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Json Edit City</servlet-name>
+        <servlet-class>ru.job4j.application_2513.JsonEditCity</servlet-class>
+        <description>This servlet is json</description>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Json Edit City</servlet-name>
+        <url-pattern>/jsonEditCity</url-pattern>
+    </servlet-mapping>
+
+    <!--<servlet>
         <servlet-name>Users Controller Servlet</servlet-name>
         <servlet-class>ru.job4j.UsersController</servlet-class>
         <description>This servlet is an example servlet</description>
         <load-on-startup>3</load-on-startup>
     </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Users Controller Servlet</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>-->
 
     <servlet>
         <servlet-name>UsersServlet2</servlet-name>
@@ -44,12 +205,22 @@
         <load-on-startup>2</load-on-startup>
     </servlet>
 
+    <servlet-mapping>
+        <servlet-name>UsersServlet2</servlet-name>
+        <url-pattern>/users</url-pattern>
+    </servlet-mapping>
+
     <servlet>
         <servlet-name>User Controller Servlet</servlet-name>
         <servlet-class>ru.job4j.application_2513.UserControllerServlet</servlet-class>
         <description>This is the UserControllerServlet</description>
         <load-on-startup>1</load-on-startup>
     </servlet>
+
+    <servlet-mapping>
+        <servlet-name>User Controller Servlet</servlet-name>
+        <url-pattern>/user/</url-pattern>
+    </servlet-mapping>
 
     <servlet>
         <servlet-name>User Controller Servlet For Admin</servlet-name>
@@ -58,12 +229,22 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
 
+    <servlet-mapping>
+        <servlet-name>User Controller Servlet For Admin</servlet-name>
+        <url-pattern>/user/role/admin</url-pattern>
+    </servlet-mapping>
+
     <servlet>
         <servlet-name>User Controller Servlet For User</servlet-name>
         <servlet-class>ru.job4j.application_2513.UserControllerServletForUser</servlet-class>
         <description>This is the UserControllerServletForUser</description>
         <load-on-startup>1</load-on-startup>
     </servlet>
+
+    <servlet-mapping>
+        <servlet-name>User Controller Servlet For User</servlet-name>
+        <url-pattern>/user/role/user</url-pattern>
+    </servlet-mapping>
 
     <servlet>
         <servlet-name>UsersServletAdd</servlet-name>
@@ -72,12 +253,22 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
 
+    <servlet-mapping>
+        <servlet-name>UsersServletAdd</servlet-name>
+        <url-pattern>/useradd</url-pattern>
+    </servlet-mapping>
+
     <servlet>
         <servlet-name>UsersServletEditName</servlet-name>
         <servlet-class>ru.job4j.application_2513.UsersServletEditName</servlet-class>
         <description>This is the UsersServletEditName</description>
         <load-on-startup>1</load-on-startup>
     </servlet>
+
+    <servlet-mapping>
+        <servlet-name>UsersServletEditName</servlet-name>
+        <url-pattern>/usereditname</url-pattern>
+    </servlet-mapping>
 
     <servlet>
         <servlet-name>UsersServletEditLogin</servlet-name>
@@ -86,12 +277,22 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
 
+    <servlet-mapping>
+        <servlet-name>UsersServletEditLogin</servlet-name>
+        <url-pattern>/usereditlogin</url-pattern>
+    </servlet-mapping>
+
     <servlet>
         <servlet-name>UsersServletEditEmail</servlet-name>
         <servlet-class>ru.job4j.application_2513.UsersServletEditEmail</servlet-class>
         <description>This is the UsersServletEditEmail</description>
         <load-on-startup>1</load-on-startup>
     </servlet>
+
+    <servlet-mapping>
+        <servlet-name>UsersServletEditEmail</servlet-name>
+        <url-pattern>/usereditemail</url-pattern>
+    </servlet-mapping>
 
     <servlet>
         <servlet-name>UsersServletDelete</servlet-name>
@@ -100,12 +301,22 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
 
+    <servlet-mapping>
+        <servlet-name>UsersServletDelete</servlet-name>
+        <url-pattern>/userdelete</url-pattern>
+    </servlet-mapping>
+
     <servlet>
         <servlet-name>UsersServletEditRole</servlet-name>
         <servlet-class>ru.job4j.application_2513.UsersServletEditRole</servlet-class>
         <description>This is the UsersServletEditRole</description>
         <load-on-startup>1</load-on-startup>
     </servlet>
+
+    <servlet-mapping>
+        <servlet-name>UsersServletEditRole</servlet-name>
+        <url-pattern>/usereditrole</url-pattern>
+    </servlet-mapping>
 
     <servlet>
         <servlet-name>Signin</servlet-name>
@@ -114,72 +325,17 @@
         <load-on-startup>4</load-on-startup>
     </servlet>
 
+    <servlet-mapping>
+        <servlet-name>Signin</servlet-name>
+        <url-pattern>/signin</url-pattern>
+    </servlet-mapping>
+
     <servlet>
         <servlet-name>Signin Application</servlet-name>
         <servlet-class>ru.job4j.application_2513.SigninController</servlet-class>
         <description>This is the SigninController</description>
         <load-on-startup>1</load-on-startup>
     </servlet>
-
-    <servlet-mapping>
-        <servlet-name>Users Controller Servlet</servlet-name>
-        <url-pattern>/</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>UsersServlet2</servlet-name>
-        <url-pattern>/users</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>User Controller Servlet</servlet-name>
-        <url-pattern>/user/</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>User Controller Servlet For Admin</servlet-name>
-        <url-pattern>/user/role/admin</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>User Controller Servlet For User</servlet-name>
-        <url-pattern>/user/role/user</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>UsersServletAdd</servlet-name>
-        <url-pattern>/useradd</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>UsersServletEditName</servlet-name>
-        <url-pattern>/usereditname</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>UsersServletEditLogin</servlet-name>
-        <url-pattern>/usereditlogin</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>UsersServletEditEmail</servlet-name>
-        <url-pattern>/usereditemail</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>UsersServletDelete</servlet-name>
-        <url-pattern>/userdelete</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>UsersServletEditRole</servlet-name>
-        <url-pattern>/usereditrole</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>Signin</servlet-name>
-        <url-pattern>/signin</url-pattern>
-    </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>Signin Application</servlet-name>

@@ -17,10 +17,10 @@ public class AvtoFilter implements Filter{
         HttpServletResponse response = (HttpServletResponse) resp;
 
         String role = (String) request.getSession().getAttribute("role");
-        if (role != null && role.equals("Admin")) {
+        if ("Admin".equals(role)) {
             response.sendRedirect(String.format("%s/user/role/admin", request.getContextPath()));
 
-        } else if (role != null && role.equals("User")) {
+        } else if ("User".equals(role)) {
             response.sendRedirect(String.format("%s/user/role/user", request.getContextPath()));
         }
 

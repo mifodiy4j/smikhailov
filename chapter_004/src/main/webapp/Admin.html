@@ -28,6 +28,7 @@
             $.ajax('./jsonAdmin', {
                 method: 'post',
                 complete: function (data) {
+                    console.log(data);
                     var result = "<tr>" +
                             "<th>id</th>" +
                             "<th>Name</th>" +
@@ -38,7 +39,7 @@
                             "<th>Password</th>" +
                             "</tr>";
                     var users = JSON.parse(data.responseText);
-
+                    console.log(users);
                     for (var i = 0; i != users.length; ++i) {
                         if (valId == users[i].id) {
                             var index = i;
@@ -56,10 +57,15 @@
                     var table = document.getElementById("users");
                     table.innerHTML = result;
 
+                    console.log(result);
+
                     $("#login").empty();
                     $("#login").append("<b>" + users[index].login + "</b>");
                     $("#role").empty();
                     $("#role").append(users[index].role);
+                },
+                error : function (e) {
+                    console.log(e)
                 }
             });
         }

@@ -19,32 +19,8 @@ public class UsersController extends HttpServlet{
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html");
-        //String login = req.getParameter("login");
-        PrintWriter writer = new PrintWriter(resp.getOutputStream());
-
-        StringBuilder sb = new StringBuilder("<table>");
-        for (String login : this.users) {
-            sb.append("<tr><td>"+ login +"</td></tr>");
-        }
-        sb.append("</table>");
-
-        writer.append("<!DOCTYPE html>" +
-                "<html lang=\"en\">" +
-                "<head>" +
-                "    <meta charset=\"UTF-8\">" +
-                "    <title></title>" +
-                "</head>" +
-                "<body>" +
-                "<form action='"+req.getContextPath()+"/echo' method='post'>" +
-                "Name : <input type=text' name='login'/>" +
-                "<input type='submit'>" +
-                "</form>" +
-                "<br/>" +
-                sb.toString() +
-                "</body>" +
-                "</html>");
-        writer.flush();
+        req.setAttribute("users", UserStorage.getInstance().getUsers());
+        req.getRequestDispatcher("/WEB-INF/views/UserView.jsp").forward(req,resp);
     }
 
 
@@ -52,6 +28,6 @@ public class UsersController extends HttpServlet{
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
         UserStorage.getInstance().add(new Users(req.getParameter("login"), req.getParameter("email")));
-        resp.sendRedirect(String.format("%s/index.jsp",req.getContextPath()));
+        resp.sendRedirect(String.format("%s/",req.getContextPath()));
     }
 }

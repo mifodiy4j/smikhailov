@@ -1,5 +1,7 @@
 package ru.job4j.application_2513;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -13,7 +15,6 @@ import java.util.List;
 public class JsonController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        PrintWriter writer = new PrintWriter(resp.getOutputStream());
 
         UserStore userStore = UserStore.INSTANCE;
         List<Integer> list = userStore.getListId();
@@ -42,18 +43,19 @@ public class JsonController extends HttpServlet {
 
         PrintWriter printWriter = resp.getWriter();
 
-        JSONObject jsonObject = new JSONObject();
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode rootNode = mapper.createObjectNode();
 
         if (userStore.isCredentional(login, password)) {
 
             int roleId = userStore.selectRoleIdByLogin(login);
-
-            jsonObject.put("role", userStore.selectRoleByRoleId(roleId));
-            jsonObject.put("id", userStore.selectIdByLogin(login));
-
+            rootNode.put("role", userStore.selectRoleByRoleId(roleId));
+            rootNode.put("id", userStore.selectIdByLogin(login));
         } else {
-            jsonObject.put("role", "error");
+            rootNode.put("role", "error");
         }
-        printWriter.print(jsonObject.toString());
+        String jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(rootNode);
+        printWriter.print(jsonString);
+
     }
 }

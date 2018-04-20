@@ -1,6 +1,66 @@
 <web-app>
 
-    <!--<filter>
+    <servlet>
+        <servlet-name>musicCourt Authentication</servlet-name>
+        <servlet-class>ru.job4j.musicCourt.servlets.Authentication</servlet-class>
+        <description>This servlet is json</description>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>musicCourt Authentication</servlet-name>
+        <url-pattern>/authmusic</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>musicCourt GetFullAboutUser</servlet-name>
+        <servlet-class>ru.job4j.musicCourt.servlets.GetFullAboutUser</servlet-class>
+        <description>This servlet is json</description>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>musicCourt GetFullAboutUser</servlet-name>
+        <url-pattern>/getFullAboutUser</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>musicCourt AddNewUser</servlet-name>
+        <servlet-class>ru.job4j.musicCourt.servlets.AddNewUser</servlet-class>
+        <description>This servlet is json</description>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>musicCourt AddNewUser</servlet-name>
+        <url-pattern>/musicAddUser</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>musicCourt MusicType</servlet-name>
+        <servlet-class>ru.job4j.musicCourt.servlets.GetMusicType</servlet-class>
+        <description>This servlet is json</description>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>musicCourt MusicType</servlet-name>
+        <url-pattern>/mucicType</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>musicCourt FindUser</servlet-name>
+        <servlet-class>ru.job4j.musicCourt.servlets.FindUser</servlet-class>
+        <description>This servlet is json</description>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>musicCourt FindUser</servlet-name>
+        <url-pattern>/musicFindUser</url-pattern>
+    </servlet-mapping>
+
+    <filter>
         <filter-name>AuthFilter</filter-name>
         <filter-class>ru.job4j.AuthFilter</filter-class>
     </filter>
@@ -28,7 +88,7 @@
     <filter-mapping>
         <filter-name>Application AvtoFilter</filter-name>
         <url-pattern>/user/role</url-pattern>
-    </filter-mapping>-->
+    </filter-mapping>
 
     <servlet>
         <servlet-name>Json Controller</servlet-name>

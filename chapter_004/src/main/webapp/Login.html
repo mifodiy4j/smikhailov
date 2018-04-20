@@ -48,6 +48,7 @@
                 data : {login : document.getElementsByName("login")[0].value,
                     password : document.getElementsByName("password")[0].value},
                 success : function (result) {
+                        console.log(result);
                     if (result.role == "error") {
                         vvv();
                     } else {

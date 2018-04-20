@@ -93,8 +93,9 @@
             $.ajax('./jsonCity', {
                 method: 'post',
                 complete: function (data) {
+                    console.log(data);
                     var cityArray = JSON.parse(data.responseText);
-
+                    console.log(cityArray);
                     var options = '';
                     for ( var i = 0; i < cityArray.length; i++ ) {
                         options += '<option value="' + cityArray[i].city + '">' + cityArray[i].city + '</option>';
@@ -129,7 +130,6 @@
                     id: valId,
                     login: document.getElementsByName("login")[0].value
                 },
-                //complete: function (result) {
                     success: function (result) {
                     if (result[0].result == "change") {
                         $("#statusEditLogin").empty();

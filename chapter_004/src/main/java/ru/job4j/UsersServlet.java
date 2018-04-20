@@ -12,7 +12,7 @@ import java.io.PrintWriter;
 
 public class UsersServlet extends HttpServlet {
 
-    private static final Logger Log = LoggerFactory.getLogger(EchoServlet.class);
+    private static final Logger Log = LoggerFactory.getLogger(UsersServlet.class);
 
     private final UserStore users = UserStore.getInstance();
 

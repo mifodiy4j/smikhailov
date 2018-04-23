@@ -28,9 +28,7 @@ public class UsersServletEditNameTest {
         when(request.getParameter("name")).thenReturn(newName);
 
         usersServletEditName.doPost(request, response);
-
         User user = UserStore.INSTANCE.selectById(Integer.parseInt(id));
-
         assertThat(user.getName(), is(newName));
     }
 

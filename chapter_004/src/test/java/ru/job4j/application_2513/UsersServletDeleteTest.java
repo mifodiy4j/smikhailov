@@ -32,13 +32,11 @@ public class UsersServletDeleteTest {
         List<Integer> listId = UserStore.INSTANCE.getListId();
 
         boolean result = false;
-
         for (int idInList : listId) {
             if (idInList == Integer.parseInt(id)) {
                 result = true;
             }
         }
-
         assertThat(result, is(false));
     }
 

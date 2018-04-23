@@ -28,9 +28,7 @@ public class UsersServletEditRoleTest {
         when(request.getParameter("role")).thenReturn(newRole);
 
         usersServletEditRole.doPost(request, response);
-
         User user = UserStore.INSTANCE.selectById(Integer.parseInt(id));
-
         assertThat(user.getRole(), is("Admin"));
     }
 

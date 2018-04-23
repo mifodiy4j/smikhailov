@@ -28,9 +28,7 @@ public class UsersServletEditLoginTest {
         when(request.getParameter("login")).thenReturn(newLogin);
 
         usersServletEditLogin.doPost(request, response);
-
         User user = UserStore.INSTANCE.selectById(Integer.parseInt(id));
-
         assertThat(user.getLogin(), is(newLogin));
     }
 

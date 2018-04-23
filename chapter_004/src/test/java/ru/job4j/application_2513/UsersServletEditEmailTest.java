@@ -30,9 +30,7 @@ public class UsersServletEditEmailTest {
         when(request.getParameter("email")).thenReturn(newEmail);
 
         usersServletEditEmail.doPost(request, response);
-
         User user = UserStore.INSTANCE.selectById(Integer.parseInt(id));
-
         assertThat(user.getEmail(), is(newEmail));
     }
 }

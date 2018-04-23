@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.core.Is.is;
@@ -34,21 +35,14 @@ public class UsersServletAddTest {
         usersServletAdd.doPost(request, response);
 
         List<Integer> listId = UserStore.INSTANCE.getListId();
+        Collections.sort(listId);
 
         User userWhomAdd = new User(name, login, email, createDate);
         userWhomAdd.setRole("User");
         userWhomAdd.setCreateDate(createDate + " 00:00:00");
 
-        boolean result = false;
-
-        for (int id : listId) {
-            User user = UserStore.INSTANCE.selectById(id);
-            if (user.equals(userWhomAdd)) {
-                result = true;
-            }
-        }
-
-        assertThat(result, is(true));
+        User user = UserStore.INSTANCE.selectById(listId.get(listId.size() - 1));
+        assertThat(user, is(userWhomAdd));
     }
 
 }

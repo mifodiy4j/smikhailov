@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+
+    <style>
+        body{
+            background-color: coral;
+            text-align: justify;
+        }
+        select {
+            width: 300px;
+        }
+    </style>
+    <script>
+        var valId = location.search.substr(1).split('=')[1];
+
+        $(
+                loadUser()
+        );
+
+        function loadUser() {
+            $.ajax('./getFullAboutUser', {
+                method: 'get',
+                data: {
+                    id: valId
+                },
+                complete: function (data) {
+                    var result = "<tr>" +
+                            "<th>ID</th>" +
+                            "<th>Name</th>" +
+                            "<th>Age</th>" +
+                            "<th>Country</th>" +
+                            "<th>City</th>" +
+                            "<th>Street</th>" +
+                            "<th>Role</th>" +
+                            "<th>Music type</th>" +
+                            "<th>Password</th>" +
+                            "</tr>";
+
+                    var user = JSON.parse(data.responseText);
+
+                    result += "<tr>" +
+                            "<td>" + user[0].id + "</td>" +
+                            "<td>" + user[0].name + "</td>" +
+                            "<td>" + user[0].age + "</td>" +
+                            "<td>" + user[0].country + "</td>" +
+                            "<td>" + user[0].city + "</td>" +
+                            "<td>" + user[0].street + "</td>" +
+                            "<td>" + user[0].role + "</td>" +
+                            "<td>" + user[0].musicType + "</td>" +
+                            "<td>" + user[0].password + "</td>" +
+                            "</tr>";
+
+                    var table = document.getElementById("users");
+                    table.innerHTML = result;
+
+                    $("#login").empty();
+                    $("#login").append("<b>" + user[0].name + "</b>");
+                    $("#role").empty();
+                    $("#role").append(user[0].role);
+                }
+            });
+        }
+
+    </script>
+</head>
+<body>
+
+<h3>Hello, your name:
+    <div id="login"></div>
+    status:
+    <div id="role"></div>
+</h3>
+
+<br/>
+<br/>
+
+<div>
+    <table id="users" style="border: 1px solid #000000;" border="1" cellpadding="1" cellspacing="1">
+
+    </table>
+</div>
+
+</body>
+</html>

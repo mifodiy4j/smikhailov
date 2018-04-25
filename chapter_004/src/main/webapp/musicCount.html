@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <style>
+        body{
+            background-color: background;
+            text-align: center;
+        }
+        .auth-forms{
+            width: 30%;
+            margin: auto;
+            background-color: background;
+            text-align: center;
+            margin-top: 200px;
+        }
+    </style>
+
+    <script>
+
+        function validate() {
+            var name = document.getElementsByName("name")[0].value;
+            var password = document.getElementsByName("password")[0].value;
+            if(name == "") {
+                alert("Please enter Name");
+            } else if (password == ""){
+                alert("please enter Password");
+            } else {
+                auth();
+            }
+        }
+
+        function errorMessage() {
+            $("#result").empty();
+            $("#result").css({"background-color":"#CC6666", "height": "50px", "color":"white", "line-height":"50px"});
+            $("#result").append("Invalid login or password");
+            return false;
+        }
+
+        function auth() {
+            $.ajax('./authmusic', {
+                method: 'post',
+                data : {name : document.getElementsByName("name")[0].value,
+                    password : document.getElementsByName("password")[0].value},
+                success : function (result) {
+                    if (result.role == "error") {
+                        vvv();
+                    } else {
+                        if (result.role == "USER") {
+                            var url = 'http://localhost:8080/items/userMusic.html';
+                        } else if (result.role == "MANDATOR") {
+                            var url = 'http://localhost:8080/items/mandatorMusic.html';
+                        } else if (result.role == "ADMIN") {
+                            var url = 'http://localhost:8080/items/adminMusic.html';
+                        }
+                        url = url + '?id=' + result.id;
+                        document.location.href = url;
+                    }
+                },
+                error : function (e) {
+                   errorMessage();
+                }
+            })
+            return false;
+        }
+
+    </script>
+
+</head>
+<body>
+
+<div>
+    <form class="auth-forms">
+        Name : <input type="text" placeholder="Имя" name="name"><br/>
+        Password : <input type="password" placeholder="Пароль" name="password"><br/>
+        <div id="result">
+        </div>
+    </form>
+    <br/>
+    <input type="submit" value="Вход" onclick="return validate();">
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+
+    <style>
+        body{
+            background-color: #fefbd8;
+            text-align: justify;
+        }
+        select {
+            width: 300px;
+        }
+    </style>
+    <script>
+        var valId = location.search.substr(1).split('=')[1];
+
+        $(
+                loadUser(),
+                loadListMusicType()
+        );
+
+        function loadUser() {
+            $.ajax('./getFullAboutUser', {
+                method: 'get',
+                data: {
+                    id: valId
+                },
+                complete: function (data) {
+                    var result = "<tr>" +
+                            "<th>ID</th>" +
+                            "<th>Name</th>" +
+                            "<th>Age</th>" +
+                            "<th>Country</th>" +
+                            "<th>City</th>" +
+                            "<th>Street</th>" +
+                            "<th>House</th>" +
+                            "<th>Role</th>" +
+                            "<th>Music type</th>" +
+                            "<th>Password</th>" +
+                            "</tr>";
+
+                    var user = JSON.parse(data.responseText);
+
+                    result += "<tr>" +
+                            "<td>" + user[0].id + "</td>" +
+                            "<td>" + user[0].name + "</td>" +
+                            "<td>" + user[0].age + "</td>" +
+                            "<td>" + user[0].country + "</td>" +
+                            "<td>" + user[0].city + "</td>" +
+                            "<td>" + user[0].street + "</td>" +
+                            "<td>" + user[0].house + "</td>" +
+                            "<td>" + user[0].role + "</td>" +
+                            "<td>" + user[0].musicType + "</td>" +
+                            "<td>" + user[0].password + "</td>" +
+                            "</tr>";
+
+                    var table = document.getElementById("users");
+                    table.innerHTML = result;
+
+                    $("#login").empty();
+                    $("#login").append("<b>" + user[0].name + "</b>");
+                    $("#role").empty();
+                    $("#role").append(user[0].role);
+                }
+            });
+        }
+
+        function loadListMusicType() {
+            $.ajax('./mucicType', {
+                method: 'post',
+                complete: function (data) {
+                    var musicType = JSON.parse(data.responseText);
+
+                    var options = '';
+                    for ( var i = 0; i < musicType.length; i++ ) {
+                        options += '<option value="' + musicType[i].id + '">' + musicType[i].musicType + '</option>';
+                    }
+
+                    $( '#editMusicType' ).html( options );
+
+                }
+            });
+            return false;
+        }
+
+        function loadFindUser(data) {
+            var result = "<tr>" +
+                    "<th>ID</th>" +
+                    "<th>Name</th>" +
+                    "<th>Age</th>" +
+                    "<th>Role</th>" +
+                    "<th>Music type</th>" +
+                    "<th>Password</th>" +
+                    "</tr>";
+
+            var user = JSON.parse(data.responseText);
+
+            result += "<tr>" +
+                    "<td>" + user[0].id + "</td>" +
+                    "<td>" + user[0].name + "</td>" +
+                    "<td>" + user[0].age + "</td>" +
+                    "<td>" + user[0].role + "</td>" +
+                    "<td>" + user[0].musicType + "</td>" +
+                    "<td>" + user[0].password + "</td>" +
+                    "</tr>";
+
+            var table = document.getElementById("finduser");
+            table.innerHTML = result;
+        }
+
+        function findUser() {
+            $.ajax('./musicFindUser', {
+                method: 'post',
+                data: {
+                    country: document.getElementsByName("country")[0].value,
+                    city: document.getElementsByName("city")[0].value,
+                    street: document.getElementsByName("street")[0].value,
+                    house: document.getElementsByName("house")[0].value
+                },
+                /*success: function (data) {*/
+                    complete: function (data) {
+                    var result = "<tr>" +
+                            "<th>ID</th>" +
+                            "<th>Name</th>" +
+                            "<th>Age</th>" +
+                            "<th>Role</th>" +
+                            "<th>Music type</th>" +
+                            "<th>Password</th>" +
+                            "</tr>";
+
+                    var user = JSON.parse(data.responseText);
+
+                    result += "<tr>" +
+                            "<td>" + user.id + "</td>" +
+                            "<td>" + user.name + "</td>" +
+                            "<td>" + user.age + "</td>" +
+                            "<td>" + user.role + "</td>" +
+                            "<td>" + user.musicType + "</td>" +
+                            "<td>" + user.password + "</td>" +
+                            "</tr>";
+
+                    var table = document.getElementById("finduser");
+                    table.innerHTML = result;
+                }
+            });
+            return false;
+        }
+
+    </script>
+</head>
+<body>
+
+<h3>Hello, your name:
+    <div id="login"></div>
+    status:
+    <div id="role"></div>
+</h3>
+
+<div>
+    <table id="users" style="border: 1px solid #000000;" border="1" cellpadding="1" cellspacing="1">
+
+    </table>
+</div>
+
+<br/>
+
+<form id="addNewUser">
+
+    Address:<br/>
+    <input type="text" name="country" placeholder="country" size="20"><br/>
+    <input type="text" name="city" placeholder="city" size="20"><br/>
+    <input type="text" name="street" placeholder="street" size="20"><br/>
+    <input type="text" name="house" placeholder="house" size="3"><br/>
+    <br/>
+
+</form>
+<input type="submit" value="Find" onclick="return findUser();"><br/>
+
+<br/>
+
+<div>
+    <table id="finduser" style="border: 1px solid #000000;" border="1" cellpadding="1" cellspacing="1">
+
+    </table>
+</div>
+
+</body>
+</html>

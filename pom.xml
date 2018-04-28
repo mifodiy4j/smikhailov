@@ -22,6 +22,7 @@
 	    <module>chapter_003_</module>
         <module>chapter_004</module>
         <module>projects</module>
+        <module>chapter_301</module>
     </modules>
 	
 	<dependencies>

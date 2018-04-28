@@ -1,0 +1,43 @@
+<web-app>
+
+    <servlet>
+        <servlet-name>todolist</servlet-name>
+        <servlet-class>ru.job4j.todolist.servlets.EchoServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>todolist</servlet-name>
+        <url-pattern>/echo</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>items</servlet-name>
+        <servlet-class>ru.job4j.todolist.servlets.GetItemsServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>items</servlet-name>
+        <url-pattern>/items</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>itemsNeedToDo</servlet-name>
+        <servlet-class>ru.job4j.todolist.servlets.GetItemsNeedToDoServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>itemsNeedToDo</servlet-name>
+        <url-pattern>/itemsNeedToDo</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>addItem</servlet-name>
+        <servlet-class>ru.job4j.todolist.servlets.AddItemServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>addItem</servlet-name>
+        <url-pattern>/addItem</url-pattern>
+    </servlet-mapping>
+
+</web-app>

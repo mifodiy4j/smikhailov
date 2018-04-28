@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <style>
+        body {
+            background-color: #80ced6;
+            text-align: center;
+        }
+
+        h3 {
+            background-color: maroon; /* Цвет фона под текстом параграфа */
+            color: white; /* Цвет текста */
+        }
+
+        table {
+            background-color: #FFFFFF;
+            margin: 0px auto;
+        }
+    </style>
+
+    <script>
+
+        $(
+                loadItems()
+        );
+
+        function loadItems() {
+            $.ajax('./items', {
+                method: 'post',
+                complete: function (data) {
+                    console.log(data);
+                    var result = "<tr>" +
+                            "<th>id</th>" +
+                            "<th>Description</th>" +
+                            "<th>Create date</th>" +
+                            "<th>Done</th>" +
+                            "</tr>";
+                    var items = JSON.parse(data.responseText);
+                    console.log(items);
+                    for (var i = 0; i != items.length; ++i) {
+                        result += "<tr>" +
+                                "<td>" + items[i].id + "</td>" +
+                                "<td>" + items[i].description + "</td>" +
+                                "<td>" + items[i].created + "</td>";
+                                /*"<td>" + items[i].done + "</td>" +*/
+                        if (items[i].done == true) {
+                            result += "<td>" + "&#9745;" + "</td>";
+                        } else {
+                            result += "<td>" + "&#9744;" + "</td>";
+                        }
+                        result += "</tr>";
+                    }
+                    var table = document.getElementById("items");
+                    table.innerHTML = result;
+
+                    console.log(result);
+                },
+                error: function (e) {
+                    console.log(e)
+                }
+            });
+        }
+
+        function showAll() {
+            var checkBox = document.getElementById("showAll");
+
+            if (checkBox.checked == true) {
+                loadItems();
+            } else {
+                loadItemsNotMade();
+            }
+        }
+
+        function loadItemsNotMade() {
+            $.ajax('./itemsNeedToDo', {
+                method: 'post',
+                complete: function (data) {
+                    console.log(data);
+                    var result = "<tr>" +
+                            "<th>id</th>" +
+                            "<th>Description</th>" +
+                            "<th>Create date</th>" +
+                            "<th>Done</th>" +
+                            "</tr>";
+                    var items = JSON.parse(data.responseText);
+                    console.log(items);
+                    for (var i = 0; i != items.length; ++i) {
+                        result += "<tr>" +
+                                "<td>" + items[i].id + "</td>" +
+                                "<td>" + items[i].description + "</td>" +
+                                "<td>" + items[i].created + "</td>";
+                                /*"<td>" + items[i].done + "</td>" +*/
+                        if (items[i].done == true) {
+                            result += "<td>" + "&#9745;" + "</td>";
+                        } else {
+                            result += "<td>" + "&#9744;" + "</td>";
+                        }
+                        result += "</tr>";
+                    }
+                    var table = document.getElementById("items");
+                    table.innerHTML = result;
+
+                    console.log(result);
+                },
+                error: function (e) {
+                    console.log(e)
+                }
+            });
+        }
+
+        function addNewItem() {
+            $.ajax('./addItem', {
+                method: 'post',
+                data: {
+                    description: document.getElementById("addNewItem").getElementsByTagName('input')[0].value,
+                },
+                complete: function (result) {
+                    showAll()
+                }
+            });
+            document.getElementById("addNewItem").reset();
+            return false;
+        }
+
+    </script>
+
+</head>
+<body>
+
+<h3> To Do List </h3>
+
+<br/>
+
+<form id="addNewItem">
+    Add new item:<br/>
+    <input type="text" name="description" placeholder="description" size="40"><br/>
+</form>
+<input type="submit" value="Add new item" onclick="return addNewItem();"><br/>
+
+<br/>
+
+Show all : <input type="checkbox" name="showAll" id="showAll" checked onclick="showAll()">
+
+<br/>
+
+<div>
+    <table id="items" style="border: 1px solid #000000;" border="1" cellpadding="1" cellspacing="1">
+    </table>
+</div>
+
+</body>
+</html>

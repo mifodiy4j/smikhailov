@@ -1,14 +1,12 @@
 package ru.job4j.todolist.models;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 public class Item {
 
     private int id;
     private String description;
     private Timestamp created;
-    //private Date created;
     private boolean done;
 
     public int getId() {
@@ -34,14 +32,6 @@ public class Item {
     public void setCreated(Timestamp created) {
         this.created = created;
     }
-
-   /* public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }*/
 
     public boolean getDone() {
         return done;

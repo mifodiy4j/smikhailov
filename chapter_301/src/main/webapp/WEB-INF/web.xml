@@ -1,16 +1,6 @@
 <web-app>
 
     <servlet>
-        <servlet-name>todolist</servlet-name>
-        <servlet-class>ru.job4j.todolist.servlets.EchoServlet</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>todolist</servlet-name>
-        <url-pattern>/echo</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
         <servlet-name>items</servlet-name>
         <servlet-class>ru.job4j.todolist.servlets.GetItemsServlet</servlet-class>
     </servlet>

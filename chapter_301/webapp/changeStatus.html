@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <style>
+        body {
+            background-color: #80ced6;
+            text-align: center;
+        }
+
+        h3 {
+            color: white; /* Цвет текста */
+        }
+
+        span {
+            background-color: #191973;
+        }
+
+        table {
+            background-color: #FFFFFF;
+            margin: 0px auto;
+        }
+
+    </style>
+
+    <script>
+
+        $(
+
+        );
+
+        function refactorStatus(data) {
+            console.log(data);
+            $.ajax('./changeStatus', {
+                method: 'post',
+                data: {
+                    id: document.getElementsByName("id")[0].value,
+                    author: document.getElementsByName("author")[0].value,
+                    password: document.getElementsByName("password")[0].value,
+                    status: data
+                },
+                complete: function (result) {
+                    window.location = 'http://localhost:8080/hbn/' + 'carPrice.html';
+                }
+            });
+            return false;
+        }
+
+    </script>
+
+</head>
+<body>
+
+<h3> <span>Sell the car</span> </h3>
+
+<br/>
+<form id="changeStatus">
+    Add new item:<br/>
+    <input type="text" name="id" placeholder="id" size="20"><br/>
+    <input type="text" name="author" placeholder="author" size="20"><br/>
+    <input type="text" name="password" placeholder="password" size="20"><br/>
+</form>
+<br/>
+
+<br/>
+<br/>
+
+<input type="submit" value="setStatus" onclick="return refactorStatus(true);">
+<input type="submit" value="unsetStatus" onclick="return refactorStatus(false);">
+
+<br/>
+
+</body>
+</html>

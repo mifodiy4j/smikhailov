@@ -3,7 +3,13 @@
         <id name="id" column="id">
             <generator class="identity"/>
         </id>
-        <property name="desc" column="name"/>
+        <property name="brand" column="brand"/>
+        <property name="model" column="model"/>
+        <property name="yearOfManufacture" column="yearOfManufacture"/>
+        <property name="mileage" column="mileage"/>
+        <property name="description" column="description"/>
+        <property name="sold" column="sold"/>
+        <property name="foto" column="foto"/>
 
         <many-to-one name="transmission"
                      column="transmission_id"
@@ -16,5 +22,9 @@
         <many-to-one name="engine"
                      column="engine_id"
                      class="ru.job4j.carStorage.models.Engine"/>
+
+        <many-to-one name="author"
+                     column="author"
+                     class="ru.job4j.carStorage.models.User"/>
     </class>
 </hibernate-mapping>

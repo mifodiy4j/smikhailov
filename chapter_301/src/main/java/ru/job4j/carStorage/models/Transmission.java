@@ -1,9 +1,19 @@
 package ru.job4j.carStorage.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Transmission {
 
     private int id;
     private String desc;
+
+    public Transmission() {
+    }
+
+    public Transmission(int id) {
+        this.id = id;
+    }
 
     public int getId() {
         return id;
@@ -23,8 +33,6 @@ public class Transmission {
 
     @Override
     public String toString() {
-        return "Transmission{" +
-                "desc='" + desc + '\'' +
-                '}';
+        return '\'' + desc + '\'';
     }
 }

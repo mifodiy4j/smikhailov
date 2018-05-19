@@ -1,9 +1,19 @@
 package ru.job4j.carStorage.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Engine {
 
     private int id;
     private String desc;
+
+    public Engine() {
+    }
+
+    public Engine(int id) {
+        this.id = id;
+    }
 
     public int getId() {
         return id;
@@ -23,8 +33,6 @@ public class Engine {
 
     @Override
     public String toString() {
-        return "Engine{" +
-                "desc='" + desc + '\'' +
-                '}';
+        return '\'' + desc + '\'';
     }
 }

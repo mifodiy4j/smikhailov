@@ -14,8 +14,10 @@ public class CarStorage {
         Session session = factory.openSession();
         session.beginTransaction();
 
-        Car car = session.get(Car.class, 1);
-        System.out.println(car);
+//        Car car = session.get(Car.class, 1);
+//        System.out.println(car);
+
+        System.out.println(session.createQuery("from Car").list());
 
         session.getTransaction().commit();
         session.close();

@@ -1,4 +1,4 @@
-package ru.job4j.models;
+package ru.job4j.example.models;
 
 import java.sql.Timestamp;
 
@@ -7,6 +7,13 @@ public class User {
     private String login;
     private String password;
     private Timestamp created;
+
+    public User() {
+    }
+
+    public User(int id) {
+        this.id = id;
+    }
 
     public int getId() {
         return id;

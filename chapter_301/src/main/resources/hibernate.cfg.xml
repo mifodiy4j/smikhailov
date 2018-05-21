@@ -2,9 +2,9 @@
 <hibernate-configuration>
     <session-factory>
         <!-- Database connection settings -->
-        <property name="connection.url">jdbc:postgresql://localhost:5432/carStorage</property>
-        <!--<property name="connection.url">jdbc:postgresql://localhost:5432/todolist</property>-->
-       <!-- <property name="connection.url">jdbc:postgresql://localhost:5432/hibernate</property>-->
+        <!--<property name="connection.url">jdbc:postgresql://localhost:5432/carStorage</property>-->
+        <property name="connection.url">jdbc:postgresql://localhost:5432/todolist</property>
+        <!-- <property name="connection.url">jdbc:postgresql://localhost:5432/hibernate</property>-->
         <property name="connection.driver_class">org.postgresql.Driver</property>
         <property name="connection.username">postgres</property>
         <property name="connection.password">root</property>
@@ -16,12 +16,12 @@
         <!--<mapping resource="ru/job4j/example/models/Item.hbn.xml"/>
         <mapping resource="ru/job4j/example/models/Comment.hbn.xml"/>
         <mapping resource="ru/job4j/example/models/User.hbn.xml"/>-->
-        <!--<mapping resource="ru/job4j/todolist/models/Item.hbn.xml"/>-->
-        <mapping resource="ru/job4j/carStorage/models/Car.hbn.xml"/>
+        <mapping resource="ru/job4j/todolist/models/Item.hbn.xml"/>
+        <!--<mapping resource="ru/job4j/carStorage/models/Car.hbn.xml"/>
         <mapping resource="ru/job4j/carStorage/models/Body.hbn.xml"/>
         <mapping resource="ru/job4j/carStorage/models/Transmission.hbn.xml"/>
         <mapping resource="ru/job4j/carStorage/models/Engine.hbn.xml"/>
-        <mapping resource="ru/job4j/carStorage/models/User.hbn.xml"/>
+        <mapping resource="ru/job4j/carStorage/models/User.hbn.xml"/>-->
 
     </session-factory>
 </hibernate-configuration>

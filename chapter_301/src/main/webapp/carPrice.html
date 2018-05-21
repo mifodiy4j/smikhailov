@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <style>
+        body {
+            background-color: #80ced6;
+            text-align: center;
+        }
+
+        h3 {
+            color: white; /* Цвет текста */
+        }
+
+        span {
+            background-color: #f91973;
+        }
+
+        table {
+            background-color: #FFFFFF;
+            margin: 0px auto;
+        }
+    </style>
+
+    <script>
+
+        $(
+                loadItems()
+        );
+
+        function getFoto() {
+            $.ajax('./uploadFile', {
+                method: 'get',
+                complete: function (result) {
+                    console.log(result);
+                    //window.location = 'http://localhost:8080/hbn/' + 'addCar.html';
+                    document.getElementById("items").innerText = result;
+                }
+            });
+            return false;
+        }
+
+        function loadItems() {
+            $.ajax('./getCars', {
+                method: 'post',
+                complete: function (data) {
+                    console.log(data);
+                    var result = "<tr>" +
+                            "<th>id</th>" +
+                            "<th>Brand</th>" +
+                            "<th>Model</th>" +
+                            "<th>Body</th>" +
+                            "<th>Year of manufacture</th>" +
+                            "<th>Mileage</th>" +
+                            "<th>Transmission</th>" +
+                            "<th>Engine</th>" +
+                            "<th>Description</th>" +
+                            "<th>Sold</th>" +
+                            "<th>Author</th>" +
+                            "<th>Foto</th>" +
+                            "</tr>";
+                    var items = JSON.parse(data.responseText);
+                    console.log(items);
+                    console.log(items.length);
+                    console.log(items[1]);
+                    console.log(items[1].author.login);
+                    /*console.log(items[8].foto);*/
+                    var str;
+                    for (var i = 0; i != items.length; ++i) {
+                        result += "<tr>" +
+                                "<td>" + items[i].id + "</td>" +
+                                "<td>" + items[i].brand + "</td>" +
+                                "<td>" + items[i].model + "</td>";
+                        if (items[i].body == null) {
+                            result += "<td>" + "" + "</td>";
+                        } else {
+                            result += "<td>" + items[i].body.desc + "</td>";
+                        }
+                        result += "<td>" + items[i].yearOfManufacture + "</td>" +
+                                "<td>" + items[i].mileage + "</td>";
+                        if (items[i].transmission == null) {
+                            result += "<td>" + "" + "</td>";
+                        } else {
+                            result += "<td>" + items[i].transmission.desc + "</td>";
+                        }
+                        if (items[i].engine == null) {
+                            result += "<td>" + "" + "</td>";
+                        } else {
+                            result += "<td>" + items[i].engine.desc + "</td>";
+                        }
+                        if (items[i].description == null) {
+                            result += "<td>" + "" + "</td>";
+                        } else {
+                            result += "<td>" + items[i].description + "</td>";
+                        }
+                        if (items[i].sold == true) {
+                            result += "<td>" + "&#9745;" + "</td>";
+                        } else {
+                            result += "<td>" + "&#9744;" + "</td>";
+                        }
+                        /*"<td>" + items[i].sold + "</td>" +*/
+                        if (items[i].author == null) {
+                            result += "<td>" + "" + "</td>";
+                        } else {
+                            result += "<td>" + items[i].author.login + "</td>";
+                        }
+                        if (items[i].foto == null) {
+                            result += "<td>" + "" + "</td>";
+                        } else {
+                            result += "<td>" + "<a href=\""+ items[i].foto + "\">FOTO</a>" + "</td>";
+                        }
+                        result += "</tr>";
+                    }
+                    var table = document.getElementById("items");
+                    table.innerHTML = result;
+
+                    console.log(result);
+                },
+                error: function (e) {
+                    console.log(e)
+                }
+            });
+        }
+
+    </script>
+
+</head>
+<body>
+
+<h3><span>Car Price</span></h3>
+
+<br/>
+
+<br/>
+
+<div>
+    <table id="items" style="border: 1px solid #000000;" border="1" cellpadding="1" cellspacing="1">
+    </table>
+</div>
+
+<br/>
+
+<input type="button" value="Add new car" onClick='location.href="addCar.html"'>
+
+<br/>
+<br/>
+
+<input type="button" value="Change status" onClick='location.href="changeStatus.html"'>
+
+</body>
+</html>

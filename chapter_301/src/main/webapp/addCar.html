@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <style>
+        body {
+            background-color: #80ced6;
+            text-align: center;
+        }
+
+        h3 {
+            color: white; /* Цвет текста */
+        }
+
+        span {
+            background-color: #191973;
+        }
+
+        table {
+            background-color: #FFFFFF;
+            margin: 0px auto;
+        }
+
+    </style>
+
+    <script>
+
+        $(
+                loadListBody(),
+                loadListTransmission(),
+                loadListEngine()
+        );
+
+        function loadItems() {
+            $.ajax('./getCars', {
+                method: 'post',
+                complete: function (data) {
+                    console.log(data);
+                    var result = "<tr>" +
+                            "<th>id</th>" +
+                            "<th>Description</th>" +
+                            "<th>Create date</th>" +
+                            "<th>Done</th>" +
+                            "</tr>";
+                    var items = JSON.parse(data.responseText);
+                    console.log(items);
+                    for (var i = 0; i != items.length; ++i) {
+                        result += "<tr>" +
+                                "<td>" + items[i].id + "</td>" +
+                                "<td>" + items[i].description + "</td>" +
+                                "<td>" + items[i].created + "</td>";
+                                /*"<td>" + items[i].done + "</td>" +*/
+                        result += "</tr>";
+                    }
+                    var table = document.getElementById("items");
+                    table.innerHTML = result;
+
+                    console.log(result);
+                },
+                error: function (e) {
+                    console.log(e)
+                }
+            });
+        }
+
+        function addNewItem(data) {
+            $.ajax('./addCar', {
+                method: 'post',
+                data: {
+                    brand: document.getElementsByName("brand")[0].value,
+                    model: document.getElementsByName("model")[0].value,
+                    body: document.getElementsByName("body")[0].value,
+                    yearOfManufacture: document.getElementsByName("yearOfManufacture")[0].value,
+                    mileage: document.getElementsByName("mileage")[0].value,
+                    transmission: document.getElementsByName("transmission")[0].value,
+                    engine: document.getElementsByName("engine")[0].value,
+                    description: document.getElementsByName("description")[0].value,
+                    foto: document.getElementsByName("filename_1")[0].value
+                },
+                complete: function (result) {
+                    window.location = 'http://localhost:8080/hbn/' + 'carPrice.html';
+                }
+            });
+            return false;
+        }
+
+        function loadListBody() {
+            $.ajax('./body', {
+                method: 'post',
+                complete: function (data) {
+
+                    console.log(data)
+                    var bodies = JSON.parse(data.responseText);
+
+                    var options = '';
+                    for ( var i = 0; i < bodies.length; i++ ) {
+                        options += '<option value="' + bodies[i].id + '">' + bodies[i].desc + '</option>';
+                    }
+
+                    $( '#editBody' ).html( options );
+
+                }
+            });
+            return false;
+        }
+
+        function loadListTransmission() {
+            $.ajax('./transmission', {
+                method: 'post',
+                complete: function (data) {
+
+                    console.log(data)
+                    var transmissions = JSON.parse(data.responseText);
+
+                    var options = '';
+                    for ( var i = 0; i < transmissions.length; i++ ) {
+                        options += '<option value="' + transmissions[i].id + '">' + transmissions[i].desc + '</option>';
+                    }
+
+                    $( '#editTransmission' ).html( options );
+
+                }
+            });
+            return false;
+        }
+
+        function loadListEngine() {
+            $.ajax('./engine', {
+                method: 'post',
+                complete: function (data) {
+
+                    console.log(data)
+                    var engines = JSON.parse(data.responseText);
+
+                    var options = '';
+                    for ( var i = 0; i < engines.length; i++ ) {
+                        options += '<option value="' + engines[i].id + '">' + engines[i].desc + '</option>';
+                    }
+
+                    $( '#editEngine' ).html( options );
+
+                }
+            });
+            return false;
+        }
+
+        function addFoto() {
+            var formData = new FormData();
+            var file = document.getElementById("filename_1").files[0];
+            formData.append("file", file);
+
+            $.ajax('./uploadFile', {
+                method: 'post',
+                enctype:'multipart/form-data',
+                data: formData,
+                processData: false,
+                contentType: false,
+                complete: function (result) {
+                    console.log(result);
+                    //window.location = 'http://localhost:8080/hbn/' + 'addCar.html';
+                }
+            });
+            return false;
+        }
+
+    </script>
+
+</head>
+<body>
+
+<h3> <span>Sell the car</span> </h3>
+
+<br/>
+<form id="addNewItem">
+    Add new item:<br/>
+    <input type="text" name="brand" placeholder="brand" size="20"><br/>
+    <input type="text" name="model" placeholder="model" size="20"><br/>
+
+    <!--<input type="text" name="body" placeholder="body" size="20"><br/>-->
+    body:<select name="body" id="editBody"></select><br/>
+
+    Year of manufacture : <input type="text" name="yearOfManufacture" placeholder="Year" size="4"><br/>
+    <input type="text" name="mileage" placeholder="mileage" size="10"><br/>
+
+    transmission:<select name="transmission" id="editTransmission"></select><br/>
+
+    engine:<select name="engine" id="editEngine"></select><br/>
+
+    <input type="text" name="description" placeholder="description" size="40"><br/>
+
+</form>
+<br/>
+
+<form id="addFoto">
+    Select file to upload:
+    <input type="file" name="filename_1" id="filename_1">
+    <br/>
+</form>
+    <input type="submit" value="Upload File" onclick="return addFoto();">
+
+<br/>
+<br/>
+
+<input type="submit" value="Add new item" onclick="return addNewItem();"><br/>
+
+</body>
+</html>

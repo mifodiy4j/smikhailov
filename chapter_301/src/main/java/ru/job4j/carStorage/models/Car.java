@@ -1,8 +1,7 @@
 package ru.job4j.carStorage.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.sql.Timestamp;
 
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Car {
 
     private int id;
@@ -17,7 +16,7 @@ public class Car {
     private boolean sold;
     private User author;
     private byte[] foto;
-    private String fotoName;
+    private Timestamp created;
 
     public Car() {
     }
@@ -122,11 +121,11 @@ public class Car {
         this.foto = foto;
     }
 
-    public String getFotoName() {
-        return fotoName;
+    public Timestamp getCreated() {
+        return created;
     }
 
-    public void setFotoName(String fotoName) {
-        this.fotoName = fotoName;
+    public void setCreated(Timestamp created) {
+        this.created = created;
     }
 }

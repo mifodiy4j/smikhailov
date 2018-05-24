@@ -27,24 +27,71 @@
     <script>
 
         $(
-                loadItems()
+                loadListBrand(),
+                loadItems(null, null, null)
         );
+
+        function loadListBrand() {
+            $.ajax('./brands', {
+                method: 'post',
+                complete: function (data) {
+
+                    console.log(data)
+                    var brands = JSON.parse(data.responseText);
+
+                    var options = '';
+                    for ( var i = 0; i < brands.length; i++ ) {
+                        options += '<option value="' + brands[i].name + '">' + brands[i].name + '</option>';
+                    }
+
+                    $( '#changeBrand' ).html( options );
+                }
+            });
+            return false;
+        }
 
         function getFoto() {
             $.ajax('./uploadFile', {
                 method: 'get',
                 complete: function (result) {
                     console.log(result);
-                    //window.location = 'http://localhost:8080/hbn/' + 'addCar.html';
                     document.getElementById("items").innerText = result;
                 }
             });
             return false;
         }
 
-        function loadItems() {
+        function showForLastDay() {
+            var checkBox = document.getElementById("showForLastDay");
+            if (checkBox.checked == true) {
+                loadItems(true,null,null);
+            } else {
+                loadItems();
+            }
+        }
+
+        function showWithFoto() {
+            var checkBox = document.getElementById("showWithFoto");
+            if (checkBox.checked == true) {
+                loadItems(null,true,null);
+            } else {
+                loadItems();
+            }
+        }
+
+        function showSpecificBrand() {
+            var brand = document.getElementById("changeBrand").value;
+            loadItems(null, null, brand);
+        }
+
+        function loadItems(parDay, parFoto, parBrand) {
             $.ajax('./getCars', {
                 method: 'post',
+                data: {
+                    day: parDay,
+                    foto: parFoto,
+                    brand: parBrand
+                },
                 complete: function (data) {
                     console.log(data);
                     var result = "<tr>" +
@@ -60,14 +107,9 @@
                             "<th>Sold</th>" +
                             "<th>Author</th>" +
                             "<th>Foto</th>" +
+                            "<th>Create date</th>" +
                             "</tr>";
                     var items = JSON.parse(data.responseText);
-                    console.log(items);
-                    console.log(items.length);
-                    console.log(items[1]);
-                    console.log(items[1].author.login);
-                    /*console.log(items[8].foto);*/
-                    var str;
                     for (var i = 0; i != items.length; ++i) {
                         result += "<tr>" +
                                 "<td>" + items[i].id + "</td>" +
@@ -100,7 +142,6 @@
                         } else {
                             result += "<td>" + "&#9744;" + "</td>";
                         }
-                        /*"<td>" + items[i].sold + "</td>" +*/
                         if (items[i].author == null) {
                             result += "<td>" + "" + "</td>";
                         } else {
@@ -110,6 +151,11 @@
                             result += "<td>" + "" + "</td>";
                         } else {
                             result += "<td>" + "<a href=\""+ items[i].foto + "\">FOTO</a>" + "</td>";
+                        }
+                        if (items[i].created == null) {
+                            result += "<td>" + "" + "</td>";
+                        } else {
+                            result += "<td>" + items[i].created + "</td>";
                         }
                         result += "</tr>";
                     }
@@ -132,6 +178,12 @@
 <h3><span>Car Price</span></h3>
 
 <br/>
+
+Show for last day : <input type="checkbox" name="showForLastDay" id="showForLastDay" onclick="showForLastDay()"><br/>
+
+Show with foto : <input type="checkbox" name="showWithFoto" id="showWithFoto" onclick="showWithFoto()"><br/>
+
+Show a specific brand : <select name="changeBrand" id="changeBrand" onchange="showSpecificBrand()"></select><br/>
 
 <br/>
 

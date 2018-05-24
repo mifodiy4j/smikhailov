@@ -20,3 +20,5 @@ alter table cars add column mileage integer;
 alter table cars add column description character varying(200);
 alter table cars add column sold boolean default FALSE;
 alter table cars add column author integer references users(id);
+
+alter table cars add column create_date timestamp not null default now();

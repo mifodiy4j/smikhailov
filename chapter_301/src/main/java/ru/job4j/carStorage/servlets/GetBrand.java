@@ -4,8 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.job4j.carStorage.models.Transmission;
-import ru.job4j.carStorage.services.TransmissionService;
+import ru.job4j.carStorage.services.CarService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -15,14 +14,14 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-public class GetTransmission extends HttpServlet {
+public class GetBrand extends HttpServlet {
 
-    private static final Logger Log = LoggerFactory.getLogger(GetTransmission.class);
+    private static final Logger Log = LoggerFactory.getLogger(GetBrand.class);
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        TransmissionService transmissionService = TransmissionService.getInstance();
+        CarService carService = CarService.getInstance();
 
         resp.setContentType("application/json");
         resp.setCharacterEncoding("utf-8");
@@ -32,12 +31,22 @@ public class GetTransmission extends HttpServlet {
 
         PrintWriter writer = resp.getWriter();
 
-        List<Transmission> transmissions = transmissionService.getAll();
+        List<String> brands = carService.getListBrand();
+        int count = 0;
 
-        writer.append(
-                ow.writeValueAsString(
-                        transmissions
-                ));
+        writer.append("[");
+        for(String brand : brands) {
+            count++;
+            writer.append("{");
+            writer.append("\"name\":\"");
+            writer.append(brand);
+            writer.append("\"");
+            writer.append("}");
+            if (count != brands.size()) {
+                writer.append(",");
+            }
+        }
+        writer.append("]");
         writer.flush();
     }
 }

@@ -2,12 +2,11 @@ package ru.job4j.carStorage.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.job4j.carStorage.DAO.BodyDAO;
 import ru.job4j.carStorage.models.Body;
+import ru.job4j.carStorage.services.BodyService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -24,6 +23,8 @@ public class GetBody extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        BodyService bodyService = BodyService.getInstance();
+
         resp.setContentType("application/json");
         resp.setCharacterEncoding("utf-8");
 
@@ -33,27 +34,14 @@ public class GetBody extends HttpServlet {
 
         PrintWriter writer = resp.getWriter();
 
-        SessionFactory factory = new Configuration()
-                .configure()
-                .buildSessionFactory();
-        Session session = factory.openSession();
-        session.beginTransaction();
-        try {
-            List<Body> bodies = session.createQuery("from Body").list();
+        List<Body> bodies = bodyService.getAll();
 
-            writer.append(
-                    ow.writeValueAsString(
-                           bodies
-                    ));
+        writer.append(
+                ow.writeValueAsString(
+                        bodies
+                ));
 
-            writer.flush();
-        } catch (final Exception e) {
-            session.getTransaction().rollback();
-            throw e;
-        } finally {
-            session.getTransaction().commit();
-            session.close();
-            factory.close();
-        }
+        writer.flush();
+        writer.flush();
     }
 }

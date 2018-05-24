@@ -1,8 +1,5 @@
 package ru.job4j.carStorage.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User {
     private int id;
     private String login;

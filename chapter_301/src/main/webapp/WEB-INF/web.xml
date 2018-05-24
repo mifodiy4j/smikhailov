@@ -1,6 +1,16 @@
 <web-app>
 
     <servlet>
+        <servlet-name>getListBrand</servlet-name>
+        <servlet-class>ru.job4j.carStorage.servlets.GetBrand</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>getListBrand</servlet-name>
+        <url-pattern>/brands</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>changeStatus</servlet-name>
         <servlet-class>ru.job4j.carStorage.servlets.SetStatus</servlet-class>
     </servlet>

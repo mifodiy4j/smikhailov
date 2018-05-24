@@ -2,13 +2,10 @@ package ru.job4j.carStorage.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.job4j.carStorage.models.Body;
 import ru.job4j.carStorage.models.Engine;
+import ru.job4j.carStorage.services.EngineService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -25,36 +22,22 @@ public class GetEngine extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        EngineService engineService = EngineService.getInstance();
+
         resp.setContentType("application/json");
         resp.setCharacterEncoding("utf-8");
 
         ObjectMapper mapper = new ObjectMapper();
-        //mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
 
         PrintWriter writer = resp.getWriter();
 
-        SessionFactory factory = new Configuration()
-                .configure()
-                .buildSessionFactory();
-        Session session = factory.openSession();
-        session.beginTransaction();
-        try {
-            List<Engine> engines = session.createQuery("from Engine ").list();
+        List<Engine> engines = engineService.getAll();
 
-            writer.append(
-                    ow.writeValueAsString(
-                            engines
-                    ));
-
-            writer.flush();
-        } catch (final Exception e) {
-            session.getTransaction().rollback();
-            throw e;
-        } finally {
-            session.getTransaction().commit();
-            session.close();
-            factory.close();
-        }
+        writer.append(
+                ow.writeValueAsString(
+                        engines
+                ));
+        writer.flush();
     }
 }

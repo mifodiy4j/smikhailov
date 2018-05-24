@@ -10,21 +10,22 @@
         <property name="description" column="description"/>
         <property name="sold" column="sold"/>
         <property name="foto" column="foto"/>
+        <property name="created" column="create_date"/>
 
         <many-to-one name="transmission"
                      column="transmission_id"
-                     class="ru.job4j.carStorage.models.Transmission"/>
+                     class="ru.job4j.carStorage.models.Transmission" fetch="join"/>
 
         <many-to-one name="body"
                      column="car_body_id"
-                     class="ru.job4j.carStorage.models.Body"/>
+                     class="ru.job4j.carStorage.models.Body" fetch="join"/>
 
         <many-to-one name="engine"
                      column="engine_id"
-                     class="ru.job4j.carStorage.models.Engine"/>
+                     class="ru.job4j.carStorage.models.Engine" fetch="join"/>
 
         <many-to-one name="author"
                      column="author"
-                     class="ru.job4j.carStorage.models.User"/>
+                     class="ru.job4j.carStorage.models.User" fetch="join"/>
     </class>
 </hibernate-mapping>

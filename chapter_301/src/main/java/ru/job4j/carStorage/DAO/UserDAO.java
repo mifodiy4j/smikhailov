@@ -3,9 +3,7 @@ package ru.job4j.carStorage.DAO;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
 import ru.job4j.carStorage.models.User;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +14,9 @@ public class UserDAO {
     private Transaction transaction;
 
     public static final UserDAO instance = new UserDAO();
+
+    public UserDAO() {
+    }
 
     public static UserDAO getInstance() {
         return instance;
@@ -34,14 +35,15 @@ public class UserDAO {
     }
 
     private static SessionFactory getSessionFactory() {
-        SessionFactory factory = new Configuration()
-                .configure()
-                .buildSessionFactory();
-        return factory;
+        return HibernateFactory.getFactory();
     }
 
     public Session getCurrentSession() {
         return session;
+    }
+
+    public void save(User user){
+        getCurrentSession().save(user);
     }
 
     public List<User> getAll() {

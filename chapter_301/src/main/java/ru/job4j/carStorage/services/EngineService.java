@@ -15,6 +15,13 @@ public class EngineService {
         return instance;
     }
 
+    public Engine save(final Engine engine) {
+        engineDAO.openCurrentSessionwithTransaction();
+        engineDAO.save(engine);
+        engineDAO.closeCurrentSessionwithTransaction();
+        return engine;
+    }
+
     public List<Engine> getAll() {
         engineDAO.openCurrentSessionwithTransaction();
         List<Engine> engines = engineDAO.getAll();

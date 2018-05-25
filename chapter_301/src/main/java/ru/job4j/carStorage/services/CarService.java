@@ -15,10 +15,11 @@ public class CarService {
         return instance;
     }
 
-    public void save(Car car) {
+    public Car save(Car car) {
         carDAO.openCurrentSessionwithTransaction();
         carDAO.save(car);
         carDAO.closeCurrentSessionwithTransaction();
+        return car;
     }
 
     public void update(Car car) {

@@ -3,7 +3,6 @@ package ru.job4j.carStorage.DAO;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
 import ru.job4j.carStorage.models.Body;
 
 import java.util.List;
@@ -33,14 +32,15 @@ public class BodyDAO {
     }
 
     private static SessionFactory getSessionFactory() {
-        SessionFactory factory = new Configuration()
-                .configure()
-                .buildSessionFactory();
-        return factory;
+        return HibernateFactory.getFactory();
     }
 
     public Session getCurrentSession() {
         return session;
+    }
+
+    public void save(Body body){
+        getCurrentSession().save(body);
     }
 
     public List<Body> getAll() {

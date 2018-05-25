@@ -15,6 +15,13 @@ public class UserService {
         return instance;
     }
 
+    public User save(final User user) {
+        userDAO.openCurrentSessionwithTransaction();
+        userDAO.save(user);
+        userDAO.closeCurrentSessionwithTransaction();
+        return user;
+    }
+
     public List<User> getAll() {
         userDAO.openCurrentSessionwithTransaction();
         List<User> users = userDAO.getAll();

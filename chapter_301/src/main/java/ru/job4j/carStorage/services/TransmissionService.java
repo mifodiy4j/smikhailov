@@ -15,6 +15,13 @@ public class TransmissionService {
         return instance;
     }
 
+    public Transmission save(final Transmission transmission) {
+        transmissionDAO.openCurrentSessionwithTransaction();
+        transmissionDAO.save(transmission);
+        transmissionDAO.closeCurrentSessionwithTransaction();
+        return transmission;
+    }
+
     public List<Transmission> getAll() {
         transmissionDAO.openCurrentSessionwithTransaction();
         List<Transmission> transmissions = transmissionDAO.getAll();

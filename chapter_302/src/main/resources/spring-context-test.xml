@@ -21,7 +21,7 @@
     <bean id="jdbc" class="ru.job4j.storage.JdbcStorage"/>
 
     <bean id="import" class="ru.job4j.storage.ImportUser">
-        <constructor-arg name="storage" ref="jdbc"/>
+        <constructor-arg name="storage" ref="memory"/>
     </bean>
 
 </beans>

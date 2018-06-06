@@ -2,16 +2,13 @@ package ru.job4j.carStorage.DAO;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import ru.job4j.carStorage.models.Transmission;
 
 import java.util.List;
 
 public class TransmissionDAO {
 
-    private Session session;
-
-    private Transaction transaction;
+    SessionFactory factory = HibernateFactory.getFactory();
 
     public static final TransmissionDAO instance = new TransmissionDAO();
 
@@ -19,33 +16,20 @@ public class TransmissionDAO {
         return instance;
     }
 
-    public Session openCurrentSessionwithTransaction() {
-        SessionFactory factory = getSessionFactory();
-        session = factory.openSession();
-        transaction = session.beginTransaction();
-        return session;
-    }
-
-    public void closeCurrentSessionwithTransaction() {
-        transaction.commit();
+    public void save(Transmission transmission){
+        Session session = factory.openSession();
+        session.beginTransaction();
+        session.save(transmission);
+        session.getTransaction().commit();
         session.close();
     }
 
-    private static SessionFactory getSessionFactory() {
-        return HibernateFactory.getFactory();
-    }
-
-    public Session getCurrentSession() {
-        return session;
-    }
-
-    public void save(Transmission transmission){
-        getCurrentSession().save(transmission);
-    }
-
     public List<Transmission> getAll() {
+        Session session = factory.openSession();
+        session.beginTransaction();
         List<Transmission> transmissions = session.createQuery("from Transmission ").list();
+        session.getTransaction().commit();
+        session.close();
         return transmissions;
     }
-
 }

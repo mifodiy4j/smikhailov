@@ -2,7 +2,6 @@ package ru.job4j.carStorage.services;
 
 import ru.job4j.carStorage.DAO.TransmissionDAO;
 import ru.job4j.carStorage.models.Transmission;
-
 import java.util.List;
 
 public class TransmissionService {
@@ -16,16 +15,12 @@ public class TransmissionService {
     }
 
     public Transmission save(final Transmission transmission) {
-        transmissionDAO.openCurrentSessionwithTransaction();
         transmissionDAO.save(transmission);
-        transmissionDAO.closeCurrentSessionwithTransaction();
         return transmission;
     }
 
     public List<Transmission> getAll() {
-        transmissionDAO.openCurrentSessionwithTransaction();
         List<Transmission> transmissions = transmissionDAO.getAll();
-        transmissionDAO.closeCurrentSessionwithTransaction();
         return transmissions;
     }
 }

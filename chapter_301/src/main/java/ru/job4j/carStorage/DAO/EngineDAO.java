@@ -2,16 +2,13 @@ package ru.job4j.carStorage.DAO;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import ru.job4j.carStorage.models.Engine;
 
 import java.util.List;
 
 public class EngineDAO {
 
-    private Session session;
-
-    private Transaction transaction;
+    SessionFactory factory = HibernateFactory.getFactory();
 
     public static final EngineDAO instance = new EngineDAO();
 
@@ -19,33 +16,20 @@ public class EngineDAO {
         return instance;
     }
 
-    public Session openCurrentSessionwithTransaction() {
-        SessionFactory factory = getSessionFactory();
-        session = factory.openSession();
-        transaction = session.beginTransaction();
-        return session;
-    }
-
-    public void closeCurrentSessionwithTransaction() {
-        transaction.commit();
+    public void save(Engine engine){
+        Session session = factory.openSession();
+        session.beginTransaction();
+        session.save(engine);
+        session.getTransaction().commit();
         session.close();
     }
 
-    private static SessionFactory getSessionFactory() {
-        return HibernateFactory.getFactory();
-    }
-
-    public Session getCurrentSession() {
-        return session;
-    }
-
-    public void save(Engine engine){
-        getCurrentSession().save(engine);
-    }
-
     public List<Engine> getAll() {
+        Session session = factory.openSession();
+        session.beginTransaction();
         List<Engine> engines = session.createQuery("from Engine ").list();
+        session.getTransaction().commit();
+        session.close();
         return engines;
     }
-
 }

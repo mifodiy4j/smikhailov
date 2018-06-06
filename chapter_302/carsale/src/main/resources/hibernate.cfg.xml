@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-configuration>
+    <session-factory>
+        <!-- Database connection settings -->
+        <property name="connection.url">jdbc:postgresql://localhost:5432/carStorage</property>
+        <property name="connection.driver_class">org.postgresql.Driver</property>
+        <property name="connection.username">postgres</property>
+        <property name="connection.password">root</property>
+        <property name="show_sql">true</property>
+
+        <!-- SQL dialect -->
+        <property name="dialect">org.hibernate.dialect.PostgreSQL95Dialect</property>
+
+        <mapping resource="ru/job4j/models/Car.hbn.xml"/>
+        <mapping resource="ru/job4j/models/Body.hbn.xml"/>
+        <mapping resource="ru/job4j/models/Transmission.hbn.xml"/>
+        <mapping resource="ru/job4j/models/Engine.hbn.xml"/>
+        <mapping resource="ru/job4j/models/User.hbn.xml"/>
+
+    </session-factory>
+</hibernate-configuration>

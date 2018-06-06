@@ -1,0 +1,31 @@
+<hibernate-mapping>
+    <class name="ru.job4j.models.Car" table="cars">
+        <id name="id" column="id">
+            <generator class="identity"/>
+        </id>
+        <property name="brand" column="brand"/>
+        <property name="model" column="model"/>
+        <property name="yearOfManufacture" column="yearOfManufacture"/>
+        <property name="mileage" column="mileage"/>
+        <property name="description" column="description"/>
+        <property name="sold" column="sold"/>
+        <property name="foto" column="foto"/>
+        <property name="created" column="create_date"/>
+
+        <many-to-one name="transmission"
+                     column="transmission_id"
+                     class="ru.job4j.models.Transmission" fetch="join"/>
+
+        <many-to-one name="body"
+                     column="car_body_id"
+                     class="ru.job4j.models.Body" fetch="join"/>
+
+        <many-to-one name="engine"
+                     column="engine_id"
+                     class="ru.job4j.models.Engine" fetch="join"/>
+
+        <many-to-one name="author"
+                     column="author"
+                     class="ru.job4j.models.User" fetch="join"/>
+    </class>
+</hibernate-mapping>

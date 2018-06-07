@@ -11,7 +11,10 @@ import java.util.function.Function;
 
 public class UserDAO {
 
-    public static final UserDAO instance = new UserDAO();
+    private static final SessionFactory factory = new Configuration()
+            .configure()
+            .buildSessionFactory();
+    private static final UserDAO instance = new UserDAO();
 
     private UserDAO() {
     }
@@ -19,10 +22,6 @@ public class UserDAO {
     public static UserDAO getInstance() {
         return instance;
     }
-
-    SessionFactory factory = new Configuration()
-            .configure()
-            .buildSessionFactory();
 
     public void save(User user){
         Session session = factory.openSession();

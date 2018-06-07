@@ -1,5 +1,11 @@
 package ru.job4j.carStorage.models;
 
+import javax.persistence.*;
+
+import static javax.persistence.GenerationType.IDENTITY;
+
+@Entity
+@Table(name = "car_bodies")
 public class Body {
 
     private int id;
@@ -12,6 +18,9 @@ public class Body {
     public Body() {
     }
 
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "id")
     public int getId() {
         return id;
     }
@@ -20,6 +29,7 @@ public class Body {
         this.id = id;
     }
 
+    @Column(name = "name")
     public String getDesc() {
         return desc;
     }

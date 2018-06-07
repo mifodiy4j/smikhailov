@@ -1,8 +1,13 @@
 package ru.job4j.carStorage.models;
 
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Arrays;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
+@Entity
+@Table(name = "cars")
 public class Car {
 
     private int id;
@@ -26,30 +31,9 @@ public class Car {
         this.id = id;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public boolean isSold() {
-        return sold;
-    }
-
-    public void setSold(boolean sold) {
-        this.sold = sold;
-    }
-
-    public User getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(User author) {
-        this.author = author;
-    }
-
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "id")
     public int getId() {
         return id;
     }
@@ -58,6 +42,36 @@ public class Car {
         this.id = id;
     }
 
+    @Column(name = "description")
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Column(name = "sold")
+    public boolean isSold() {
+        return sold;
+    }
+
+    public void setSold(boolean sold) {
+        this.sold = sold;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "author")
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "transmission_id")
     public Transmission getTransmission() {
         return transmission;
     }
@@ -66,6 +80,8 @@ public class Car {
         this.transmission = transmission;
     }
 
+    @ManyToOne
+    @JoinColumn(name = "car_body_id")
     public Body getBody() {
         return body;
     }
@@ -74,6 +90,8 @@ public class Car {
         this.body = body;
     }
 
+    @ManyToOne
+    @JoinColumn(name = "engine_id")
     public Engine getEngine() {
         return engine;
     }
@@ -82,6 +100,7 @@ public class Car {
         this.engine = engine;
     }
 
+    @Column(name = "brand")
     public String getBrand() {
         return brand;
     }
@@ -90,6 +109,7 @@ public class Car {
         this.brand = brand;
     }
 
+    @Column(name = "model")
     public String getModel() {
         return model;
     }
@@ -98,6 +118,7 @@ public class Car {
         this.model = model;
     }
 
+    @Column(name = "yearOfManufacture")
     public short getYearOfManufacture() {
         return yearOfManufacture;
     }
@@ -106,6 +127,7 @@ public class Car {
         this.yearOfManufacture = yearOfManufacture;
     }
 
+    @Column(name = "mileage")
     public int getMileage() {
         return mileage;
     }
@@ -114,6 +136,7 @@ public class Car {
         this.mileage = mileage;
     }
 
+    @Column(name = "foto")
     public byte[] getFoto() {
         return foto;
     }
@@ -122,6 +145,7 @@ public class Car {
         this.foto = foto;
     }
 
+    @Column(name = "create_date")
     public Timestamp getCreated() {
         return created;
     }
@@ -150,7 +174,6 @@ public class Car {
         if (author != null ? !author.equals(car.author) : car.author != null) return false;
         if (!Arrays.equals(foto, car.foto)) return false;
         return created != null ? created.equals(car.created) : car.created == null;
-
     }
 
     @Override

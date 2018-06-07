@@ -1,5 +1,9 @@
 package ru.job4j.carStorage.models;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "users")
 public class User {
     private int id;
     private String login;
@@ -12,6 +16,8 @@ public class User {
         this.id = id;
     }
 
+    @Id @GeneratedValue
+    @Column(name = "id")
     public int getId() {
         return id;
     }
@@ -20,6 +26,7 @@ public class User {
         this.id = id;
     }
 
+    @Column(name = "login")
     public String getLogin() {
         return login;
     }
@@ -28,6 +35,7 @@ public class User {
         this.login = login;
     }
 
+    @Column(name = "password")
     public String getPassword() {
         return password;
     }

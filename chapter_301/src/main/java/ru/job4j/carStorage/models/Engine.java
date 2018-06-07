@@ -1,5 +1,9 @@
 package ru.job4j.carStorage.models;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "engines")
 public class Engine {
 
     private int id;
@@ -12,6 +16,8 @@ public class Engine {
         this.id = id;
     }
 
+    @Id @GeneratedValue
+    @Column(name = "id")
     public int getId() {
         return id;
     }
@@ -20,6 +26,7 @@ public class Engine {
         this.id = id;
     }
 
+    @Column(name = "name")
     public String getDesc() {
         return desc;
     }

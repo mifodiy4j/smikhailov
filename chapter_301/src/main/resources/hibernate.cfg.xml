@@ -17,11 +17,19 @@
         <mapping resource="ru/job4j/example/models/Comment.hbn.xml"/>
         <mapping resource="ru/job4j/example/models/User.hbn.xml"/>-->
         <!--<mapping resource="ru/job4j/todolist/models/Item.hbn.xml"/>-->
-        <mapping resource="ru/job4j/carStorage/models/Car.hbn.xml"/>
+
+        <!--<mapping resource="ru/job4j/carStorage/models/Car.hbn.xml"/>
         <mapping resource="ru/job4j/carStorage/models/Body.hbn.xml"/>
         <mapping resource="ru/job4j/carStorage/models/Transmission.hbn.xml"/>
         <mapping resource="ru/job4j/carStorage/models/Engine.hbn.xml"/>
-        <mapping resource="ru/job4j/carStorage/models/User.hbn.xml"/>
+        <mapping resource="ru/job4j/carStorage/models/User.hbn.xml"/>-->
+
+        <!-- Mapping files -->
+        <mapping class="ru.job4j.carStorage.models.Car"/>
+        <mapping class="ru.job4j.carStorage.models.Body"/>
+        <mapping class="ru.job4j.carStorage.models.Transmission"/>
+        <mapping class="ru.job4j.carStorage.models.Engine"/>
+        <mapping class="ru.job4j.carStorage.models.User"/>
 
     </session-factory>
 </hibernate-configuration>

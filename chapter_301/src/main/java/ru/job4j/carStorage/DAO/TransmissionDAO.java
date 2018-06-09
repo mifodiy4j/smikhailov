@@ -8,9 +8,8 @@ import java.util.List;
 
 public class TransmissionDAO {
 
-    SessionFactory factory = HibernateFactory.getFactory();
-
-    public static final TransmissionDAO instance = new TransmissionDAO();
+    private SessionFactory factory = HibernateFactory.getFactory();
+    private static final TransmissionDAO instance = new TransmissionDAO();
 
     public static TransmissionDAO getInstance() {
         return instance;

@@ -7,8 +7,7 @@ import java.util.List;
 public class UserService {
 
     private final UserDAO userDAO = UserDAO.getInstance();
-
-    public static final UserService instance = new UserService();
+    private static final UserService instance = new UserService();
 
     public static UserService getInstance() {
         return instance;

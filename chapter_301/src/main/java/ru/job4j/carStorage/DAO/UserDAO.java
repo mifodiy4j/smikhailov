@@ -8,9 +8,8 @@ import java.util.Optional;
 
 public class UserDAO {
 
-    SessionFactory factory = HibernateFactory.getFactory();
-
-    public static final UserDAO instance = new UserDAO();
+    private SessionFactory factory = HibernateFactory.getFactory();
+    private static final UserDAO instance = new UserDAO();
 
     public UserDAO() {
     }

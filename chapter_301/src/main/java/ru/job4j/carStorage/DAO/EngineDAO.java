@@ -8,9 +8,8 @@ import java.util.List;
 
 public class EngineDAO {
 
-    SessionFactory factory = HibernateFactory.getFactory();
-
-    public static final EngineDAO instance = new EngineDAO();
+    private SessionFactory factory = HibernateFactory.getFactory();
+    private static final EngineDAO instance = new EngineDAO();
 
     public static EngineDAO getInstance() {
         return instance;

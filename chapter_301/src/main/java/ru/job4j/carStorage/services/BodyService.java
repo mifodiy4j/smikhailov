@@ -8,8 +8,7 @@ import java.util.List;
 public class BodyService {
 
     private final BodyDAO bodyDAO = BodyDAO.getInstance();
-
-    public static final BodyService instance = new BodyService();
+    private static final BodyService instance = new BodyService();
 
     public static BodyService getInstance() {
         return instance;

@@ -7,8 +7,7 @@ import java.util.List;
 public class TransmissionService {
 
     private final TransmissionDAO transmissionDAO = TransmissionDAO.getInstance();
-
-    public static final TransmissionService instance = new TransmissionService();
+    private static final TransmissionService instance = new TransmissionService();
 
     public static TransmissionService getInstance() {
         return instance;

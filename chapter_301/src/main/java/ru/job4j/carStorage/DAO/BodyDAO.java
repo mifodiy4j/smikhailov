@@ -8,9 +8,8 @@ import java.util.List;
 
 public class BodyDAO {
 
-    SessionFactory factory = HibernateFactory.getFactory();
-
-    public static final BodyDAO instance = new BodyDAO();
+    private SessionFactory factory = HibernateFactory.getFactory();
+    private static final BodyDAO instance = new BodyDAO();
 
     public static BodyDAO getInstance() {
         return instance;

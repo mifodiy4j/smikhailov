@@ -7,8 +7,7 @@ import java.util.List;
 public class EngineService {
 
     private final EngineDAO engineDAO = EngineDAO.getInstance();
-
-    public static final EngineService instance = new EngineService();
+    private static final EngineService instance = new EngineService();
 
     public static EngineService getInstance() {
         return instance;

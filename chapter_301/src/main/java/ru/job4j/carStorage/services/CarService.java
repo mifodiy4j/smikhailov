@@ -7,8 +7,7 @@ import java.util.List;
 public class CarService {
 
     private final CarDAO carDAO = CarDAO.getInstance();
-
-    public static final CarService instance = new CarService();
+    private static final CarService instance = new CarService();
 
     public static CarService getInstance() {
         return instance;

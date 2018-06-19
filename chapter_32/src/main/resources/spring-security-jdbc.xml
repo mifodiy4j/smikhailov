@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   		 http://www.springframework.org/schema/beans/spring-beans.xsd
+             http://www.springframework.org/schema/security
+             http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <http auto-config="true">
+
+        <intercept-url pattern="/users*" access="hasRole('ADMIN')"/>
+        <intercept-url pattern="/cars*" access="hasRole('USER')"/>
+        <intercept-url pattern="/login.do" access="permitAll()"/>
+        <form-login login-page="/login.do"
+                    default-target-url="/cars.do"
+                    authentication-failure-url="login.do?error=error"
+                    username-parameter="username"
+                    password-parameter="password"
+                    login-processing-url="/login.do"/>
+        <logout logout-success-url="/login.do?logout"/>
+        <csrf disabled="true"/>
+    </http>
+
+    <jdbc-user-service id="jdbcUserService" data-source-ref="dataSource"
+                       users-by-username-query=
+                               "SELECT login, password from users WHERE login=?"
+                       authorities-by-username-query=
+                               "SELECT u.login, r.name from roles as r, users as u
+                                        where r.id= u.role_id and u.login=?" />
+
+    <authentication-manager>
+        <authentication-provider user-service-ref="jdbcUserService"/>
+    </authentication-manager>
+</beans:beans>

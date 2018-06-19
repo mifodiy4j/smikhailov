@@ -53,3 +53,21 @@ insert into cars (transmission_id, engine_id, body, author) values (3,3,3,3);
 update cars set brand='Audi', model='A1', yearOfManufacture=2001, mileage=11111, description='good avto', author=1 where id=1;
 update cars set brand='Bmw', model='X1', yearOfManufacture=2002, mileage=22222, description='vary good avto', author=2 where id=2;
 update cars set brand='Citroen', model='101', yearOfManufacture=2003, mileage=33333, description='avto is cool', author=3 where id=3;
+
+select * from roles;
+create table roles(
+    id serial primary key,
+    name varchar(20)
+);
+insert into roles(name) values('ADMIN');
+insert into roles(name) values('USER');
+
+alter table users add column enabled boolean default true;
+alter table users add column role_id integer references roles(id);
+update users set role_id=1 where id=1;
+update users set role_id=2 where id in(2,3,4);
+insert into users(login, password,enabled,role_id) values('user','$2a$04$W7m5PvX/3XUgeA.cEvXLiO/TAV/MQW0DRAOqO5oOQJa4aIvMSGpyS',true,1);
+insert into users(login, password,enabled,role_id) values('root','root',true,1);
+
+SELECT login, password from users WHERE login='user_a'
+SELECT u.login, r.name from roles as r, users as u where r.id= u.role_id and u.login='user_b'

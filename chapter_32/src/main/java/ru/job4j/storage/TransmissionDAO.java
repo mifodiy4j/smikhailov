@@ -7,16 +7,15 @@ import java.util.List;
 
 public class TransmissionDAO {
 
-    SessionFactory factory = HibernateFactory.getFactory();
-    Session session = factory.openSession();
-
-    public static final TransmissionDAO instance = new TransmissionDAO();
+    private SessionFactory factory = HibernateFactory.getFactory();
+    private static final TransmissionDAO instance = new TransmissionDAO();
 
     public static TransmissionDAO getInstance() {
         return instance;
     }
 
     public void save(Transmission transmission){
+        Session session = factory.openSession();
         session.beginTransaction();
         session.save(transmission);
         session.getTransaction().commit();
@@ -24,6 +23,7 @@ public class TransmissionDAO {
     }
 
     public List<Transmission> getAll() {
+        Session session = factory.openSession();
         session.beginTransaction();
         List<Transmission> transmissions = session.createQuery("from Transmission ").list();
         session.getTransaction().commit();

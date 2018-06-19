@@ -8,16 +8,15 @@ import java.util.List;
 
 public class BodyDAO {
 
-    SessionFactory factory = HibernateFactory.getFactory();
-    Session session = factory.openSession();
-
-    public static final BodyDAO instance = new BodyDAO();
+    private SessionFactory factory = HibernateFactory.getFactory();
+    private static final BodyDAO instance = new BodyDAO();
 
     public static BodyDAO getInstance() {
         return instance;
     }
 
     public void save(Body body){
+        Session session = factory.openSession();
         session.beginTransaction();
         session.save(body);
         session.getTransaction().commit();
@@ -25,6 +24,7 @@ public class BodyDAO {
     }
 
     public List<Body> getAll() {
+        Session session = factory.openSession();
         session.beginTransaction();
         List<Body> bodies = session.createQuery("from Body ").list();
         session.getTransaction().commit();

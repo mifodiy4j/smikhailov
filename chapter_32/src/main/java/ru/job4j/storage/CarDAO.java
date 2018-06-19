@@ -11,9 +11,8 @@ import java.util.Optional;
 @Repository
 public class CarDAO {
 
-    SessionFactory factory = HibernateFactory.getFactory();
-
-    public static final CarDAO instance = new CarDAO();
+    private SessionFactory factory = HibernateFactory.getFactory();
+    private static final CarDAO instance = new CarDAO();
 
     public static CarDAO getInstance() {
         return instance;

@@ -16,16 +16,4 @@ public class CarService {
     public List<Car> getAll() {
         return (List<Car>) carRepository.findAll();
     }
-
-    /*@Autowired
-    private CarDAO carDAO = CarDAO.getInstance();
-
-    public void add(Car car) {
-        carDAO.save(car);
-    }
-
-    *//*@Transactional()*//*
-    public List<Car> getAll() {
-        return (List<Car>) carDAO.getAll();
-    }*/
 }

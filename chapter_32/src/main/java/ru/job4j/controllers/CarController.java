@@ -17,6 +17,10 @@ public class CarController {
     @Autowired
     private CarService carService;
 
+    public CarController(CarService carService) {
+        this.carService = carService;
+    }
+
     @RequestMapping(value = "/cars", method = RequestMethod.GET)
     public String getAllCars(ModelMap model) {
         model.addAttribute("cars", this.carService.getAll());

@@ -7,16 +7,15 @@ import java.util.List;
 
 public class EngineDAO {
 
-    SessionFactory factory = HibernateFactory.getFactory();
-    Session session = factory.openSession();
-
-    public static final EngineDAO instance = new EngineDAO();
+    private SessionFactory factory = HibernateFactory.getFactory();
+    private static final EngineDAO instance = new EngineDAO();
 
     public static EngineDAO getInstance() {
         return instance;
     }
 
     public void save(Engine engine){
+        Session session = factory.openSession();
         session.beginTransaction();
         session.save(engine);
         session.getTransaction().commit();
@@ -24,6 +23,7 @@ public class EngineDAO {
     }
 
     public List<Engine> getAll() {
+        Session session = factory.openSession();
         session.beginTransaction();
         List<Engine> engines = session.createQuery("from Engine ").list();
         session.getTransaction().commit();

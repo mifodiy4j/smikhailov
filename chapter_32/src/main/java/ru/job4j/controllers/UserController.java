@@ -17,6 +17,10 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     public String getAllUsers(ModelMap model) {
         model.addAttribute("users", this.userService.getAll());

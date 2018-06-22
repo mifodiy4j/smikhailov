@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http//www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <title>Список машин</title>
+</head>
+<body>
+
+<h2>Список машин</h2>
+
+<table border=" 1">
+    <tr>
+        <th>id</th>
+        <th>Brand</th>
+        <th>Model</th>
+        <th>Body</th>
+        <th>Year of manufacture</th>
+        <th>Mileage</th>
+        <th>Transmission</th>
+        <th>Engine</th>
+        <th>Description</th>
+        <th>Sold</th>
+        <th>Author</th>
+        <th>Foto</th>
+        <th>Create date</th>
+    </tr>
+    <tr th:each="car: ${cars}">
+        <td th:text="${car.id}"></td>
+        <td th:text="${car.brand}"></td>
+        <td th:text="${car.model}"></td>
+        <td th:text="${car.body}"></td>
+        <td th:text="${car.yearOfManufacture}"></td>
+        <td th:text="${car.mileage}"></td>
+        <td th:text="${car.transmission}"></td>
+        <td th:text="${car.engine}"></td>
+        <td th:text="${car.description}"></td>
+        <td th:text="${car.sold}"></td>
+        <td th:text="${car.author.login}"></td>
+        <td th:text="${car.foto}"></td>
+        <td th:text="${car.created}"></td>
+    </tr>
+</table>
+<br>
+<br>
+
+<input type="button" onclick="location.href='/users'" value="Пользователи"><br>
+</body>
+</html>
+
